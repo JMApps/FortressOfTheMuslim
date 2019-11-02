@@ -1,6 +1,21 @@
 <resources>
     <string name="app_name">Крепость мусульманина</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_search_by_chapters">Поиск по главам...</string>
+
+    <string name="navigation_drawer_open">Открыть навигационный ящик</string>
+    <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
+
+    <!--    Search tint text's-->
+    <string name="action_search_by_chapters">Поиск по главам…</string>
+    <string name="action_search_by_favorite_chapters">Поиск избранным по главам…</string>
+    <string name="action_search_by_favorite_supplications">Поиск дуа…</string>
+    <string name="action_search_by_supplications">Поиск избранным дуа…</string>
+
+    <!--    Navigation menu-->
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_download_all">Скачать все дуа</string>
+    <string name="nav_night_mode">Ночной режим</string>
+    <string name="nav_additionally">Дополнительно</string>
+    <string name="nav_about_us">О нас</string>
+    <string name="nav_rate_app">Оценить</string>
+    <string name="nav_share_link">Поделиться</string>
 </resources>

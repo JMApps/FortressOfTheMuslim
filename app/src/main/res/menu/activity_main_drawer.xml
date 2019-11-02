@@ -5,15 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="Главы" />
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_nav_view_settings"
+            android:title="@string/nav_settings" />
+        <item
+            android:id="@+id/nav_download_all"
+            android:icon="@drawable/ic_nav_view_download"
+            android:title="@string/nav_download_all" />
+        <item
+            android:id="@+id/nav_night_mode"
+            android:icon="@drawable/ic_nav_view_night_mode"
+            android:title="@string/nav_night_mode" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/nav_additionally">
         <menu>
             <item
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/ic_nav_view_about_us"
+                android:title="@string/nav_about_us" />
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_nav_view_rate"
+                android:title="@string/nav_rate_app" />
+            <item
                 android:id="@+id/nav_share"
-                android:title="Поделиться" />
+                android:icon="@drawable/ic_nav_view_share"
+                android:title="@string/nav_share_link" />
         </menu>
     </item>
 </menu>
