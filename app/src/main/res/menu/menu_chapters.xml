@@ -6,6 +6,5 @@
         android:icon="@drawable/ic_search_white"
         android:title="@string/action_search_by_chapters"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:queryHint="@string/action_search_by_chapters"
         app:showAsAction="always|collapseActionView" />
 </menu>
