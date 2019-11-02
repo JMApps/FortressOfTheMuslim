@@ -1,4 +1,4 @@
-package jmapps.fortressofthemuslim.ui
+package jmapps.fortressofthemuslim.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
