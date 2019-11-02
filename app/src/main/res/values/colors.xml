@@ -8,6 +8,6 @@
     <color name="Black">#000000</color>
     <color name="Gray">#6D6D6D</color>
     <color name="lightGray">#DFDFDF</color>
-    <color name="blueGray">#78909C</color>
-    <color name="lightBlueGray">#546E7A</color>
+    <color name="blueGray">#546E7A</color>
+    <color name="lightBlueGray">#78909C</color>
 </resources>
