@@ -89,15 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-//        when (requestCode) {
-//            permissionsRequestCode -> {
-//                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//                    setToast(getString(R.string.permissions_failure))
-//                } else {
-//                    otherPresenterImpl.setDownloadAll()
-//                }
-//            }
-//        }
         for (perms: String in permissions) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 setToast(getString(R.string.permissions_failure))
