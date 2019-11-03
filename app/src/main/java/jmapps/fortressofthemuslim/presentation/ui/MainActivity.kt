@@ -1,23 +1,40 @@
 package jmapps.fortressofthemuslim.presentation.ui
 
+import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Switch
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import jmapps.fortressofthemuslim.R
+import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
+import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
+import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
 import jmapps.fortressofthemuslim.presentation.ui.settings.BottomSheetSettings
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    BottomNavigationView.OnNavigationItemReselectedListener {
+    BottomNavigationView.OnNavigationItemReselectedListener, OtherContract.OtherView {
 
+    private lateinit var preferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+
+    private lateinit var otherPresenterImpl: OtherPresenterImpl
+
+    private lateinit var swNightMode: Switch
+    private var valNightMode: Boolean = false
+
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,6 +42,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         LockOrientation(this).lock()
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        editor = preferences.edit()
+
+        otherPresenterImpl = OtherPresenterImpl(this, this)
+        valNightMode = preferences.getBoolean("key_night_mode", false)
+        isNightMode(valNightMode)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
@@ -36,6 +60,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         navigationViewMain.setNavigationItemSelectedListener(this)
         bottomNavigationMain.setOnNavigationItemReselectedListener(this)
+
+
+        navigationViewMain.menu.findItem(R.id.nav_night_mode).actionView = Switch(this)
+        swNightMode = navigationViewMain.menu.findItem(R.id.nav_night_mode).actionView as Switch
+        swNightMode.isClickable = false
+        swNightMode.isChecked = valNightMode
     }
 
     override fun onBackPressed() {
@@ -53,11 +83,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_settings -> {
-                val settings = BottomSheetSettings()
-                settings.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
-                settings.show(supportFragmentManager, "settings")
-            }
+
+            R.id.nav_settings -> otherPresenterImpl.setSettings()
+
+            R.id.nav_download_all -> otherPresenterImpl.setDownloadAll()
+
+            R.id.nav_night_mode -> otherPresenterImpl.setNightMode(!swNightMode.isChecked)
+
+            R.id.nav_about_us -> otherPresenterImpl.setAboutUs()
+
+            R.id.nav_rate -> otherPresenterImpl.rateApp()
+
+            R.id.nav_share -> otherPresenterImpl.shareLink()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -67,5 +104,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
 
         }
+    }
+
+    override fun getSettings() {
+        val settings = BottomSheetSettings()
+        settings.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
+        settings.show(supportFragmentManager, "settings")
+    }
+
+    override fun getDownloadAll() {
+
+    }
+
+    override fun getNightMode(state: Boolean) {
+        isNightMode(state)
+        swNightMode.isChecked = state
+        editor.putBoolean("key_night_mode", state).apply()
+    }
+
+    override fun isNightMode(state: Boolean) {
+        if (state) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    override fun getAboutUs() {
+        val aboutUs = BottomSheetAboutUs()
+        aboutUs.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
+        aboutUs.show(supportFragmentManager, "about_us")
     }
 }
