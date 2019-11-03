@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri.fromParts
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Switch
@@ -32,12 +31,13 @@ import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
 import jmapps.fortressofthemuslim.presentation.ui.chapters.FragmentChapters
+import jmapps.fortressofthemuslim.presentation.ui.favoriteChapters.FragmentFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.ui.settings.BottomSheetSettings
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    BottomNavigationView.OnNavigationItemReselectedListener, OtherContract.OtherView {
+    OtherContract.OtherView, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
@@ -59,12 +59,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         LockOrientation(this).lock()
-        replaceFragment(FragmentChapters())
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
         editor = preferences.edit()
 
         otherPresenterImpl = OtherPresenterImpl(this, this)
+        otherPresenterImpl.replaceFragment(FragmentChapters())
+
         valNightMode = preferences.getBoolean("key_night_mode", false)
         isNightMode(valNightMode)
 
@@ -77,8 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navigationViewMain.setNavigationItemSelectedListener(this)
-        bottomNavigationMain.setOnNavigationItemReselectedListener(this)
-
+        bottomNavigationMain.setOnNavigationItemSelectedListener(this)
 
         navigationViewMain.menu.findItem(R.id.nav_night_mode).actionView = Switch(this)
         swNightMode = navigationViewMain.menu.findItem(R.id.nav_night_mode).actionView as Switch
@@ -132,23 +132,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_rate -> otherPresenterImpl.rateApp()
 
             R.id.nav_share -> otherPresenterImpl.shareLink()
+
+            R.id.bottom_nav_chapters -> otherPresenterImpl.replaceFragment(FragmentChapters())
+
+            R.id.bottom_nav_favorite_chapters -> otherPresenterImpl.replaceFragment(FragmentFavoriteChapters())
+
+            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(FragmentChapters())
+
+            R.id.bottom_nav_supplications -> otherPresenterImpl.replaceFragment(FragmentChapters())
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    override fun onNavigationItemReselected(item: MenuItem) {
-        when (item.itemId) {
-
-            R.id.bottom_nav_chapters -> replaceFragment(FragmentChapters())
-
-            R.id.bottom_nav_favorite_chapters -> replaceFragment(FragmentChapters())
-
-            R.id.bottom_nav_favorite_supplications -> replaceFragment(FragmentChapters())
-
-            R.id.bottom_nav_supplications -> replaceFragment(FragmentChapters())
-        }
-        return
     }
 
     override fun getSettings() {
