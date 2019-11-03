@@ -51,4 +51,8 @@
     <string name="permissions_text">Для того, что бы скачать аудио на телефон, Вы должны предоставить доступ к хранилищу</string>
     <string name="permissions_ok">Предоставить</string>
     <string name="permissions_cancel">Отмена</string>
+
+    <!--    Database-->
+    <string name="database_name">DatabaseContent_ru</string>
+    <string name="database_exception">Ошибка:</string>
 </resources>
