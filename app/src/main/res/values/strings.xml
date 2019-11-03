@@ -28,4 +28,20 @@
     <string name="action_showing_texts">Отображение текста:</string>
     <string name="action_show_state_transcription">Транскрипция</string>
     <string name="action_show_state_translation">Перевод</string>
+
+    <!--    About us-->
+    <string name="action_about_us">О нас</string>
+    <string name="action_about_us_text">
+        <b>JMApps</b> - серия бесплатных и безрекламных андроид-приложений для мусульман.\n\n
+
+        Вы можете следить за обновлением старых и изданием новых приложений в наших соцсетях:\n\n
+
+        ВКонтакте: www.vk.com/JMApps\n
+        Telegram: t.me/JMApps\n
+        Facebook: www.facebook.com/JMAppsM\n
+        Instagram: www.instagram.com/dev_muslim\n\n
+
+        По всем вопросам, предложениям и скритикой можете писать нам на почту:
+        JMAppsMuslim@gmail.com или в Telegram: t.me/dev_muslim
+    </string>
 </resources>
