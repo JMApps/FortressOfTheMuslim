@@ -1,11 +1,13 @@
 package jmapps.fortressofthemuslim.presentation.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Color
+import android.net.Uri.fromParts
 import android.os.Bundle
-import android.view.Gravity
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,8 +18,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.marginStart
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -82,21 +84,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            permissionsRequestCode -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    setToast(getString(R.string.permissions_failure))
-                } else {
+//        when (requestCode) {
+//            permissionsRequestCode -> {
+//                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+//                    setToast(getString(R.string.permissions_failure))
+//                } else {
+//                    otherPresenterImpl.setDownloadAll()
+//                }
+//            }
+//        }
+        for (perms: String in permissions) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                setToast(getString(R.string.permissions_failure))
+            } else {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     otherPresenterImpl.setDownloadAll()
+                } else {
+                    val intent = Intent()
+                    intent.action = ACTION_APPLICATION_DETAILS_SETTINGS
+                    val uri = fromParts("package", packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
                 }
             }
         }
     }
-
-//    val intent = Intent()
-//    intent.action = ACTION_APPLICATION_DETAILS_SETTINGS
-//    val uri = fromParts("package", packageName, null)
-//    intent.data = uri
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
