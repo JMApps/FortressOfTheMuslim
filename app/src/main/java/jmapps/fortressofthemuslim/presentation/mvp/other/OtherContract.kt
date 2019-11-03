@@ -1,5 +1,7 @@
 package jmapps.fortressofthemuslim.presentation.mvp.other
 
+import androidx.fragment.app.Fragment
+
 interface OtherContract {
 
     interface OtherView {
@@ -15,6 +17,8 @@ interface OtherContract {
         fun getAboutUs()
 
         fun setToast(message: String)
+
+        fun replaceFragment(fragment: Fragment)
     }
 
     interface OtherPresenter {
@@ -30,5 +34,7 @@ interface OtherContract {
         fun rateApp()
 
         fun shareLink()
+
+        fun replaceFragment(fragment: Fragment)
     }
 }

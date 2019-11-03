@@ -3,6 +3,7 @@ package jmapps.fortressofthemuslim.presentation.mvp.other
 import android.content.Context
 import android.content.Intent
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import jmapps.fortressofthemuslim.R
 
 class OtherPresenterImpl(
@@ -41,5 +42,9 @@ class OtherPresenterImpl(
         shareLink.type = "text/plain"
         shareLink.putExtra(Intent.EXTRA_TEXT, "$linkDescription\n$linkApp")
         context?.startActivity(shareLink)
+    }
+
+    override fun replaceFragment(fragment: Fragment) {
+        otherView?.replaceFragment(fragment)
     }
 }
