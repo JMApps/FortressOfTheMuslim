@@ -9,13 +9,18 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
-class AdapterChapters(private var chapterList: MutableList<ModelChapters>) :
+class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
+                      private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<ViewHolderChapters>(), Filterable {
 
     private var mainChapterList: MutableList<ModelChapters>? = null
 
     init {
         mainChapterList = chapterList
+    }
+
+    interface OnItemClick {
+        fun onItemClick(chapterId: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderChapters {
@@ -33,6 +38,8 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>) :
 
         holder.tvChapterNumber.text = chapterId.toString()
         holder.tvChapterTitle.text = Html.fromHtml(strChapterTitle)
+
+        holder.findOnItemClick(onItemClick, chapterId!!)
     }
 
     override fun getFilter(): Filter {

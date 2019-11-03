@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
@@ -15,7 +17,7 @@ import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
 import kotlinx.android.synthetic.main.fragment_chapters.view.*
 
-class FragmentChapters : Fragment(), SearchView.OnQueryTextListener {
+class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChapters.OnItemClick {
 
     private lateinit var rootChapters: View
 
@@ -37,7 +39,7 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener {
         val verticalLayout = LinearLayoutManager(context)
         rootChapters.rvMainChapters.layoutManager = verticalLayout
 
-        adapterChapters = AdapterChapters(chapterList)
+        adapterChapters = AdapterChapters(chapterList, this)
         rootChapters.rvMainChapters.adapter = adapterChapters
 
         return rootChapters
@@ -64,5 +66,19 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener {
             adapterChapters.filter.filter(newText)
         }
         return true
+    }
+
+    override fun onItemClick(chapterId: Int) {
+        setToast("Click = $chapterId")
+    }
+
+    private fun setToast(message: String) {
+        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
+        val view: View = toast.view
+        view.setBackgroundResource(R.drawable.circle_toast_background)
+        val text = view.findViewById(android.R.id.message) as TextView
+        text.setPadding(32, 16, 32, 16)
+        text.setTextColor(resources.getColor(R.color.white))
+        toast.show()
     }
 }

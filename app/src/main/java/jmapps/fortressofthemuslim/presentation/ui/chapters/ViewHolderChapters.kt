@@ -11,4 +11,10 @@ class ViewHolderChapters(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val tvChapterNumber: TextView = itemView.findViewById(R.id.tvChapterNumber)
     val tbFavoriteChapter: ToggleButton = itemView.findViewById(R.id.tbFavoriteChapter)
     val tvChapterTitle: TextView = itemView.findViewById(R.id.tvChapterTitle)
+
+    fun findOnItemClick(onItemClick: AdapterChapters.OnItemClick, chapterId: Int) {
+        itemView.setOnClickListener {
+            onItemClick.onItemClick(chapterId)
+        }
+    }
 }
