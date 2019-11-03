@@ -1,8 +1,16 @@
 <resources>
     <string name="app_name">Крепость мусульманина</string>
 
-    <string name="navigation_drawer_open">Открыть навигационный ящик</string>
-    <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
+    <!--    Database-->
+    <string name="database_name">DatabaseContent_ru</string>
+    <string name="database_exception">Ошибка:</string>
+
+    <!--    Permissions-->
+    <string name="permissions_failure">Вы не предоставили доступ</string>
+    <string name="permissions_waring">ВНИМАНИЕ</string>
+    <string name="permissions_text">Для того, что бы скачать аудио на телефон, Вы должны предоставить доступ к хранилищу</string>
+    <string name="permissions_ok">Предоставить</string>
+    <string name="permissions_cancel">Отмена</string>
 
     <!--    Search tint text's-->
     <string name="action_search_by_chapters">Поиск по главам…</string>
@@ -10,7 +18,9 @@
     <string name="action_search_by_favorite_supplications">Поиск дуа…</string>
     <string name="action_search_by_supplications">Поиск избранным дуа…</string>
 
-    <!--    Navigation menu-->
+    <!--    NavigationView menu-->
+    <string name="navigation_drawer_open">Открыть навигационный ящик</string>
+    <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
     <string name="nav_settings">Настройки</string>
     <string name="nav_download_all">Скачать все дуа</string>
     <string name="nav_night_mode">Ночной режим</string>
@@ -45,14 +55,6 @@
         JMAppsMuslim@gmail.com или в Telegram: t.me/dev_muslim
     </string>
 
-    <!--    Permissions-->
-    <string name="permissions_failure">Вы не предоставили доступ</string>
-    <string name="permissions_waring">ВНИМАНИЕ</string>
-    <string name="permissions_text">Для того, что бы скачать аудио на телефон, Вы должны предоставить доступ к хранилищу</string>
-    <string name="permissions_ok">Предоставить</string>
-    <string name="permissions_cancel">Отмена</string>
-
-    <!--    Database-->
-    <string name="database_name">DatabaseContent_ru</string>
-    <string name="database_exception">Ошибка:</string>
+    <!--    Favorites-->
+    <string name="favorite_description">Добавьте избранные главы</string>
 </resources>
