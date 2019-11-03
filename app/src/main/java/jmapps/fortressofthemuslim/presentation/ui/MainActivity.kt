@@ -114,11 +114,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_chapters, menu)
-        return true
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
