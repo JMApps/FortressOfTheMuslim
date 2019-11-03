@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -29,6 +31,7 @@ import jmapps.fortressofthemuslim.data.files.ManagerPermissions
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
+import jmapps.fortressofthemuslim.presentation.ui.chapters.FragmentChapters
 import jmapps.fortressofthemuslim.presentation.ui.settings.BottomSheetSettings
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
+    private lateinit var fragmentTransaction: FragmentTransaction
     private lateinit var otherPresenterImpl: OtherPresenterImpl
 
     private lateinit var swNightMode: Switch
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         LockOrientation(this).lock()
+        replaceFragment(FragmentChapters())
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
         editor = preferences.edit()
@@ -149,7 +154,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemReselected(item: MenuItem) {
         when (item.itemId) {
 
+            R.id.bottom_nav_chapters -> replaceFragment(FragmentChapters())
+
+            R.id.bottom_nav_favorite_chapters -> replaceFragment(FragmentChapters())
+
+            R.id.bottom_nav_favorite_supplications -> replaceFragment(FragmentChapters())
+
+            R.id.bottom_nav_supplications -> replaceFragment(FragmentChapters())
         }
+        return
     }
 
     override fun getSettings() {
@@ -190,5 +203,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         text.setPadding(32, 16, 32, 16)
         text.setTextColor(resources.getColor(R.color.white))
         toast.show()
+    }
+
+    override fun replaceFragment(fragment: Fragment) {
+        fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.mainFragmentContainer, fragment)
+        fragmentTransaction.commit()
     }
 }
