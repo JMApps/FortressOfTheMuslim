@@ -13,6 +13,8 @@ interface OtherContract {
         fun isNightMode(state: Boolean)
 
         fun getAboutUs()
+
+        fun setToast(message: String)
     }
 
     interface OtherPresenter {

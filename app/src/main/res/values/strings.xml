@@ -44,4 +44,11 @@
         По всем вопросам, предложениям и скритикой можете писать нам на почту:
         JMAppsMuslim@gmail.com или в Telegram: t.me/dev_muslim
     </string>
+
+    <!--    Permissions-->
+    <string name="permissions_failure">Вы не предоставили доступ</string>
+    <string name="permissions_waring">ВНИМАНИЕ</string>
+    <string name="permissions_text">Для того, что бы скачать аудио на телефон, Вы должны предоставить доступ к хранилищу</string>
+    <string name="permissions_ok">Предоставить</string>
+    <string name="permissions_cancel">Отмена</string>
 </resources>

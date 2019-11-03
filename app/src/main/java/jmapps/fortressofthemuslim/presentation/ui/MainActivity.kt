@@ -2,20 +2,28 @@ package jmapps.fortressofthemuslim.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Switch
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.core.view.marginStart
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import jmapps.fortressofthemuslim.R
+import jmapps.fortressofthemuslim.data.files.ManagerPermissions
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
@@ -33,6 +41,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var swNightMode: Switch
     private var valNightMode: Boolean = false
+
+    private val permissionsRequestCode = 123
+    private lateinit var managerPermissions: ManagerPermissions
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +77,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         swNightMode = navigationViewMain.menu.findItem(R.id.nav_night_mode).actionView as Switch
         swNightMode.isClickable = false
         swNightMode.isChecked = valNightMode
+
+        managerPermissions = ManagerPermissions(this, permissionsRequestCode)
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            permissionsRequestCode -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    setToast(getString(R.string.permissions_failure))
+                } else {
+                    otherPresenterImpl.setDownloadAll()
+                }
+            }
+        }
+    }
+
+//    val intent = Intent()
+//    intent.action = ACTION_APPLICATION_DETAILS_SETTINGS
+//    val uri = fromParts("package", packageName, null)
+//    intent.data = uri
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -86,7 +120,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_settings -> otherPresenterImpl.setSettings()
 
-            R.id.nav_download_all -> otherPresenterImpl.setDownloadAll()
+            R.id.nav_download_all -> {
+                if (managerPermissions.checkPermissions()) {
+                    otherPresenterImpl.setDownloadAll()
+                }
+            }
 
             R.id.nav_night_mode -> otherPresenterImpl.setNightMode(!swNightMode.isChecked)
 
@@ -113,7 +151,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun getDownloadAll() {
-
+        setToast("Началось скачивание...")
     }
 
     override fun getNightMode(state: Boolean) {
@@ -134,5 +172,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val aboutUs = BottomSheetAboutUs()
         aboutUs.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
         aboutUs.show(supportFragmentManager, "about_us")
+    }
+
+    override fun setToast(message: String) {
+        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        val view: View = toast.view
+        view.setBackgroundResource(R.drawable.circle_toast_background)
+        val text = view.findViewById(android.R.id.message) as TextView
+        text.setPadding(32, 16, 32, 16)
+        text.setTextColor(resources.getColor(R.color.white))
+        toast.show()
     }
 }
