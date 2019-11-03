@@ -11,7 +11,7 @@ class OtherPresenterImpl(
     OtherContract.OtherPresenter {
 
     private val linkDescription = context?.getString(R.string.app_name)
-    private val linkApp = "https://play.google.com/store/apps/details?id=jmapps.fortressofthemuslum"
+    private val linkApp = "https://play.google.com/store/apps/details?id=jmapps.fortressofthemuslim"
 
     override fun setSettings() {
         otherView?.getSettings()

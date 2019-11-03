@@ -27,12 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/lightGray"
+        android:background="@color/colorBottomNavigation"
         android:elevation="3dp"
         android:scrollbars="vertical"
         app:itemIconSize="30dp"
-        app:itemIconTint="@color/bottom_navigation_item_background_colors"
-        app:itemTextColor="@color/bottom_navigation_item_background_colors"
+        app:itemIconTint="@color/bottom_navigation_item_colors"
+        app:itemTextColor="@color/bottom_navigation_item_colors"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/bottom_navigation_menu" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

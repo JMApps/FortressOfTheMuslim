@@ -5,10 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="windowBackground">#FFFFFF</color>
 
+    <color name="main">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="gray">#6D6D6D</color>
-    <color name="lightGray">#DFDFDF</color>
-    <color name="blueGray">#546E7A</color>
-    <color name="lightBlueGray">#78909C</color>
+    <color name="colorBottomNavigation">#E2E2E2</color>
 </resources>

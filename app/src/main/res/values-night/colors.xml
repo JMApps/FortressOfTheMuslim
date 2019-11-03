@@ -2,13 +2,11 @@
 <resources>
     <color name="colorPrimary">#37474F</color>
     <color name="colorPrimaryDark">#263238</color>
-    <color name="colorAccent">#FBC02D</color>
+    <color name="colorAccent">#0091EA</color>
     <color name="windowBackground">#263238</color>
 
+    <color name="main">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="gray">#6D6D6D</color>
-    <color name="lightGray">#DFDFDF</color>
-    <color name="blueGray">#546E7A</color>
-    <color name="lightBlueGray">#78909C</color>
+    <color name="colorBottomNavigation">#37474F</color>
 </resources>
