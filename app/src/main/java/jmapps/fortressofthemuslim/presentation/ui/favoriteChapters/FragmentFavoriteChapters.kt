@@ -31,8 +31,6 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         savedInstanceState: Bundle?): View? {
         rootFavoriteChapters = inflater.inflate(R.layout.fragment_favorite_chapters, container,false)
 
-        setHasOptionsMenu(true)
-
         database = DatabaseOpenHelper(context).readableDatabase
         favoriteChapterList = DatabaseLists(context).getFavoriteChapterList
 
@@ -45,9 +43,11 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         if (adapterFavoriteChapters.itemCount <= 0) {
             rootFavoriteChapters.tvIsFavoriteListEmpty.visibility = View.VISIBLE
             rootFavoriteChapters.rvMainFavorites.visibility = View.GONE
+            setHasOptionsMenu(false)
         } else {
             rootFavoriteChapters.tvIsFavoriteListEmpty.visibility = View.GONE
             rootFavoriteChapters.rvMainFavorites.visibility = View.VISIBLE
+            setHasOptionsMenu(true)
         }
 
         return rootFavoriteChapters
@@ -60,12 +60,6 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         searchByFavoriteChapter?.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
         searchByFavoriteChapter?.maxWidth = Integer.MAX_VALUE
         searchByFavoriteChapter?.setOnQueryTextListener(this)
-
-        if (adapterFavoriteChapters.itemCount < 10) {
-            searchByFavoriteChapter?.visibility = View.GONE
-        } else {
-            searchByFavoriteChapter?.visibility = View.VISIBLE
-        }
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
