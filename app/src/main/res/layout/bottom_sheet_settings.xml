@@ -1,240 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvSettingsDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:drawableStart="@drawable/ic_action_settings_white"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:padding="16dp"
-        android:text="@string/action_settings"
-        android:textColor="@color/White"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvFontsDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_fonts"
-        android:textColor="@color/Black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSettingsDescription" />
+        <TextView
+            android:id="@+id/tvSettingsDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_action_settings_white"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="@string/action_settings"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvArabicTextDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_arabic_text"
-        app:layout_constraintEnd_toEndOf="@+id/rgArabicFonts"
-        app:layout_constraintStart_toStartOf="@+id/rgArabicFonts"
-        app:layout_constraintTop_toBottomOf="@+id/tvFontsDescription" />
-
-    <TextView
-        android:id="@+id/tvOtherTextDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_other_text"
-        app:layout_constraintEnd_toEndOf="@+id/rgOtherFonts"
-        app:layout_constraintStart_toStartOf="@+id/rgOtherFonts"
-        app:layout_constraintTop_toBottomOf="@+id/tvFontsDescription" />
-
-    <RadioGroup
-        android:id="@+id/rgArabicFonts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvArabicTextDescription">
-
-
-        <RadioButton
-            android:id="@+id/rbFontArabicOne"
+        <TextView
+            android:id="@+id/tvFontsDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/font_state"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Font 1"
-            android:textColor="@color/settings_font_button_text_colors" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_fonts"
+            android:textColor="@color/Black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSettingsDescription" />
 
-        <RadioButton
-            android:id="@+id/rbFontArabicTwo"
+        <TextView
+            android:id="@+id/tvArabicTextDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/font_state"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Font 2"
-            android:textColor="@color/settings_font_button_text_colors" />
+            android:layout_marginTop="16dp"
+            android:text="@string/action_arabic_text"
+            app:layout_constraintEnd_toEndOf="@+id/rgArabicFonts"
+            app:layout_constraintStart_toStartOf="@+id/rgArabicFonts"
+            app:layout_constraintTop_toBottomOf="@+id/tvFontsDescription" />
 
-        <RadioButton
-            android:id="@+id/rbFontArabicThree"
+        <TextView
+            android:id="@+id/tvOtherTextDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/font_state"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Font 3"
-            android:textColor="@color/settings_font_button_text_colors" />
-    </RadioGroup>
+            android:layout_marginTop="16dp"
+            android:text="@string/action_other_text"
+            app:layout_constraintEnd_toEndOf="@+id/rgOtherFonts"
+            app:layout_constraintStart_toStartOf="@+id/rgOtherFonts"
+            app:layout_constraintTop_toBottomOf="@+id/tvFontsDescription" />
 
-    <RadioGroup
-        android:id="@+id/rgOtherFonts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOtherTextDescription">
-
-        <RadioButton
-            android:id="@+id/rbFontOtherOne"
+        <RadioGroup
+            android:id="@+id/rgArabicFonts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/font_state"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Font 1"
-            android:textColor="@color/settings_font_button_text_colors" />
+            android:layout_marginStart="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvArabicTextDescription">
 
-        <RadioButton
-            android:id="@+id/rbFontOtherTwo"
+
+            <RadioButton
+                android:id="@+id/rbFontArabicOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:button="@drawable/font_state"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Font 1"
+                android:textColor="@color/settings_font_button_text_colors" />
+
+            <RadioButton
+                android:id="@+id/rbFontArabicTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:button="@drawable/font_state"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Font 2"
+                android:textColor="@color/settings_font_button_text_colors" />
+
+            <RadioButton
+                android:id="@+id/rbFontArabicThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/font_state"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Font 3"
+                android:textColor="@color/settings_font_button_text_colors" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rgOtherFonts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/font_state"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Font 2"
-            android:textColor="@color/settings_font_button_text_colors" />
+            android:layout_marginEnd="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvOtherTextDescription">
 
-        <RadioButton
-            android:id="@+id/rbFontOtherThree"
+            <RadioButton
+                android:id="@+id/rbFontOtherOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:button="@drawable/font_state"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Font 1"
+                android:textColor="@color/settings_font_button_text_colors" />
+
+            <RadioButton
+                android:id="@+id/rbFontOtherTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:button="@drawable/font_state"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Font 2"
+                android:textColor="@color/settings_font_button_text_colors" />
+
+            <RadioButton
+                android:id="@+id/rbFontOtherThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/font_state"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Font 3"
+                android:textColor="@color/settings_font_button_text_colors" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvTextSizesDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/font_state"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Font 3"
-            android:textColor="@color/settings_font_button_text_colors" />
-    </RadioGroup>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_text_size"
+            android:textColor="@color/Black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rgArabicFonts" />
 
-    <TextView
-        android:id="@+id/tvTextSizesDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_text_size"
-        android:textColor="@color/Black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgArabicFonts" />
+        <TextView
+            android:id="@+id/tvArabicTextSizeDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_arabic_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTextSizesDescription" />
 
-    <TextView
-        android:id="@+id/tvArabicTextSizeDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_arabic_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTextSizesDescription" />
+        <SeekBar
+            android:id="@+id/sbArabicTextSize"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:max="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvArabicTextSizeDescription" />
 
-    <SeekBar
-        android:id="@+id/sbArabicTextSize"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:max="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvArabicTextSizeDescription" />
+        <TextView
+            android:id="@+id/tvOtherTextSizeDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_other_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sbArabicTextSize" />
 
-    <TextView
-        android:id="@+id/tvOtherTextSizeDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_other_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbArabicTextSize" />
+        <SeekBar
+            android:id="@+id/sbOtherTextSize"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:max="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvOtherTextSizeDescription" />
 
-    <SeekBar
-        android:id="@+id/sbOtherTextSize"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:max="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOtherTextSizeDescription" />
+        <TextView
+            android:id="@+id/tvShowingTextsDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_showing_texts"
+            android:textColor="@color/Black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sbOtherTextSize" />
 
-    <TextView
-        android:id="@+id/tvShowingTextsDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_showing_texts"
-        android:textColor="@color/Black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbOtherTextSize" />
+        <Switch
+            android:id="@+id/swShowTextTranscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/action_show_state_transcription"
+            android:textColor="@color/settings_switch_button_text_colors"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvShowingTextsDescription" />
 
-    <Switch
-        android:id="@+id/swShowTextTranscription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/action_show_state_transcription"
-        android:textColor="@color/settings_switch_button_text_colors"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShowingTextsDescription" />
-
-    <Switch
-        android:id="@+id/swShowTextTranslation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/action_show_state_translation"
-        android:textColor="@color/settings_switch_button_text_colors"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/swShowTextTranscription"
-        app:layout_constraintTop_toBottomOf="@+id/tvShowingTextsDescription" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Switch
+            android:id="@+id/swShowTextTranslation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/action_show_state_translation"
+            android:textColor="@color/settings_switch_button_text_colors"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/swShowTextTranscription"
+            app:layout_constraintTop_toBottomOf="@+id/tvShowingTextsDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
