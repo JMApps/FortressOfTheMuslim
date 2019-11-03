@@ -13,6 +13,10 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <style name="CardViewStyle" parent="CardView">
+        <item name="cardBackgroundColor">@color/cardViewBackground</item>
+    </style>
+
     <style name="BottomSheetStyleFull" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
         <item name="android:colorBackground">@color/windowBackground</item>

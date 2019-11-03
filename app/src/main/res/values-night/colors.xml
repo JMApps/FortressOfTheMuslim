@@ -9,4 +9,5 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="colorBottomNavigation">#37474F</color>
+    <color name="cardViewBackground">#2D3A42</color>
 </resources>

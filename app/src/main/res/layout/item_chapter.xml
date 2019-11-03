@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="3dp"
@@ -21,7 +22,7 @@
             android:id="@+id/tvChapterNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/circle_chapter_number_background"
             android:gravity="center"
             android:minWidth="35dp"
@@ -37,7 +38,8 @@
             android:background="@drawable/state_favorite_chapter"
             android:text=""
             android:textOff=""
-            android:textOn="" />
+            android:textOn=""
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvChapterTitle"
@@ -45,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
+            android:fontFamily="@font/gilroy_medium"
             android:textColor="@color/main"
             android:textSize="18sp" />
     </LinearLayout>
