@@ -17,7 +17,7 @@
     </style>
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="behavior_peekHeight">500dp</item>
+        <item name="behavior_peekHeight">1000dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
