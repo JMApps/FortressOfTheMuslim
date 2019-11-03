@@ -81,11 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         managerPermissions = ManagerPermissions(this, permissionsRequestCode)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             permissionsRequestCode -> {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
@@ -175,7 +171,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun setToast(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
         val view: View = toast.view
         view.setBackgroundResource(R.drawable.circle_toast_background)
         val text = view.findViewById(android.R.id.message) as TextView
