@@ -2,6 +2,7 @@ package jmapps.fortressofthemuslim.presentation.ui.supplications
 
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
@@ -25,10 +26,30 @@ class AdapterSupplications(private var supplicationList: MutableList<ModelSuppli
         val strSupplicationTranslation = supplicationList[position].strSupplicationTranslation
         val strSupplicationSource = supplicationList[position].strSupplicationSource
 
-        holder.tvSupplicationArabic.text = Html.fromHtml(strSupplicationArabic)
-        holder.tvSupplicationTranscription.text = strSupplicationTranscription
-        holder.tvSupplicationTranslation.text = Html.fromHtml(strSupplicationTranslation)
-        holder.tvSupplicationSource.text = strSupplicationSource
+        if (!strSupplicationArabic.isNullOrEmpty()) {
+            holder.tvSupplicationArabic.text = Html.fromHtml(strSupplicationArabic)
+        } else {
+            holder.tvSupplicationArabic.visibility = View.GONE
+        }
+
+        if (!strSupplicationTranscription.isNullOrEmpty()) {
+            holder.tvSupplicationTranscription.text = strSupplicationTranscription
+        } else {
+            holder.tvSupplicationTranscription.visibility = View.GONE
+        }
+
+        if (!strSupplicationTranslation.isNullOrEmpty()) {
+            holder.tvSupplicationTranslation.text = Html.fromHtml(strSupplicationTranslation)
+        } else {
+            holder.tvSupplicationTranslation.visibility = View.GONE
+        }
+
+        if (!strSupplicationSource.isNullOrEmpty()) {
+            holder.tvSupplicationSource.text = strSupplicationSource
+        } else {
+            holder.tvSupplicationSource.visibility = View.GONE
+        }
+
         holder.tbSupplicationNumber.setOnCheckedChangeListener(null)
         holder.tbSupplicationNumber.text = supplicationId.toString()
         holder.tbSupplicationNumber.textOn = supplicationId.toString()
