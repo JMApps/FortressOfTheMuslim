@@ -37,7 +37,9 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
         val favoriteChapterId = favoriteChapterList[position].favoriteChapterId
         val strFavoriteChapterTitle = favoriteChapterList[position].strFavoriteChapterTitle
 
-        holder.tvFavoriteChapterNumber.text = favoriteChapterId.toString()
+        holder.tbFavoriteChapterNumber.text = favoriteChapterId.toString()
+        holder.tbFavoriteChapterNumber.textOn = favoriteChapterId.toString()
+        holder.tbFavoriteChapterNumber.textOff = favoriteChapterId.toString()
         holder.tvFavoriteChapterTitle.text = Html.fromHtml(strFavoriteChapterTitle)
 
         holder.findOnItemClick(onItemClick, favoriteChapterId!!)
