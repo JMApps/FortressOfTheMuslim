@@ -1,6 +1,7 @@
 package jmapps.fortressofthemuslim.presentation.ui.chapters
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
 class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
+                      private val addRemoveFavorite: AddRemoveFavorite,
+                      private val preferences: SharedPreferences,
                       private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<ViewHolderChapters>(), Filterable {
 
@@ -17,6 +20,10 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
 
     init {
         mainChapterList = chapterList
+    }
+
+    interface AddRemoveFavorite {
+        fun addRemove(state: Boolean, chapterId: Int)
     }
 
     interface OnItemClick {
@@ -36,12 +43,16 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
         val chapterId = chapterList[position].chapterId
         val strChapterTitle = chapterList[position].strChapterTitle
 
+        holder.tbChapterNumber.setOnCheckedChangeListener(null)
+        holder.tbChapterNumber.isChecked = preferences.getBoolean(
+            "key_chapter_bookmark_$chapterId", false)
         holder.tbChapterNumber.text = chapterId.toString()
         holder.tbChapterNumber.textOn = chapterId.toString()
         holder.tbChapterNumber.textOff = chapterId.toString()
         holder.tvChapterTitle.text = Html.fromHtml(strChapterTitle)
 
-        holder.findOnItemClick(onItemClick, chapterId!!)
+        holder.findAddRemoveFavorite(addRemoveFavorite, chapterId!!)
+        holder.findOnItemClick(onItemClick, chapterId)
     }
 
     override fun getFilter(): Filter {
