@@ -35,18 +35,18 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         favoriteChapterList = DatabaseLists(context).getFavoriteChapterList
 
         val verticalLayout = LinearLayoutManager(context)
-        rootFavoriteChapters.rvMainFavorites.layoutManager = verticalLayout
+        rootFavoriteChapters.rvFavoriteChapters.layoutManager = verticalLayout
 
         adapterFavoriteChapters = AdapterFavoriteChapters(favoriteChapterList, this)
-        rootFavoriteChapters.rvMainFavorites.adapter = adapterFavoriteChapters
+        rootFavoriteChapters.rvFavoriteChapters.adapter = adapterFavoriteChapters
 
         if (adapterFavoriteChapters.itemCount <= 0) {
             rootFavoriteChapters.tvIsFavoriteListEmpty.visibility = View.VISIBLE
-            rootFavoriteChapters.rvMainFavorites.visibility = View.GONE
+            rootFavoriteChapters.rvFavoriteChapters.visibility = View.GONE
             setHasOptionsMenu(false)
         } else {
             rootFavoriteChapters.tvIsFavoriteListEmpty.visibility = View.GONE
-            rootFavoriteChapters.rvMainFavorites.visibility = View.VISIBLE
+            rootFavoriteChapters.rvFavoriteChapters.visibility = View.VISIBLE
             setHasOptionsMenu(true)
         }
 
