@@ -56,5 +56,6 @@
     </string>
 
     <!--    Favorites-->
-    <string name="favorite_description">Добавьте избранные главы</string>
+    <string name="favorite_chapter_description">Добавьте избранные главы</string>
+    <string name="favorite_supplication_description">Добавьте избранные дуа</string>
 </resources>
