@@ -36,7 +36,9 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
         val chapterId = chapterList[position].chapterId
         val strChapterTitle = chapterList[position].strChapterTitle
 
-        holder.tvChapterNumber.text = chapterId.toString()
+        holder.tbChapterNumber.text = chapterId.toString()
+        holder.tbChapterNumber.textOn = chapterId.toString()
+        holder.tbChapterNumber.textOff = chapterId.toString()
         holder.tvChapterTitle.text = Html.fromHtml(strChapterTitle)
 
         holder.findOnItemClick(onItemClick, chapterId!!)
