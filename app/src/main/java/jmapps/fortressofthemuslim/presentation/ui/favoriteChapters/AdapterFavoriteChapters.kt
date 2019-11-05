@@ -1,6 +1,7 @@
 package jmapps.fortressofthemuslim.presentation.ui.favoriteChapters
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
 class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<ModelFavoriteChapters>,
+                              private val addRemoveFavorite: AddRemoveFavorite,
+                              private val preferences: SharedPreferences,
                               private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<ViewHolderFavoriteChapters>(), Filterable {
 
@@ -17,6 +20,10 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
 
     init {
         mainFavoriteChapterList = favoriteChapterList
+    }
+
+    interface AddRemoveFavorite {
+        fun addRemove(state: Boolean, favoriteChapterId: Int)
     }
 
     interface OnItemClick {
@@ -37,12 +44,16 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
         val favoriteChapterId = favoriteChapterList[position].favoriteChapterId
         val strFavoriteChapterTitle = favoriteChapterList[position].strFavoriteChapterTitle
 
+        holder.tbFavoriteChapterNumber.setOnCheckedChangeListener(null)
+        holder.tbFavoriteChapterNumber.isChecked = preferences.getBoolean(
+            "key_chapter_bookmark_$favoriteChapterId", false)
         holder.tbFavoriteChapterNumber.text = favoriteChapterId.toString()
         holder.tbFavoriteChapterNumber.textOn = favoriteChapterId.toString()
         holder.tbFavoriteChapterNumber.textOff = favoriteChapterId.toString()
         holder.tvFavoriteChapterTitle.text = Html.fromHtml(strFavoriteChapterTitle)
 
-        holder.findOnItemClick(onItemClick, favoriteChapterId!!)
+        holder.findAddRemoveFavorite(addRemoveFavorite, favoriteChapterId!!)
+        holder.findOnItemClick(onItemClick, favoriteChapterId)
     }
 
     override fun getFilter(): Filter {
