@@ -58,4 +58,6 @@
     <!--    Favorites-->
     <string name="favorite_chapter_description">Добавьте избранные главы</string>
     <string name="favorite_supplication_description">Добавьте избранные дуа</string>
+    <string name="favorite_add">Добавлено в избранное</string>
+    <string name="favorite_removed">Удалено из избранного</string>
 </resources>
