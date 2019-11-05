@@ -6,7 +6,7 @@ import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
-class ViewHolderFavoriteChapter(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ViewHolderFavoriteChapters(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val tbFavoriteChapterNumber: ToggleButton = itemView.findViewById(R.id.tbFavoriteChapterNumber)
     val tvFavoriteChapterTitle: TextView = itemView.findViewById(R.id.tvFavoriteChapterTitle)

@@ -11,7 +11,7 @@ import jmapps.fortressofthemuslim.R
 
 class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<ModelFavoriteChapters>,
                               private val onItemClick: OnItemClick) :
-    RecyclerView.Adapter<ViewHolderFavoriteChapter>(), Filterable {
+    RecyclerView.Adapter<ViewHolderFavoriteChapters>(), Filterable {
 
     private var mainFavoriteChapterList: MutableList<ModelFavoriteChapters>? = null
 
@@ -23,8 +23,8 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
         fun onItemClick(favoriteChapterId: Int)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFavoriteChapter {
-        return ViewHolderFavoriteChapter(LayoutInflater.from(parent.context).inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFavoriteChapters {
+        return ViewHolderFavoriteChapters(LayoutInflater.from(parent.context).inflate(
             R.layout.item_favorite_chapter, parent, false))
     }
 
@@ -32,7 +32,7 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
         return favoriteChapterList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolderFavoriteChapter, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderFavoriteChapters, position: Int) {
 
         val favoriteChapterId = favoriteChapterList[position].favoriteChapterId
         val strFavoriteChapterTitle = favoriteChapterList[position].strFavoriteChapterTitle
