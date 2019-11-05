@@ -4,9 +4,7 @@
     style="@style/CardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
-    android:layout_marginEnd="3dp"
-    android:layout_marginBottom="3dp"
+    android:layout_margin="3dp"
     app:cardElevation="3dp">
 
     <LinearLayout
@@ -18,28 +16,17 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/tvFavoriteChapterNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/circle_chapter_number_background"
-            android:gravity="center"
-            android:minWidth="35dp"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
         <ToggleButton
-            android:id="@+id/tbFavoriteChapter"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/state_favorite_chapter"
-            android:text=""
-            android:textOff=""
-            android:textOn=""
-            android:visibility="gone" />
+            android:id="@+id/tbFavoriteChapterNumber"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/state_item_favorite_background"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvFavoriteChapterTitle"
