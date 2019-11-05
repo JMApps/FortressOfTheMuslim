@@ -6,8 +6,10 @@
     <color name="windowBackground">#263238</color>
 
     <color name="main">#FFFFFF</color>
+    <color name="lightMain">#A0A0A0</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="blueGray">#90A4AE</color>
     <color name="colorBottomNavigation">#37474F</color>
     <color name="cardViewBackground">#2D3A42</color>
 </resources>
