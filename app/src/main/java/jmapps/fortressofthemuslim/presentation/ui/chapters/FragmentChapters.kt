@@ -1,7 +1,9 @@
 package jmapps.fortressofthemuslim.presentation.ui.chapters
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context.SEARCH_SERVICE
+import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.text.TextUtils
@@ -9,29 +11,41 @@ import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
+import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
+import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
 import kotlinx.android.synthetic.main.fragment_chapters.view.*
 
-class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChapters.OnItemClick {
+class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChapters.OnItemClick,
+    AdapterChapters.AddRemoveFavorite, ContractFavoriteChapters.ViewFavoriteChapters {
 
     private lateinit var rootChapters: View
+
+    private lateinit var preferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
     private lateinit var database: SQLiteDatabase
     private lateinit var chapterList: MutableList<ModelChapters>
     private lateinit var adapterChapters: AdapterChapters
 
+    private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
+
     private var searchView: SearchView? = null
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View? {
         rootChapters = inflater.inflate(R.layout.fragment_chapters, container, false)
 
         setHasOptionsMenu(true)
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        editor = preferences.edit()
 
         database = DatabaseOpenHelper(context).readableDatabase
         chapterList = DatabaseLists(context).getChapterList
@@ -39,8 +53,10 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
         val verticalLayout = LinearLayoutManager(context)
         rootChapters.rvMainChapters.layoutManager = verticalLayout
 
-        adapterChapters = AdapterChapters(chapterList, this)
+        adapterChapters = AdapterChapters(chapterList, this, preferences,this)
         rootChapters.rvMainChapters.adapter = adapterChapters
+
+        favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
 
         return rootChapters
     }
@@ -66,6 +82,26 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
             adapterChapters.filter.filter(newText)
         }
         return true
+    }
+
+    override fun addRemove(state: Boolean, chapterId: Int) {
+        favoriteChapterPresenterImpl.addRemoveFavorite(state, chapterId)
+    }
+
+    override fun showFavoriteStateToast(state: Boolean) {
+        if (state) {
+            setToast(getString(R.string.favorite_add))
+        } else {
+            setToast(getString(R.string.favorite_removed))
+        }
+    }
+
+    override fun showDBExceptionToast(error: String) {
+        setToast(getString(R.string.database_exception) + error)
+    }
+
+    override fun saveCurrentFavoriteItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
+        editor.putBoolean(keyFavoriteChapter, stateFavoriteChapter).apply()
     }
 
     override fun onItemClick(chapterId: Int) {
