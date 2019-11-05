@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import jmapps.fortressofthemuslim.presentation.ui.favoriteChapters.ModelFavoriteChapters
+import jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications.ModelFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.ui.supplications.ModelSupplications
 
 class DatabaseContents(private val context: Context?) {
@@ -48,37 +48,40 @@ class DatabaseContents(private val context: Context?) {
             return supplicationList
         }
 
-    val getFavoriteChapterList: MutableList<ModelFavoriteChapters>
+    val getFavoriteSupplicationList: MutableList<ModelFavoriteSupplications>
         @SuppressLint("Recycle")
         get() {
 
             database = DatabaseOpenHelper(context).readableDatabase
 
             val cursor: Cursor = database.query(
-                "Table_of_chapters",
+                "Table_of_dua",
                 null,
-                "chapter_favorite = 1",
+                "item_faOvorite = 1",
                 null,
                 null,
                 null,
                 null
             )
 
-            val favoriteChapterList = ArrayList<ModelFavoriteChapters>()
+            val favoriteSupplicationList = ArrayList<ModelFavoriteSupplications>()
 
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast) {
-                    val favorites = ModelFavoriteChapters(
+                    val supplications = ModelFavoriteSupplications(
                         cursor.getInt(cursor.getColumnIndex("_id")),
-                        cursor.getString(cursor.getColumnIndex("chapter_name"))
+                        cursor.getString(cursor.getColumnIndex("content_arabic")),
+                        cursor.getString(cursor.getColumnIndex("content_transcription")),
+                        cursor.getString(cursor.getColumnIndex("content_translation")),
+                        cursor.getString(cursor.getColumnIndex("content_source"))
                     )
-                    favoriteChapterList.add(favorites)
+                    favoriteSupplicationList.add(supplications)
                     cursor.moveToNext()
                     if (cursor.isClosed) {
                         cursor.close()
                     }
                 }
             }
-            return favoriteChapterList
+            return favoriteSupplicationList
         }
 }
