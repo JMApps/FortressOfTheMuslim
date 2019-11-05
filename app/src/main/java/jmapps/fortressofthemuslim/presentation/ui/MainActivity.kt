@@ -32,6 +32,7 @@ import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
 import jmapps.fortressofthemuslim.presentation.ui.chapters.FragmentChapters
 import jmapps.fortressofthemuslim.presentation.ui.favoriteChapters.FragmentFavoriteChapters
+import jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications.FragmentFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.ui.settings.BottomSheetSettings
 import jmapps.fortressofthemuslim.presentation.ui.supplications.FragmentSupplications
 import kotlinx.android.synthetic.main.activity_main.*
@@ -138,7 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.bottom_nav_favorite_chapters -> otherPresenterImpl.replaceFragment(FragmentFavoriteChapters())
 
-            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(FragmentChapters())
+            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(FragmentFavoriteSupplications())
 
             R.id.bottom_nav_supplications -> otherPresenterImpl.replaceFragment(FragmentSupplications())
         }
