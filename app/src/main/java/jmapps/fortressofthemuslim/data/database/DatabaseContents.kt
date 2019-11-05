@@ -57,7 +57,7 @@ class DatabaseContents(private val context: Context?) {
             val cursor: Cursor = database.query(
                 "Table_of_dua",
                 null,
-                "item_faOvorite = 1",
+                "item_favorite = 1",
                 null,
                 null,
                 null,
