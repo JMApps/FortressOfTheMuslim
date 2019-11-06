@@ -76,7 +76,7 @@
                 android:button="@drawable/font_state"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Font 1"
+                android:text="@string/font_arabic_one"
                 android:textColor="@color/settings_font_button_text_colors" />
 
             <RadioButton
@@ -87,7 +87,7 @@
                 android:button="@drawable/font_state"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Font 2"
+                android:text="@string/font_arabic_two"
                 android:textColor="@color/settings_font_button_text_colors" />
 
             <RadioButton
@@ -97,7 +97,7 @@
                 android:button="@drawable/font_state"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Font 3"
+                android:text="@string/font_arabic_three"
                 android:textColor="@color/settings_font_button_text_colors" />
         </RadioGroup>
 
@@ -120,7 +120,7 @@
                 android:button="@drawable/font_state"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Font 1"
+                android:text="@string/font_other_one"
                 android:textColor="@color/settings_font_button_text_colors" />
 
             <RadioButton
@@ -131,7 +131,7 @@
                 android:button="@drawable/font_state"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Font 2"
+                android:text="@string/font_other_two"
                 android:textColor="@color/settings_font_button_text_colors" />
 
             <RadioButton
@@ -141,7 +141,7 @@
                 android:button="@drawable/font_state"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Font 3"
+                android:text="@string/font_other_three"
                 android:textColor="@color/settings_font_button_text_colors" />
         </RadioGroup>
 
@@ -175,7 +175,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:max="9"
+            android:max="7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvArabicTextSizeDescription" />
@@ -198,7 +198,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:max="9"
+            android:max="7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvOtherTextSizeDescription" />

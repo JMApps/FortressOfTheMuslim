@@ -23,17 +23,23 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
 
     private lateinit var textSizeValues: ArrayList<Int>
 
+    private val keyArabicFont = "key_arabic_font_"
+    private val keyOtherFont = "key_other_font_"
+
+    private val keyArabicTextSize = "key_arabic_text_size"
+    private val keyOtherTextSize = "key_other_text_size"
+
+    private val keyTranscriptionState = "key_transcription_state"
+    private val keyTranslationState = "key_translation_state"
+
     @SuppressLint("CommitPrefEdits")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootSettings = inflater.inflate(R.layout.bottom_sheet_settings, container, false)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context)
         editor = preferences.edit()
 
         textSizeValues = ArrayList()
-        textSizeValues.add(12)
-        textSizeValues.add(14)
         textSizeValues.add(16)
         textSizeValues.add(18)
         textSizeValues.add(20)
@@ -43,19 +49,19 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
         textSizeValues.add(28)
         textSizeValues.add(30)
 
-        rootSettings.rbFontArabicOne.isChecked = preferences.getBoolean("key_arabic_font_one", true)
-        rootSettings.rbFontArabicTwo.isChecked = preferences.getBoolean("key_arabic_font_two", false)
-        rootSettings.rbFontArabicThree.isChecked = preferences.getBoolean("key_arabic_font_three", false)
+        rootSettings.rbFontArabicOne.isChecked = preferences.getBoolean("$keyArabicFont${0}", true)
+        rootSettings.rbFontArabicTwo.isChecked = preferences.getBoolean("$keyArabicFont${1}", false)
+        rootSettings.rbFontArabicThree.isChecked = preferences.getBoolean("$keyArabicFont${2}", false)
 
-        rootSettings.rbFontOtherOne.isChecked = preferences.getBoolean("key_other_font_one", true)
-        rootSettings.rbFontOtherTwo.isChecked = preferences.getBoolean("key_other_font_two", false)
-        rootSettings.rbFontOtherThree.isChecked = preferences.getBoolean("key_other_font_three", false)
+        rootSettings.rbFontOtherOne.isChecked = preferences.getBoolean("$keyOtherFont${0}", true)
+        rootSettings.rbFontOtherTwo.isChecked = preferences.getBoolean("$keyOtherFont${1}", false)
+        rootSettings.rbFontOtherThree.isChecked = preferences.getBoolean("$keyOtherFont${2}", false)
 
-        rootSettings.sbArabicTextSize.progress = preferences.getInt("key_arabic_text_size", 3)
-        rootSettings.sbOtherTextSize.progress = preferences.getInt("key_other_text_size", 3)
+        rootSettings.sbArabicTextSize.progress = preferences.getInt(keyArabicTextSize, 1)
+        rootSettings.sbOtherTextSize.progress = preferences.getInt(keyOtherTextSize, 1)
 
-        rootSettings.swShowTextTranscription.isChecked = preferences.getBoolean("key_transcription_state", true)
-        rootSettings.swShowTextTranslation.isChecked = preferences.getBoolean("key_translation_state", true)
+        rootSettings.swShowTextTranscription.isChecked = preferences.getBoolean(keyTranscriptionState, true)
+        rootSettings.swShowTextTranslation.isChecked = preferences.getBoolean(keyTranslationState, true)
 
         rootSettings.rgArabicFonts.setOnCheckedChangeListener(this)
         rootSettings.rgOtherFonts.setOnCheckedChangeListener(this)
@@ -70,32 +76,32 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when(group?.id) {
+        when (group?.id) {
 
             R.id.rgArabicFonts -> {
-                editor.putBoolean("key_arabic_font_one", rootSettings.rbFontArabicOne.isChecked).apply()
-                editor.putBoolean("key_arabic_font_two", rootSettings.rbFontArabicTwo.isChecked).apply()
-                editor.putBoolean("key_arabic_font_three", rootSettings.rbFontArabicThree.isChecked).apply()
+                editor.putBoolean("$keyArabicFont${0}", rootSettings.rbFontArabicOne.isChecked).apply()
+                editor.putBoolean("$keyArabicFont${1}", rootSettings.rbFontArabicTwo.isChecked).apply()
+                editor.putBoolean("$keyArabicFont${2}", rootSettings.rbFontArabicThree.isChecked).apply()
             }
 
             R.id.rgOtherFonts -> {
-                editor.putBoolean("key_other_font_one", rootSettings.rbFontOtherOne.isChecked).apply()
-                editor.putBoolean("key_other_font_two", rootSettings.rbFontOtherTwo.isChecked).apply()
-                editor.putBoolean("key_other_font_three", rootSettings.rbFontOtherThree.isChecked).apply()
+                editor.putBoolean("$keyOtherFont${0}", rootSettings.rbFontOtherOne.isChecked).apply()
+                editor.putBoolean("$keyOtherFont${1}", rootSettings.rbFontOtherTwo.isChecked).apply()
+                editor.putBoolean("$keyOtherFont${2}", rootSettings.rbFontOtherThree.isChecked).apply()
             }
         }
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        when(seekBar?.id) {
+        when (seekBar?.id) {
 
             R.id.sbArabicTextSize -> {
-                editor.putInt("key_arabic_text_size", progress).apply()
+                editor.putInt(keyArabicTextSize, progress).apply()
                 setToast("${textSizeValues[progress]}")
             }
 
             R.id.sbOtherTextSize -> {
-                editor.putInt("key_other_text_size", progress).apply()
+                editor.putInt(keyOtherTextSize, progress).apply()
                 setToast("${textSizeValues[progress]}")
             }
         }
@@ -106,24 +112,24 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
     override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        when(buttonView?.id) {
+        when (buttonView?.id) {
 
             R.id.swShowTextTranscription -> {
+                editor.putBoolean(keyTranscriptionState, isChecked).apply()
                 if (isChecked) {
-                     setToast(getString(R.string.action_show_state_transcription_off))
+                    setToast(getString(R.string.action_show_state_transcription_off))
                 } else {
                     setToast(getString(R.string.action_show_state_transcription_on))
                 }
-                editor.putBoolean("key_transcription_state", isChecked).apply()
             }
 
             R.id.swShowTextTranslation -> {
+                editor.putBoolean(keyTranslationState, isChecked).apply()
                 if (isChecked) {
                     setToast(getString(R.string.action_show_state_translation_off))
                 } else {
                     setToast(getString(R.string.action_show_state_translation_on))
                 }
-                editor.putBoolean("key_translation_state", isChecked).apply()
             }
         }
     }
