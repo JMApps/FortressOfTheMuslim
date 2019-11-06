@@ -34,49 +34,49 @@ class SettingsPresenterImpl(private val settingsView: ContractSettings.SettingsV
 
     override fun setArabicTextSize(mode: Int) {
         when (mode) {
-            1 -> settingsView?.textArabicSize(12f)
+            0 -> settingsView?.textArabicSize(12f)
 
-            2 -> settingsView?.textArabicSize(14f)
+            1 -> settingsView?.textArabicSize(14f)
 
-            3 -> settingsView?.textArabicSize(16f)
+            2 -> settingsView?.textArabicSize(16f)
 
-            4 -> settingsView?.textArabicSize(18f)
+            3 -> settingsView?.textArabicSize(18f)
 
-            5 -> settingsView?.textArabicSize(20f)
+            4 -> settingsView?.textArabicSize(20f)
 
-            6 -> settingsView?.textArabicSize(22f)
+            5 -> settingsView?.textArabicSize(22f)
 
-            7 -> settingsView?.textArabicSize(24f)
+            6 -> settingsView?.textArabicSize(24f)
 
-            8 -> settingsView?.textArabicSize(26f)
+            7 -> settingsView?.textArabicSize(26f)
 
-            9 -> settingsView?.textArabicSize(28f)
+            8 -> settingsView?.textArabicSize(28f)
 
-            10 -> settingsView?.textArabicSize(30f)
+            9 -> settingsView?.textArabicSize(30f)
         }
     }
 
     override fun setOtherTextSize(mode: Int) {
         when (mode) {
-            1 -> settingsView?.textOtherSize(12f)
+            0 -> settingsView?.textOtherSize(12f)
 
-            2 -> settingsView?.textOtherSize(14f)
+            1 -> settingsView?.textOtherSize(14f)
 
-            3 -> settingsView?.textOtherSize(16f)
+            2 -> settingsView?.textOtherSize(16f)
 
-            4 -> settingsView?.textOtherSize(18f)
+            3 -> settingsView?.textOtherSize(18f)
 
-            5 -> settingsView?.textOtherSize(20f)
+            4 -> settingsView?.textOtherSize(20f)
 
-            6 -> settingsView?.textOtherSize(22f)
+            5 -> settingsView?.textOtherSize(22f)
 
-            7 -> settingsView?.textOtherSize(24f)
+            6 -> settingsView?.textOtherSize(24f)
 
-            8 -> settingsView?.textOtherSize(26f)
+            7 -> settingsView?.textOtherSize(26f)
 
-            9 -> settingsView?.textOtherSize(28f)
+            8 -> settingsView?.textOtherSize(28f)
 
-            10 -> settingsView?.textOtherSize(30f)
+            9 -> settingsView?.textOtherSize(30f)
         }
     }
 
