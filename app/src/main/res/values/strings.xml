@@ -37,7 +37,11 @@
     <string name="action_other_text">Другой текст</string>
     <string name="action_showing_texts">Отображение текста:</string>
     <string name="action_show_state_transcription">Транскрипция</string>
+    <string name="action_show_state_transcription_on">Транскрипция отключена</string>
+    <string name="action_show_state_transcription_off">Транскрипция включена</string>
     <string name="action_show_state_translation">Перевод</string>
+    <string name="action_show_state_translation_on">Перевод отключён</string>
+    <string name="action_show_state_translation_off">Перевод включён</string>
 
     <!--    About us-->
     <string name="action_about_us">О нас</string>
