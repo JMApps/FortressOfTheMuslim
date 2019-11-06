@@ -60,4 +60,7 @@
     <string name="favorite_supplication_description">Добавьте избранные дуа</string>
     <string name="favorite_add">Добавлено в избранное</string>
     <string name="favorite_removed">Удалено из избранного</string>
+
+    <!--    Content-->
+    <string name="copied_to_clipboard">Скопировано в буфер</string>
 </resources>
