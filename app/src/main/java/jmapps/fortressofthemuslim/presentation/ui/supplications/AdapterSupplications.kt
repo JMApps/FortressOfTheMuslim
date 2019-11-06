@@ -1,5 +1,6 @@
 package jmapps.fortressofthemuslim.presentation.ui.supplications
 
+import android.content.SharedPreferences
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
-class AdapterSupplications(private var supplicationList: MutableList<ModelSupplications>) :
+class AdapterSupplications(private var supplicationList: MutableList<ModelSupplications>,
+                           private val addRemoveFavorite: AddRemoveFavorite,
+                           private val preferences: SharedPreferences) :
     RecyclerView.Adapter<ViewHolderSupplications>() {
+
+    interface AddRemoveFavorite {
+        fun addRemove(state: Boolean, supplicationId: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSupplications {
         return ViewHolderSupplications(LayoutInflater.from(parent.context).inflate(
@@ -51,8 +58,12 @@ class AdapterSupplications(private var supplicationList: MutableList<ModelSuppli
         }
 
         holder.tbSupplicationNumber.setOnCheckedChangeListener(null)
+        holder.tbSupplicationNumber.isChecked = preferences.getBoolean(
+            "key_item_bookmark_§$supplicationId", false)
         holder.tbSupplicationNumber.text = supplicationId.toString()
         holder.tbSupplicationNumber.textOn = supplicationId.toString()
         holder.tbSupplicationNumber.textOff = supplicationId.toString()
+
+        holder.findAddRemoveFavorite(addRemoveFavorite, supplicationId!!)
     }
 }
