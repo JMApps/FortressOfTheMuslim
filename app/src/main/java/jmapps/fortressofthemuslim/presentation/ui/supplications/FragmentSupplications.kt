@@ -1,9 +1,15 @@
 package jmapps.fortressofthemuslim.presentation.ui.supplications
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipData.newPlainText
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +26,8 @@ import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.Favorit
 import kotlinx.android.synthetic.main.fragment_supplications.view.*
 
 class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavoriteSupplications,
-    AdapterSupplications.AddRemoveFavorite {
+    AdapterSupplications.AddRemoveFavorite, AdapterSupplications.ItemShare,
+    AdapterSupplications.ItemCopy {
 
     private lateinit var rootSupplications: View
 
@@ -32,6 +39,9 @@ class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavor
     private lateinit var adapterSupplications: AdapterSupplications
 
     private lateinit var favoriteSupplicationPresenterImpl: FavoriteSupplicationPresenterImpl
+
+    private var clipboard: ClipboardManager? = null
+    private var clip: ClipData? = null
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +57,8 @@ class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavor
         val verticalLayout = LinearLayoutManager(context)
         rootSupplications.rvMainSupplications.layoutManager = verticalLayout
 
-        adapterSupplications = AdapterSupplications(supplicationList, this, preferences)
+        adapterSupplications = AdapterSupplications(
+            supplicationList, this, preferences, this, this)
         rootSupplications.rvMainSupplications.adapter = adapterSupplications
 
         favoriteSupplicationPresenterImpl = FavoriteSupplicationPresenterImpl(this, database)
@@ -73,6 +84,20 @@ class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavor
 
     override fun saveCurrentFavoriteItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
         editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
+    }
+
+    override fun copy(content: String) {
+        clipboard = context?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+        clip = newPlainText("", Html.fromHtml(content))
+        clipboard?.setPrimaryClip(clip!!)
+        setToast(getString(R.string.copied_to_clipboard))
+    }
+
+    override fun share(content: String) {
+        val shareLink = Intent(Intent.ACTION_SEND)
+        shareLink.type = "text/plain"
+        shareLink.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(content))
+        context?.startActivity(shareLink)
     }
 
     private fun setToast(message: String) {

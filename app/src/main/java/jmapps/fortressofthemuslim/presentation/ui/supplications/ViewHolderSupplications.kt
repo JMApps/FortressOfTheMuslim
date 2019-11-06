@@ -14,13 +14,25 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
     val tvSupplicationTranslation: TextView = itemView.findViewById(R.id.tvSupplicationTranslation)
     val tvSupplicationSource: TextView = itemView.findViewById(R.id.tvSupplicationSource)
 
-    val btnItemShare: Button = itemView.findViewById(R.id.btnSupplicationShare)
-    val btnItemCopy: Button = itemView.findViewById(R.id.btnSupplicationCopy)
+    private val btnItemShare: Button = itemView.findViewById(R.id.btnSupplicationShare)
+    private val btnItemCopy: Button = itemView.findViewById(R.id.btnSupplicationCopy)
     val tbSupplicationNumber: ToggleButton = itemView.findViewById(R.id.tbSupplicationNumber)
 
     fun findAddRemoveFavorite(addRemoveFavorite: AdapterSupplications.AddRemoveFavorite, supplicationId: Int) {
         tbSupplicationNumber.setOnCheckedChangeListener { _, isChecked ->
             addRemoveFavorite.addRemove(isChecked, supplicationId)
+        }
+    }
+
+    fun findCopy(itemCopy: AdapterSupplications.ItemCopy, content: String) {
+        btnItemCopy.setOnClickListener {
+            itemCopy.copy(content)
+        }
+    }
+
+    fun findShare(itemShare: AdapterSupplications.ItemShare, content: String) {
+        btnItemShare.setOnClickListener {
+            itemShare.share(content)
         }
     }
 }
