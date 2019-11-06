@@ -32,9 +32,18 @@
     <!--    Settings-->
     <string name="action_settings">Настройки</string>
     <string name="action_fonts">Шрифт:</string>
-    <string name="action_text_size">Размер текста:</string>
     <string name="action_arabic_text">Арабский текст</string>
+    <string name="font_arabic_one">Uthmanic Script</string>
+    <string name="font_arabic_two">Quran</string>
+    <string name="font_arabic_three">Droid naskh</string>
     <string name="action_other_text">Другой текст</string>
+    <string name="font_other_one">Gilroy</string>
+    <string name="font_other_two">Times new roman</string>
+    <string name="font_other_three">Cambria</string>
+    <string name="action_text_size">Размер текста:</string>
+    <string name="action_text_color">Цвет текста:</string>
+    <string name="action_transcription_text">Транскрипция</string>
+    <string name="action_translation_text">Перевод</string>
     <string name="action_showing_texts">Отображение текста:</string>
     <string name="action_show_state_transcription">Транскрипция</string>
     <string name="action_show_state_transcription_on">Транскрипция отключена</string>
@@ -42,12 +51,6 @@
     <string name="action_show_state_translation">Перевод</string>
     <string name="action_show_state_translation_on">Перевод отключён</string>
     <string name="action_show_state_translation_off">Перевод включён</string>
-    <string name="font_other_one">Gilroy</string>
-    <string name="font_other_two">Times new roman</string>
-    <string name="font_other_three">Cambria</string>
-    <string name="font_arabic_one">Uthmanic Script</string>
-    <string name="font_arabic_two">Quran</string>
-    <string name="font_arabic_three">Droid naskh</string>
 
     <!--    About us-->
     <string name="action_about_us">О нас</string>
