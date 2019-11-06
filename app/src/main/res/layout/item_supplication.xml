@@ -22,7 +22,6 @@
                 android:id="@+id/tvSupplicationArabic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/droid_naksh"
                 android:paddingTop="4dp"
                 android:paddingBottom="16dp"
                 android:textColor="@color/lightMain"
@@ -32,7 +31,6 @@
                 android:id="@+id/tvSupplicationTranscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_light"
                 android:paddingBottom="16dp"
                 android:textColor="@color/lightMain"
                 android:textSize="18sp" />
@@ -50,7 +48,6 @@
                 android:id="@+id/tvSupplicationSource"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_light"
                 android:textColor="@color/main"
                 android:textSize="12sp" />
         </LinearLayout>
