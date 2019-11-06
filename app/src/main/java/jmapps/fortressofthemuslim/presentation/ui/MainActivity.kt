@@ -90,12 +90,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         managerPermissions = ManagerPermissions(this, permissionsRequestCode)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         for (perms: String in permissions) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            ) {
                 setToast(getString(R.string.permissions_failure))
             } else {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     otherPresenterImpl.setDownloadAll()
                 } else {
                     val intent = Intent()
@@ -137,11 +149,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.bottom_nav_chapters -> otherPresenterImpl.replaceFragment(FragmentChapters())
 
-            R.id.bottom_nav_favorite_chapters -> otherPresenterImpl.replaceFragment(FragmentFavoriteChapters())
+            R.id.bottom_nav_favorite_chapters -> otherPresenterImpl.replaceFragment(
+                FragmentFavoriteChapters()
+            )
 
-            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(FragmentFavoriteSupplications())
+            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(
+                FragmentFavoriteSupplications()
+            )
 
-            R.id.bottom_nav_supplications -> otherPresenterImpl.replaceFragment(FragmentSupplications())
+            R.id.bottom_nav_supplications -> otherPresenterImpl.replaceFragment(
+                FragmentSupplications()
+            )
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -158,6 +176,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun getNightMode(state: Boolean) {
+        bottomNavigationMain.selectedItemId = R.id.bottom_nav_chapters
         isNightMode(state)
         swNightMode.isChecked = state
         editor.putBoolean("key_night_mode", state).apply()
