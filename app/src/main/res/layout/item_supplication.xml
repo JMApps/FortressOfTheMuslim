@@ -39,7 +39,6 @@
                 android:id="@+id/tvSupplicationTranslation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_medium"
                 android:paddingBottom="16dp"
                 android:textColor="@color/lightMain"
                 android:textSize="18sp" />

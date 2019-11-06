@@ -42,6 +42,12 @@
     <string name="action_show_state_translation">Перевод</string>
     <string name="action_show_state_translation_on">Перевод отключён</string>
     <string name="action_show_state_translation_off">Перевод включён</string>
+    <string name="font_other_one">Gilroy</string>
+    <string name="font_other_two">Times new roman</string>
+    <string name="font_other_three">Cambria</string>
+    <string name="font_arabic_one">Uthmanic Script</string>
+    <string name="font_arabic_two">Quran</string>
+    <string name="font_arabic_three">Droid naskh</string>
 
     <!--    About us-->
     <string name="action_about_us">О нас</string>
