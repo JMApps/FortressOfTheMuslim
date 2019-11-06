@@ -90,24 +90,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         managerPermissions = ManagerPermissions(this, permissionsRequestCode)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         for (perms: String in permissions) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
+                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 setToast(getString(R.string.permissions_failure))
             } else {
                 if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
+                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     otherPresenterImpl.setDownloadAll()
                 } else {
                     val intent = Intent()
@@ -149,17 +139,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.bottom_nav_chapters -> otherPresenterImpl.replaceFragment(FragmentChapters())
 
-            R.id.bottom_nav_favorite_chapters -> otherPresenterImpl.replaceFragment(
-                FragmentFavoriteChapters()
-            )
+            R.id.bottom_nav_favorite_chapters -> otherPresenterImpl.replaceFragment(FragmentFavoriteChapters())
 
-            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(
-                FragmentFavoriteSupplications()
-            )
+            R.id.bottom_nav_favorite_supplications -> otherPresenterImpl.replaceFragment(FragmentFavoriteSupplications())
 
-            R.id.bottom_nav_supplications -> otherPresenterImpl.replaceFragment(
-                FragmentSupplications()
-            )
+            R.id.bottom_nav_supplications -> otherPresenterImpl.replaceFragment(FragmentSupplications())
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
