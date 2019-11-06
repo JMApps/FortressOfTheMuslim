@@ -1,28 +1,45 @@
 package jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications
 
+import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseContents
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
+import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.ContractFavoriteSupplications
+import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.FavoriteSupplicationPresenterImpl
 import kotlinx.android.synthetic.main.fragment_favorite_supplications.view.*
 
-class FragmentFavoriteSupplications: Fragment() {
+class FragmentFavoriteSupplications: Fragment(), AdapterFavoriteSupplications.AddRemoveFavorite,
+    ContractFavoriteSupplications.ViewFavoriteSupplications {
 
     private lateinit var rootFavoriteSupplications: View
+
+    private lateinit var preferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
     private lateinit var database: SQLiteDatabase
     private lateinit var favoriteSupplicationList: MutableList<ModelFavoriteSupplications>
     private lateinit var adapterFavoriteSupplications: AdapterFavoriteSupplications
 
+    private lateinit var favoriteSupplicationPresenterImpl: FavoriteSupplicationPresenterImpl
+
+    @SuppressLint("CommitPrefEdits")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View? {
         rootFavoriteSupplications = inflater.inflate(R.layout.fragment_favorite_supplications, container, false)
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        editor = preferences.edit()
 
         database = DatabaseOpenHelper(context).readableDatabase
         favoriteSupplicationList = DatabaseContents(context).getFavoriteSupplicationList
@@ -30,7 +47,7 @@ class FragmentFavoriteSupplications: Fragment() {
         val verticalLayout = LinearLayoutManager(context)
         rootFavoriteSupplications.rvFavoriteSupplications.layoutManager = verticalLayout
 
-        adapterFavoriteSupplications = AdapterFavoriteSupplications(favoriteSupplicationList)
+        adapterFavoriteSupplications = AdapterFavoriteSupplications(favoriteSupplicationList, this, preferences)
         rootFavoriteSupplications.rvFavoriteSupplications.adapter = adapterFavoriteSupplications
 
         if (adapterFavoriteSupplications.itemCount <= 0) {
@@ -41,6 +58,38 @@ class FragmentFavoriteSupplications: Fragment() {
             rootFavoriteSupplications.rvFavoriteSupplications.visibility = View.VISIBLE
         }
 
+        favoriteSupplicationPresenterImpl = FavoriteSupplicationPresenterImpl(this, database)
+
         return rootFavoriteSupplications
+    }
+
+    override fun addRemove(state: Boolean, favoriteSupplicationId: Int) {
+        favoriteSupplicationPresenterImpl.addRemoveFavorite(state, favoriteSupplicationId)
+    }
+
+    override fun showFavoriteStateToast(state: Boolean) {
+        if (state) {
+            setToast(getString(R.string.favorite_add))
+        } else {
+            setToast(getString(R.string.favorite_removed))
+        }
+    }
+
+    override fun showDBExceptionToast(error: String) {
+        setToast(getString(R.string.database_exception) + error)
+    }
+
+    override fun saveCurrentFavoriteItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
+        editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
+    }
+
+    private fun setToast(message: String) {
+        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
+        val view: View = toast.view
+        view.setBackgroundResource(R.drawable.circle_toast_background)
+        val text = view.findViewById(android.R.id.message) as TextView
+        text.setPadding(32, 16, 32, 16)
+        text.setTextColor(resources.getColor(R.color.white))
+        toast.show()
     }
 }

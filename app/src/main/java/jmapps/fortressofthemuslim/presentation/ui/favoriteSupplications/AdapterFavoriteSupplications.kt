@@ -1,13 +1,21 @@
 package jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications
 
+import android.content.SharedPreferences
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
-data class AdapterFavoriteSupplications(private val favoriteSupplicationList: MutableList<ModelFavoriteSupplications>):
+data class AdapterFavoriteSupplications(private val favoriteSupplicationList: MutableList<ModelFavoriteSupplications>,
+                                        private val addRemoveFavorite: AddRemoveFavorite,
+                                        private val preferences: SharedPreferences):
         RecyclerView.Adapter<ViewHolderFavoriteSupplications>() {
+
+    interface AddRemoveFavorite {
+        fun addRemove(state: Boolean, favoriteSupplicationId: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFavoriteSupplications {
         return ViewHolderFavoriteSupplications(LayoutInflater.from(parent.context).inflate(
@@ -19,19 +27,43 @@ data class AdapterFavoriteSupplications(private val favoriteSupplicationList: Mu
     }
 
     override fun onBindViewHolder(holder: ViewHolderFavoriteSupplications, position: Int) {
-        val supplicationId = favoriteSupplicationList[position].favoriteSupplicationId
-        val strSupplicationArabic = favoriteSupplicationList[position].strFavoriteSupplicationArabic
-        val strSupplicationTranscription = favoriteSupplicationList[position].strFavoriteSupplicationTranscription
-        val strSupplicationTranslation = favoriteSupplicationList[position].strFavoriteSupplicationTranslation
-        val strSupplicationSource = favoriteSupplicationList[position].strFavoriteSupplicationSource
+        val favoriteSupplicationId = favoriteSupplicationList[position].favoriteSupplicationId
+        val strFavoriteSupplicationArabic = favoriteSupplicationList[position].strFavoriteSupplicationArabic
+        val strFavoriteSupplicationTranscription = favoriteSupplicationList[position].strFavoriteSupplicationTranscription
+        val strFavoriteSupplicationTranslation = favoriteSupplicationList[position].strFavoriteSupplicationTranslation
+        val strFavoriteSupplicationSource = favoriteSupplicationList[position].strFavoriteSupplicationSource
 
-        holder.tvFavoriteSupplicationArabic.text = Html.fromHtml(strSupplicationArabic)
-        holder.tvFavoriteSupplicationTranscription.text = strSupplicationTranscription
-        holder.tvFavoriteSupplicationTranslation.text = Html.fromHtml(strSupplicationTranslation)
-        holder.tvFavoriteSupplicationSource.text = strSupplicationSource
+        if (!strFavoriteSupplicationArabic.isNullOrEmpty()) {
+            holder.tvFavoriteSupplicationArabic.text = Html.fromHtml(strFavoriteSupplicationArabic)
+        } else {
+            holder.tvFavoriteSupplicationArabic.visibility = View.GONE
+        }
+
+        if (!strFavoriteSupplicationTranscription.isNullOrEmpty()) {
+            holder.tvFavoriteSupplicationTranscription.text = strFavoriteSupplicationTranscription
+        } else {
+            holder.tvFavoriteSupplicationTranscription.visibility = View.GONE
+        }
+
+        if (!strFavoriteSupplicationTranslation.isNullOrEmpty()) {
+            holder.tvFavoriteSupplicationTranslation.text = Html.fromHtml(strFavoriteSupplicationTranslation)
+        } else {
+            holder.tvFavoriteSupplicationTranslation.visibility = View.GONE
+        }
+
+        if (!strFavoriteSupplicationSource.isNullOrEmpty()) {
+            holder.tvFavoriteSupplicationSource.text = strFavoriteSupplicationSource
+        } else {
+            holder.tvFavoriteSupplicationSource.visibility = View.GONE
+        }
+
         holder.tbFavoriteSupplicationNumber.setOnCheckedChangeListener(null)
-        holder.tbFavoriteSupplicationNumber.text = supplicationId.toString()
-        holder.tbFavoriteSupplicationNumber.textOn = supplicationId.toString()
-        holder.tbFavoriteSupplicationNumber.textOff = supplicationId.toString()
+        holder.tbFavoriteSupplicationNumber.isChecked = preferences.getBoolean(
+            "key_item_bookmark_§$favoriteSupplicationId", false)
+        holder.tbFavoriteSupplicationNumber.text = favoriteSupplicationId.toString()
+        holder.tbFavoriteSupplicationNumber.textOn = favoriteSupplicationId.toString()
+        holder.tbFavoriteSupplicationNumber.textOff = favoriteSupplicationId.toString()
+
+        holder.findAddRemove(addRemoveFavorite, favoriteSupplicationId!!)
     }
 }
