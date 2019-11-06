@@ -21,7 +21,6 @@ class FavoriteChapterPresenterImpl(
 
             viewFavoriteChapters?.showFavoriteStateToast(state)
             viewFavoriteChapters?.saveCurrentFavoriteItem("key_chapter_bookmark_$chapterId", state)
-
         } catch (e: Exception) {
             viewFavoriteChapters?.showDBExceptionToast(e.toString())
         }

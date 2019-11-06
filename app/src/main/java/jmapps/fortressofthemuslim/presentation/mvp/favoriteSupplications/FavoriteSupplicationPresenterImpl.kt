@@ -21,7 +21,7 @@ class FavoriteSupplicationPresenterImpl(
 
             viewFavoriteSupplications?.showFavoriteStateToast(state)
             viewFavoriteSupplications?.saveCurrentFavoriteItem(
-                "key_item_bookmark_§$supplicationId", state)
+                "key_item_bookmark_$supplicationId", state)
 
         } catch (e: Exception) {
             viewFavoriteSupplications?.showDBExceptionToast(e.toString())
