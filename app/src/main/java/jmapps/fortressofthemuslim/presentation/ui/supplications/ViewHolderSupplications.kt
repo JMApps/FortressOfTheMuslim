@@ -19,6 +19,10 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
     private val keyArabicTextSize = "key_arabic_text_size"
     private val keyOtherTextSize = "key_other_text_size"
 
+    private val keyArabicTextColor = "key_arabic_text_color"
+    private val keyTranscriptionTextColor = "key_transcription_text_color"
+    private val keyTranslationTextColor = "key_translation_text_color"
+
     private val keyTranscriptionState = "key_transcription_state"
     private val keyTranslationState = "key_translation_state"
 
@@ -29,6 +33,7 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.context)
     private val textSizes = ArrayList<Float>()
+    private var textColorBackgrounds: java.util.ArrayList<Int> = java.util.ArrayList()
 
     init {
         PreferenceManager.getDefaultSharedPreferences(itemView.context).registerOnSharedPreferenceChangeListener(this)
@@ -42,10 +47,23 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
         textSizes.add(28f)
         textSizes.add(30f)
 
+        textColorBackgrounds.add(R.color.white)
+        textColorBackgrounds.add(R.color.black)
+        textColorBackgrounds.add(R.color.gray)
+        textColorBackgrounds.add(R.color.brown)
+        textColorBackgrounds.add(R.color.yellow)
+        textColorBackgrounds.add(R.color.green)
+        textColorBackgrounds.add(R.color.blue)
+        textColorBackgrounds.add(R.color.red)
+        textColorBackgrounds.add(R.color.purple)
+
         fontArabic()
         fontOther()
         textArabicSize()
         textOtherSize()
+        textArabicColor()
+        textTranscriptionColor()
+        textTranslationColor()
         showTranscription()
         showTranslation()
     }
@@ -77,6 +95,9 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
         fontOther()
         textArabicSize()
         textOtherSize()
+        textArabicColor()
+        textTranscriptionColor()
+        textTranslationColor()
         showTranscription()
         showTranslation()
     }
@@ -124,6 +145,23 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
     private fun textOtherSize() {
         tvSupplicationTranscription.textSize = textSizes[preferences.getInt(keyOtherTextSize, 1)]
         tvSupplicationTranslation.textSize = textSizes[preferences.getInt(keyOtherTextSize, 1)]
+    }
+
+    private fun textArabicColor() {
+        tvSupplicationArabic.setTextColor(itemView.resources.getColor(
+            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 2)]))
+    }
+
+    private fun textTranscriptionColor() {
+        tvSupplicationTranscription.setTextColor(
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+        tvSupplicationSource.setTextColor(
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+    }
+
+    private fun textTranslationColor() {
+        tvSupplicationTranslation.setTextColor(itemView.resources.getColor(
+                textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 2)]))
     }
 
     private fun showTranscription() {

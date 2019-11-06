@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import jmapps.fortressofthemuslim.R
 import kotlinx.android.synthetic.main.bottom_sheet_settings.view.*
 import java.util.*
+import android.graphics.drawable.GradientDrawable
 
 class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedChangeListener,
     SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
@@ -21,7 +22,10 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
-    private lateinit var textSizeValues: ArrayList<Int>
+    private var textSizeValues: ArrayList<Int> = ArrayList()
+    private var textColorNames: ArrayList<String> = ArrayList()
+    private var textColorValues: ArrayList<Int> = ArrayList()
+    private var textColorBackgrounds: ArrayList<Int> = ArrayList()
 
     private val keyArabicFont = "key_arabic_font_"
     private val keyOtherFont = "key_other_font_"
@@ -29,17 +33,14 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
     private val keyArabicTextSize = "key_arabic_text_size"
     private val keyOtherTextSize = "key_other_text_size"
 
+    private val keyArabicTextColor = "key_arabic_text_color"
+    private val keyTranscriptionTextColor = "key_transcription_text_color"
+    private val keyTranslationTextColor = "key_translation_text_color"
+
     private val keyTranscriptionState = "key_transcription_state"
     private val keyTranslationState = "key_translation_state"
 
-    @SuppressLint("CommitPrefEdits")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootSettings = inflater.inflate(R.layout.bottom_sheet_settings, container, false)
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        editor = preferences.edit()
-
-        textSizeValues = ArrayList()
+    init {
         textSizeValues.add(16)
         textSizeValues.add(18)
         textSizeValues.add(20)
@@ -48,6 +49,44 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
         textSizeValues.add(26)
         textSizeValues.add(28)
         textSizeValues.add(30)
+
+        textColorNames.add("Белый")
+        textColorNames.add("Черный")
+        textColorNames.add("Серый")
+        textColorNames.add("Коричневый")
+        textColorNames.add("Жёлтый")
+        textColorNames.add("Зеленый")
+        textColorNames.add("Синий")
+        textColorNames.add("Красный")
+        textColorNames.add("Фиолетовый")
+
+        textColorValues.add(R.color.black)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+        textColorValues.add(R.color.white)
+
+        textColorBackgrounds.add(R.color.white)
+        textColorBackgrounds.add(R.color.black)
+        textColorBackgrounds.add(R.color.gray)
+        textColorBackgrounds.add(R.color.brown)
+        textColorBackgrounds.add(R.color.yellow)
+        textColorBackgrounds.add(R.color.green)
+        textColorBackgrounds.add(R.color.blue)
+        textColorBackgrounds.add(R.color.red)
+        textColorBackgrounds.add(R.color.purple)
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        rootSettings = inflater.inflate(R.layout.bottom_sheet_settings, container, false)
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        editor = preferences.edit()
 
         rootSettings.rbFontArabicOne.isChecked = preferences.getBoolean("$keyArabicFont${0}", true)
         rootSettings.rbFontArabicTwo.isChecked = preferences.getBoolean("$keyArabicFont${1}", false)
@@ -59,6 +98,9 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
 
         rootSettings.sbArabicTextSize.progress = preferences.getInt(keyArabicTextSize, 1)
         rootSettings.sbOtherTextSize.progress = preferences.getInt(keyOtherTextSize, 1)
+        rootSettings.sbArabicTextColor.progress = preferences.getInt(keyArabicTextColor, 2)
+        rootSettings.sbTranscriptionTextColor.progress = preferences.getInt(keyTranscriptionTextColor, 2)
+        rootSettings.sbTranslationTextColor.progress = preferences.getInt(keyTranslationTextColor, 2)
 
         rootSettings.swShowTextTranscription.isChecked = preferences.getBoolean(keyTranscriptionState, true)
         rootSettings.swShowTextTranslation.isChecked = preferences.getBoolean(keyTranslationState, true)
@@ -68,6 +110,9 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
 
         rootSettings.sbArabicTextSize.setOnSeekBarChangeListener(this)
         rootSettings.sbOtherTextSize.setOnSeekBarChangeListener(this)
+        rootSettings.sbArabicTextColor.setOnSeekBarChangeListener(this)
+        rootSettings.sbTranscriptionTextColor.setOnSeekBarChangeListener(this)
+        rootSettings.sbTranslationTextColor.setOnSeekBarChangeListener(this)
 
         rootSettings.swShowTextTranscription.setOnCheckedChangeListener(this)
         rootSettings.swShowTextTranslation.setOnCheckedChangeListener(this)
@@ -103,6 +148,24 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
             R.id.sbOtherTextSize -> {
                 editor.putInt(keyOtherTextSize, progress).apply()
                 setToast("${textSizeValues[progress]}")
+            }
+
+            R.id.sbArabicTextColor -> {
+                editor.putInt(keyArabicTextColor, progress).apply()
+                setToastWithColor(
+                    textColorNames[progress], textColorValues[progress], textColorBackgrounds[progress])
+            }
+
+            R.id.sbTranscriptionTextColor -> {
+                editor.putInt(keyTranscriptionTextColor, progress).apply()
+                setToastWithColor(
+                    textColorNames[progress], textColorValues[progress], textColorBackgrounds[progress])
+            }
+
+            R.id.sbTranslationTextColor -> {
+                editor.putInt(keyTranslationTextColor, progress).apply()
+                setToastWithColor(
+                    textColorNames[progress], textColorValues[progress], textColorBackgrounds[progress])
             }
         }
     }
@@ -141,6 +204,19 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
         val text = view.findViewById(android.R.id.message) as TextView
         text.setPadding(32, 16, 32, 16)
         text.setTextColor(resources.getColor(R.color.white))
+        toast.show()
+    }
+
+    private fun setToastWithColor(message: String, textColor: Int, backgroundColor: Int) {
+        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
+        val view: View = toast.view
+        val text = view.findViewById(android.R.id.message) as TextView
+        val gd = GradientDrawable()
+        gd.cornerRadius = 25F
+        gd.setColor(resources.getColor(backgroundColor))
+        view.background = gd
+        text.setPadding(120, 16, 120, 16)
+        text.setTextColor(resources.getColor(textColor))
         toast.show()
     }
 }
