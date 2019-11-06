@@ -5,6 +5,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
@@ -46,28 +47,28 @@ class AdapterSupplications(
         val strSupplicationTranslation = supplicationList[position].strSupplicationTranslation
         val strSupplicationSource = supplicationList[position].strSupplicationSource
 
-        if (!strSupplicationArabic.isNullOrEmpty()) {
+        if (!strSupplicationArabic.isNullOrEmpty() && holder.tvSupplicationArabic.isVisible) {
             holder.tvSupplicationArabic.visibility = View.VISIBLE
             holder.tvSupplicationArabic.text = Html.fromHtml(strSupplicationArabic)
         } else {
             holder.tvSupplicationArabic.visibility = View.GONE
         }
 
-        if (!strSupplicationTranscription.isNullOrEmpty()) {
+        if (!strSupplicationTranscription.isNullOrEmpty() && holder.tvSupplicationTranscription.isVisible) {
             holder.tvSupplicationTranscription.visibility = View.VISIBLE
             holder.tvSupplicationTranscription.text = strSupplicationTranscription
         } else {
             holder.tvSupplicationTranscription.visibility = View.GONE
         }
 
-        if (!strSupplicationTranslation.isNullOrEmpty()) {
+        if (!strSupplicationTranslation.isNullOrEmpty() && holder.tvSupplicationTranslation.isVisible) {
             holder.tvSupplicationTranslation.visibility = View.VISIBLE
             holder.tvSupplicationTranslation.text = Html.fromHtml(strSupplicationTranslation)
         } else {
             holder.tvSupplicationTranslation.visibility = View.GONE
         }
 
-        if (!strSupplicationSource.isNullOrEmpty()) {
+        if (!strSupplicationSource.isNullOrEmpty() && holder.tvSupplicationSource.isVisible) {
             holder.tvSupplicationSource.visibility = View.VISIBLE
             holder.tvSupplicationSource.text = strSupplicationSource
         } else {
