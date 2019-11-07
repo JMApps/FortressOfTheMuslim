@@ -26,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import jmapps.fortressofthemuslim.R
+import jmapps.fortressofthemuslim.data.files.DownloadManager
 import jmapps.fortressofthemuslim.data.files.ManagerPermissions
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val permissionsRequestCode = 123
     private lateinit var managerPermissions: ManagerPermissions
+    private lateinit var downloadManager: DownloadManager
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         swNightMode.isChecked = valNightMode
 
         managerPermissions = ManagerPermissions(this, permissionsRequestCode)
+        downloadManager = DownloadManager(this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -156,7 +159,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun getDownloadAll() {
-        setToast("Началось скачивание...")
+        downloadManager.downloadAllAudios()
     }
 
     override fun getNightMode(state: Boolean) {
