@@ -96,11 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         downloadManager = DownloadManager(this)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         for (perms: String in permissions) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this, Manifest.permission.WRITE_EXTERNAL_STORAGE
