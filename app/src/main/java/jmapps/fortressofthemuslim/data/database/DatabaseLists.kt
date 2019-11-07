@@ -78,4 +78,37 @@ class DatabaseLists(private val context: Context?) {
             }
             return favoriteChapterList
         }
+
+    val getChapterName: MutableList<ModelChapters>
+        @SuppressLint("Recycle")
+        get() {
+            database = DatabaseOpenHelper(context).readableDatabase
+
+            val cursor: Cursor = database.query(
+                "Table_of_chapters",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+
+            val chapterList = ArrayList<ModelChapters>()
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast) {
+                    val chapters = ModelChapters(
+                        cursor.getInt(cursor.getColumnIndex("_id")),
+                        cursor.getString(cursor.getColumnIndex("chapter_name"))
+                    )
+                    chapterList.add(chapters)
+                    cursor.moveToNext()
+                    if (cursor.isClosed) {
+                        cursor.close()
+                    }
+                }
+            }
+            return chapterList
+        }
 }

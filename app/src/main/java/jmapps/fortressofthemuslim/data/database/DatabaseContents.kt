@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import jmapps.fortressofthemuslim.presentation.ui.contentChapters.ModelChapterContents
 import jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications.ModelFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.ui.supplications.ModelSupplications
 
@@ -84,4 +85,40 @@ class DatabaseContents(private val context: Context?) {
             }
             return favoriteSupplicationList
         }
+
+    fun getChapterContentList(sampleBy: Int?): MutableList<ModelChapterContents> {
+        @SuppressLint("Recycle")
+
+        database = DatabaseOpenHelper(context).readableDatabase
+
+        val cursor: Cursor = database.query(
+            "Table_of_dua",
+            null,
+            "sample_by = $sampleBy",
+            null,
+            null,
+            null,
+            null
+        )
+
+        val contentChapterList = ArrayList<ModelChapterContents>()
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast) {
+                val contents = ModelChapterContents(
+                    cursor.getInt(cursor.getColumnIndex("_id")),
+                    cursor.getString(cursor.getColumnIndex("content_arabic")),
+                    cursor.getString(cursor.getColumnIndex("content_transcription")),
+                    cursor.getString(cursor.getColumnIndex("content_translation")),
+                    cursor.getString(cursor.getColumnIndex("content_source"))
+                )
+                contentChapterList.add(contents)
+                cursor.moveToNext()
+                if (cursor.isClosed) {
+                    cursor.close()
+                }
+            }
+        }
+        return contentChapterList
+    }
 }

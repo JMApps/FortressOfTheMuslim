@@ -10,7 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="176dp"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -32,6 +32,7 @@
                 android:layout_marginTop="50dp"
                 android:fitsSystemWindows="true"
                 android:padding="16dp"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_collapseMode="parallax" />
 
