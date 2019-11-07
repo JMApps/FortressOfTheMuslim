@@ -122,7 +122,7 @@ class ViewHolderFavoriteSupplications(itemView: View): RecyclerView.ViewHolder(i
         when(true) {
             one -> {
                 tvFavoriteSupplicationTranscription.typeface = TypeFace()[itemView.context, "fonts/gilroy_light.ttf"]
-                tvFavoriteSupplicationTranslation.typeface = TypeFace()[itemView.context, "fonts/girloy_heavy.ttf"]
+                tvFavoriteSupplicationTranslation.typeface = TypeFace()[itemView.context, "fonts/gilroy_extra.ttf"]
                 tvFavoriteSupplicationSource.typeface = TypeFace()[itemView.context, "fonts/gilroy_light.ttf"]
             }
             two -> {

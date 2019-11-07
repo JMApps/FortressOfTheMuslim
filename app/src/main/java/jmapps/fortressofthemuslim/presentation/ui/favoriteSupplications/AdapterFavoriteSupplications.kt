@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
-import jmapps.fortressofthemuslim.presentation.ui.supplications.AdapterSupplications
 
 data class AdapterFavoriteSupplications(
     private val favoriteSupplicationList: MutableList<ModelFavoriteSupplications>,
@@ -29,15 +28,9 @@ data class AdapterFavoriteSupplications(
         fun share(content: String)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolderFavoriteSupplications {
-        return ViewHolderFavoriteSupplications(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_favorite_supplication, parent, false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFavoriteSupplications {
+        return ViewHolderFavoriteSupplications(LayoutInflater.from(parent.context).inflate(
+                R.layout.item_favorite_supplication, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -67,7 +60,8 @@ data class AdapterFavoriteSupplications(
 
         if (!strFavoriteSupplicationTranslation.isNullOrEmpty()) {
             holder.tvFavoriteSupplicationTranslation.visibility = View.VISIBLE
-            holder.tvFavoriteSupplicationTranslation.text = Html.fromHtml(strFavoriteSupplicationTranslation)
+            holder.tvFavoriteSupplicationTranslation.text =
+                Html.fromHtml(strFavoriteSupplicationTranslation)
         } else {
             holder.tvFavoriteSupplicationTranslation.visibility = View.GONE
         }
@@ -81,8 +75,7 @@ data class AdapterFavoriteSupplications(
 
         holder.tbFavoriteSupplicationNumber.setOnCheckedChangeListener(null)
         holder.tbFavoriteSupplicationNumber.isChecked = preferences.getBoolean(
-            "key_item_bookmark_$favoriteSupplicationId", false
-        )
+            "key_item_bookmark_$favoriteSupplicationId", false)
         holder.tbFavoriteSupplicationNumber.text = favoriteSupplicationId.toString()
         holder.tbFavoriteSupplicationNumber.textOn = favoriteSupplicationId.toString()
         holder.tbFavoriteSupplicationNumber.textOff = favoriteSupplicationId.toString()

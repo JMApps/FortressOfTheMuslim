@@ -71,8 +71,10 @@
     <!--    Favorites-->
     <string name="favorite_chapter_description">Добавьте избранные главы</string>
     <string name="favorite_supplication_description">Добавьте избранные дуа</string>
-    <string name="favorite_add">Добавлено в избранное</string>
-    <string name="favorite_removed">Удалено из избранного</string>
+    <string name="favorite_chapter_add">Глава добавлена в избранное</string>
+    <string name="favorite_chapter_removed">Глава удалена из избранного</string>
+    <string name="favorite_supplication_add">Дуа добавлено в избранное</string>
+    <string name="favorite_supplication_removed">Дуа удалено из избранного</string>
 
     <!--    Content-->
     <string name="copied_to_clipboard">Скопировано в буфер</string>
@@ -86,7 +88,5 @@
 
     <!--    Content chapter-->
     <string name="title_activity_content_chapter">Глава</string>
-    <string name="content_favorite_add">Добавлено в избранное</string>
-    <string name="content_favorite_removed">Удалено из избранного</string>
     <string name="content_favorite">Избранное</string>
 </resources>
