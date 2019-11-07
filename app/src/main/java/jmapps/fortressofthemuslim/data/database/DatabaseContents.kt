@@ -25,8 +25,7 @@ class DatabaseContents(private val context: Context?) {
                 null,
                 null,
                 null,
-                null
-            )
+                null)
 
             val supplicationList = ArrayList<ModelSupplications>()
 
@@ -37,8 +36,7 @@ class DatabaseContents(private val context: Context?) {
                         cursor.getString(cursor.getColumnIndex("content_arabic")),
                         cursor.getString(cursor.getColumnIndex("content_transcription")),
                         cursor.getString(cursor.getColumnIndex("content_translation")),
-                        cursor.getString(cursor.getColumnIndex("content_source"))
-                    )
+                        cursor.getString(cursor.getColumnIndex("content_source")))
                     supplicationList.add(supplications)
                     cursor.moveToNext()
                     if (cursor.isClosed) {
@@ -62,8 +60,7 @@ class DatabaseContents(private val context: Context?) {
                 null,
                 null,
                 null,
-                null
-            )
+                null)
 
             val favoriteSupplicationList = ArrayList<ModelFavoriteSupplications>()
 
@@ -74,8 +71,7 @@ class DatabaseContents(private val context: Context?) {
                         cursor.getString(cursor.getColumnIndex("content_arabic")),
                         cursor.getString(cursor.getColumnIndex("content_transcription")),
                         cursor.getString(cursor.getColumnIndex("content_translation")),
-                        cursor.getString(cursor.getColumnIndex("content_source"))
-                    )
+                        cursor.getString(cursor.getColumnIndex("content_source")))
                     favoriteSupplicationList.add(supplications)
                     cursor.moveToNext()
                     if (cursor.isClosed) {
@@ -98,8 +94,7 @@ class DatabaseContents(private val context: Context?) {
             null,
             null,
             null,
-            null
-        )
+            null)
 
         val contentChapterList = ArrayList<ModelChapterContents>()
 
@@ -110,8 +105,7 @@ class DatabaseContents(private val context: Context?) {
                     cursor.getString(cursor.getColumnIndex("content_arabic")),
                     cursor.getString(cursor.getColumnIndex("content_transcription")),
                     cursor.getString(cursor.getColumnIndex("content_translation")),
-                    cursor.getString(cursor.getColumnIndex("content_source"))
-                )
+                    cursor.getString(cursor.getColumnIndex("content_source")))
                 contentChapterList.add(contents)
                 cursor.moveToNext()
                 if (cursor.isClosed) {

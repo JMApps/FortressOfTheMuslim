@@ -24,8 +24,7 @@ class DatabaseLists(private val context: Context?) {
                 null,
                 null,
                 null,
-                null
-            )
+                null)
 
             val chapterList = ArrayList<ModelChapters>()
 
@@ -33,8 +32,7 @@ class DatabaseLists(private val context: Context?) {
                 while (!cursor.isAfterLast) {
                     val chapters = ModelChapters(
                         cursor.getInt(cursor.getColumnIndex("_id")),
-                        cursor.getString(cursor.getColumnIndex("chapter_name"))
-                    )
+                        cursor.getString(cursor.getColumnIndex("chapter_name")))
                     chapterList.add(chapters)
                     cursor.moveToNext()
                     if (cursor.isClosed) {
@@ -58,8 +56,7 @@ class DatabaseLists(private val context: Context?) {
                 null,
                 null,
                 null,
-                null
-            )
+                null)
 
             val favoriteChapterList = ArrayList<ModelFavoriteChapters>()
 
@@ -67,8 +64,7 @@ class DatabaseLists(private val context: Context?) {
                 while (!cursor.isAfterLast) {
                     val favorites = ModelFavoriteChapters(
                         cursor.getInt(cursor.getColumnIndex("_id")),
-                        cursor.getString(cursor.getColumnIndex("chapter_name"))
-                    )
+                        cursor.getString(cursor.getColumnIndex("chapter_name")))
                     favoriteChapterList.add(favorites)
                     cursor.moveToNext()
                     if (cursor.isClosed) {
@@ -91,8 +87,7 @@ class DatabaseLists(private val context: Context?) {
                 null,
                 null,
                 null,
-                null
-            )
+                null)
 
             val chapterList = ArrayList<ModelChapters>()
 
@@ -100,8 +95,7 @@ class DatabaseLists(private val context: Context?) {
                 while (!cursor.isAfterLast) {
                     val chapters = ModelChapters(
                         cursor.getInt(cursor.getColumnIndex("_id")),
-                        cursor.getString(cursor.getColumnIndex("chapter_name"))
-                    )
+                        cursor.getString(cursor.getColumnIndex("chapter_name")))
                     chapterList.add(chapters)
                     cursor.moveToNext()
                     if (cursor.isClosed) {
