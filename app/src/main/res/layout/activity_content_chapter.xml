@@ -48,4 +48,96 @@
 
     <include layout="@layout/content_chapter" />
 
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorBottomNavigation"
+        app:fabAlignmentMode="center"
+        app:hideOnScroll="true"
+        app:layout_anchorGravity="center"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <Button
+                android:id="@+id/btnPrevious"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/state_previous"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ToggleButton
+                android:id="@+id/tbPlayPause"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/state_play"
+                android:padding="4dp"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toBottomOf="@+id/btnPrevious"
+                app:layout_constraintStart_toEndOf="@+id/btnPrevious"
+                app:layout_constraintTop_toTopOf="@+id/btnPrevious" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/state_next"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tbPlayPause"
+                app:layout_constraintStart_toEndOf="@+id/tbPlayPause"
+                app:layout_constraintTop_toTopOf="@+id/tbPlayPause" />
+
+            <SeekBar
+                android:id="@+id/sbAudioProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnNext"
+                app:layout_constraintEnd_toStartOf="@+id/tbLoop"
+                app:layout_constraintStart_toEndOf="@+id/btnNext"
+                app:layout_constraintTop_toTopOf="@+id/btnNext" />
+
+
+            <ToggleButton
+                android:id="@+id/tbLoop"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/state_loop"
+                android:padding="4dp"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toBottomOf="@+id/sbAudioProgress"
+                app:layout_constraintEnd_toStartOf="@+id/tbFollowing"
+                app:layout_constraintTop_toTopOf="@+id/sbAudioProgress" />
+
+            <ToggleButton
+                android:id="@+id/tbFollowing"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/state_sequent"
+                android:padding="4dp"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toBottomOf="@+id/tbLoop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tbLoop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
