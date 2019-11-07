@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jmapps.fortressofthemuslim.presentation.ui.contentChapters.ContentChapterActivity">
+    <item
+        android:id="@+id/action_content_number"
+        android:checkable="true"
+        android:icon="@drawable/ic_item_content_favorite_false"
+        android:orderInCategory="1"
+        android:title="@string/content_favorite"
+        app:showAsAction="always|collapseActionView" />
+</menu>
