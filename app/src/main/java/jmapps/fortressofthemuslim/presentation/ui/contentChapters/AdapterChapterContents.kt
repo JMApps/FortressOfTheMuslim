@@ -39,7 +39,7 @@ class AdapterChapterContents(
     }
 
     override fun onBindViewHolder(holder: ViewHolderChapterContents, position: Int) {
-        val contentChapterId = chapterContent[position].chapterContentId
+        val chapterContentId = chapterContent[position].chapterContentId
         val strChapterContentArabic = chapterContent[position].strChapterContentArabic
         val strChapterContentTranscription = chapterContent[position].strChapterContentTranscription
         val strChapterContentTranslation = chapterContent[position].strChapterContentTranslation
@@ -75,16 +75,16 @@ class AdapterChapterContents(
 
         holder.tbChapterContentNumber.setOnCheckedChangeListener(null)
         holder.tbChapterContentNumber.isChecked = preferences.getBoolean(
-            "key_item_bookmark_$contentChapterId", false)
-        holder.tbChapterContentNumber.text = contentChapterId.toString()
-        holder.tbChapterContentNumber.textOn = contentChapterId.toString()
-        holder.tbChapterContentNumber.textOff = contentChapterId.toString()
+            "key_item_bookmark_$chapterContentId", false)
+        holder.tbChapterContentNumber.text = chapterContentId.toString()
+        holder.tbChapterContentNumber.textOn = chapterContentId.toString()
+        holder.tbChapterContentNumber.textOff = chapterContentId.toString()
 
         val content: String? =
             "${strChapterContentArabic.orEmpty()}<p/>${strChapterContentTranscription.orEmpty()}<p/>" +
                     "${strChapterContentTranslation.orEmpty()}<p/>${strChapterContentSource.orEmpty()}"
 
-        holder.findAddRemoveFavorite(addRemoveFavoriteSupplication, contentChapterId!!)
+        holder.findAddRemoveFavorite(addRemoveFavoriteSupplication, chapterContentId!!)
         holder.findCopy(itemCopy, content!!)
         holder.findShare(itemShare, content)
     }

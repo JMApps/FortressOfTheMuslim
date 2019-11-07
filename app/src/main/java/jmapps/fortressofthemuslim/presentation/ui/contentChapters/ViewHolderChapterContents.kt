@@ -32,6 +32,10 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
     val tvChapterContentTranslation: TextView = itemView.findViewById(R.id.tvChapterContentTranslation)
     val tvChapterContentSource: TextView = itemView.findViewById(R.id.tvChapterContentSource)
 
+    private val btnItemShare: Button = itemView.findViewById(R.id.btnChapterContentShare)
+    private val btnItemCopy: Button = itemView.findViewById(R.id.btnChapterContentCopy)
+    val tbChapterContentNumber: ToggleButton = itemView.findViewById(R.id.tbChapterContentNumber)
+
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.context)
     private val textSizes = ArrayList<Float>()
     private var textColorBackgrounds: ArrayList<Int> = ArrayList()
@@ -68,10 +72,6 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         showTranscription()
         showTranslation()
     }
-
-    private val btnItemShare: Button = itemView.findViewById(R.id.btnChapterContentShare)
-    private val btnItemCopy: Button = itemView.findViewById(R.id.btnChapterContentCopy)
-    val tbChapterContentNumber: ToggleButton = itemView.findViewById(R.id.tbChapterContentNumber)
 
     fun findAddRemoveFavorite(addRemoveFavoriteSupplication: AdapterChapterContents.AddRemoveFavoriteSupplication, supplicationId: Int) {
         tbChapterContentNumber.setOnCheckedChangeListener { _, isChecked ->
@@ -123,7 +123,7 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         when(true) {
             one -> {
                 tvChapterContentTranscription.typeface = TypeFace()[itemView.context, "fonts/gilroy_light.ttf"]
-                tvChapterContentTranslation.typeface = TypeFace()[itemView.context, "fonts/girloy_heavy.ttf"]
+                tvChapterContentTranslation.typeface = TypeFace()[itemView.context, "fonts/gilroy_extra.ttf"]
                 tvChapterContentSource.typeface = TypeFace()[itemView.context, "fonts/gilroy_light.ttf"]
             }
             two -> {

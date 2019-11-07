@@ -7,9 +7,6 @@ import android.os.Bundle
 import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +18,8 @@ import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavo
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.ContractFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.FavoriteSupplicationPresenterImpl
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.chapters.ModelChapters
 import kotlinx.android.synthetic.main.activity_content_chapter.*
 import kotlinx.android.synthetic.main.content_chapter.*
@@ -28,7 +27,7 @@ import kotlinx.android.synthetic.main.content_chapter.*
 class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemShare,
     AdapterChapterContents.ItemCopy, ContractFavoriteSupplications.ViewFavoriteSupplications,
     AdapterChapterContents.AddRemoveFavoriteSupplication,
-    ContractFavoriteChapters.ViewFavoriteChapters {
+    ContractFavoriteChapters.ViewFavoriteChapters, MainContract.MainView {
 
     private var chapterId: Int? = null
 
@@ -41,6 +40,7 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
     private lateinit var chapterContentList: MutableList<ModelChapterContents>
     private lateinit var adapterChapterContents: AdapterChapterContents
 
+    private lateinit var mainPresenterImpl: MainPresenterImpl
     private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
     private lateinit var favoriteSupplicationPresenterImpl: FavoriteSupplicationPresenterImpl
 
@@ -68,7 +68,7 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
         actionBar?.title = getString(R.string.title_activity_content_chapter) + " $chapterId"
         tvContentChapterTitle.text = Html.fromHtml(chapterListName[chapterId!! - 1].strChapterTitle)
 
-        val verticalLayout = LinearLayoutManager(this)
+        val verticalLayout = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvChapterContent.layoutManager = verticalLayout
 
         chapterContentList = DatabaseContents(this).getChapterContentList(chapterId)
@@ -76,6 +76,7 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
             chapterContentList, this, preferences, this, this)
         rvChapterContent.adapter = adapterChapterContents
 
+        mainPresenterImpl = MainPresenterImpl(this, this)
         favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
         favoriteSupplicationPresenterImpl = FavoriteSupplicationPresenterImpl(this, database)
     }
@@ -104,7 +105,10 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
                     contentNumber.isChecked = false
                     contentNumber.setIcon(R.drawable.ic_item_content_favorite_false)
                 }
-                favoriteChapterPresenterImpl.addRemoveFavoriteChapter(contentNumber.isChecked, chapterId!!)
+                favoriteChapterPresenterImpl.addRemoveFavoriteChapter(
+                    contentNumber.isChecked,
+                    chapterId!!
+                )
             }
 
             android.R.id.home -> finish()
@@ -116,7 +120,7 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
         clip = ClipData.newPlainText("", Html.fromHtml(content))
         clipboard?.setPrimaryClip(clip!!)
-        setToast(getString(R.string.copied_to_clipboard))
+        mainPresenterImpl.setToastMessage(getString(R.string.copied_to_clipboard))
     }
 
     override fun share(content: String) {
@@ -128,14 +132,14 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
 
     override fun showFavoriteChapterStateToast(state: Boolean) {
         if (state) {
-            setToast(getString(R.string.content_favorite_add))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_chapter_add))
         } else {
-            setToast(getString(R.string.content_favorite_removed))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_chapter_removed))
         }
     }
 
     override fun showDBExceptionChapterToast(error: String) {
-        setToast(getString(R.string.database_exception) + error)
+        mainPresenterImpl.setToastMessage(getString(R.string.database_exception) + error)
     }
 
     override fun saveCurrentFavoriteChapterItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
@@ -148,27 +152,17 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
 
     override fun showFavoriteSupplicationStateToast(state: Boolean) {
         if (state) {
-            setToast(getString(R.string.favorite_add))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_supplication_add))
         } else {
-            setToast(getString(R.string.favorite_removed))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_supplication_removed))
         }
     }
 
     override fun showDBExceptionSupplicationToast(error: String) {
-        setToast(getString(R.string.database_exception) + error)
+        mainPresenterImpl.setToastMessage(getString(R.string.database_exception) + error)
     }
 
     override fun saveCurrentFavoriteSupplicationItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
         editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
-    }
-
-    private fun setToast(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.circle_toast_background)
-        val text = view.findViewById(android.R.id.message) as TextView
-        text.setPadding(32, 16, 32, 16)
-        text.setTextColor(resources.getColor(R.color.white))
-        toast.show()
     }
 }
