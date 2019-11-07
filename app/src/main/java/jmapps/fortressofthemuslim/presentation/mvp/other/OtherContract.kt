@@ -16,8 +16,6 @@ interface OtherContract {
 
         fun getAboutUs()
 
-        fun setToast(message: String)
-
         fun replaceFragment(fragment: Fragment)
     }
 

@@ -9,10 +9,7 @@ import android.net.Uri.fromParts
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.MenuItem
-import android.view.View
 import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -28,6 +25,8 @@ import com.google.android.material.navigation.NavigationView
 import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.files.DownloadManager
 import jmapps.fortressofthemuslim.data.files.ManagerPermissions
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
@@ -40,12 +39,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    OtherContract.OtherView, BottomNavigationView.OnNavigationItemSelectedListener {
+    OtherContract.OtherView, BottomNavigationView.OnNavigationItemSelectedListener,
+    MainContract.MainView {
 
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
     private lateinit var fragmentTransaction: FragmentTransaction
+    private lateinit var mainPresenterImpl: MainPresenterImpl
     private lateinit var otherPresenterImpl: OtherPresenterImpl
 
     private lateinit var swNightMode: Switch
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val permissionsRequestCode = 123
     private lateinit var managerPermissions: ManagerPermissions
+
     private lateinit var downloadManager: DownloadManager
 
     @SuppressLint("CommitPrefEdits")
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         editor = preferences.edit()
 
         otherPresenterImpl = OtherPresenterImpl(this, this)
+        mainPresenterImpl = MainPresenterImpl(this, this)
         otherPresenterImpl.replaceFragment(FragmentChapters())
 
         valNightMode = preferences.getBoolean("key_night_mode", false)
@@ -93,14 +96,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         downloadManager = DownloadManager(this)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         for (perms: String in permissions) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                setToast(getString(R.string.permissions_failure))
+                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            ) {
+                mainPresenterImpl.setToastMessage(getString(R.string.permissions_failure))
             } else {
                 if (ActivityCompat.checkSelfPermission(
-                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     otherPresenterImpl.setDownloadAll()
                 } else {
                     val intent = Intent()
@@ -126,11 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_settings -> otherPresenterImpl.setSettings()
 
-            R.id.nav_download_all -> {
-                if (managerPermissions.checkPermissions()) {
-                    otherPresenterImpl.setDownloadAll()
-                }
-            }
+            R.id.nav_download_all -> if (managerPermissions.checkPermissions()) {otherPresenterImpl.setDownloadAll() }
 
             R.id.nav_night_mode -> otherPresenterImpl.setNightMode(!swNightMode.isChecked)
 
@@ -181,16 +188,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val aboutUs = BottomSheetAboutUs()
         aboutUs.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
         aboutUs.show(supportFragmentManager, "about_us")
-    }
-
-    override fun setToast(message: String) {
-        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.circle_toast_background)
-        val text = view.findViewById(android.R.id.message) as TextView
-        text.setPadding(32, 16, 32, 16)
-        text.setTextColor(resources.getColor(R.color.white))
-        toast.show()
     }
 
     override fun replaceFragment(fragment: Fragment) {
