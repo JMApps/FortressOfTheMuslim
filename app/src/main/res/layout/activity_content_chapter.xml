@@ -122,11 +122,11 @@
                 android:textOff=""
                 android:textOn=""
                 app:layout_constraintBottom_toBottomOf="@+id/sbAudioProgress"
-                app:layout_constraintEnd_toStartOf="@+id/tbFollowing"
+                app:layout_constraintEnd_toStartOf="@+id/tbSequent"
                 app:layout_constraintTop_toTopOf="@+id/sbAudioProgress" />
 
             <ToggleButton
-                android:id="@+id/tbFollowing"
+                android:id="@+id/tbSequent"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="8dp"

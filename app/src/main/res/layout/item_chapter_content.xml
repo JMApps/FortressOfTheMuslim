@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackgroundBorderless"
         android:orientation="vertical">
 
         <LinearLayout
@@ -64,6 +65,13 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="8dp">
+
+            <Button
+                android:id="@+id/btnItemPlay"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_play"
+                android:clickable="false" />
 
             <View
                 android:layout_width="0dp"
