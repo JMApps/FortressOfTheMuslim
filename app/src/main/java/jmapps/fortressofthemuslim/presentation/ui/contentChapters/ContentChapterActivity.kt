@@ -5,6 +5,7 @@ import android.content.*
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.text.Html
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -16,15 +17,18 @@ import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseContents
 import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
+import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
+import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.ContractFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.FavoriteSupplicationPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.chapters.ModelChapters
 import kotlinx.android.synthetic.main.activity_content_chapter.*
 import kotlinx.android.synthetic.main.content_chapter.*
 
-class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.AddRemoveFavorite,
-    AdapterChapterContents.ItemShare, AdapterChapterContents.ItemCopy,
-    ContractFavoriteSupplications.ViewFavoriteSupplications {
+class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemShare,
+    AdapterChapterContents.ItemCopy, ContractFavoriteSupplications.ViewFavoriteSupplications,
+    AdapterChapterContents.AddRemoveFavoriteSupplication,
+    ContractFavoriteChapters.ViewFavoriteChapters {
 
     private var chapterId: Int? = null
 
@@ -37,10 +41,13 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.AddRe
     private lateinit var chapterContentList: MutableList<ModelChapterContents>
     private lateinit var adapterChapterContents: AdapterChapterContents
 
+    private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
     private lateinit var favoriteSupplicationPresenterImpl: FavoriteSupplicationPresenterImpl
 
     private var clipboard: ClipboardManager? = null
     private var clip: ClipData? = null
+
+    private lateinit var contentNumber: MenuItem
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,11 +76,37 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.AddRe
             chapterContentList, this, preferences, this, this)
         rvChapterContent.adapter = adapterChapterContents
 
+        favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
         favoriteSupplicationPresenterImpl = FavoriteSupplicationPresenterImpl(this, database)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_content_chapters, menu)
+        contentNumber = menu.findItem(R.id.action_content_number)
+        val favoriteState = preferences.getBoolean("key_chapter_bookmark_$chapterId", false)
+        if (favoriteState) {
+            contentNumber.setIcon(R.drawable.ic_item_content_favorite_true)
+        } else {
+            contentNumber.setIcon(R.drawable.ic_item_content_favorite_false)
+        }
+        contentNumber.isChecked = favoriteState
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            R.id.action_content_number -> {
+                if (!item.isChecked) {
+                    contentNumber.isChecked = true
+                    contentNumber.setIcon(R.drawable.ic_item_content_favorite_true)
+                } else {
+                    contentNumber.isChecked = false
+                    contentNumber.setIcon(R.drawable.ic_item_content_favorite_false)
+                }
+                favoriteChapterPresenterImpl.addRemoveFavoriteChapter(contentNumber.isChecked, chapterId!!)
+            }
+
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
@@ -93,11 +126,27 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.AddRe
         startActivity(shareLink)
     }
 
-    override fun addRemove(state: Boolean, chapterContentId: Int) {
-        favoriteSupplicationPresenterImpl.addRemoveFavorite(state, chapterContentId)
+    override fun showFavoriteChapterStateToast(state: Boolean) {
+        if (state) {
+            setToast(getString(R.string.content_favorite_add))
+        } else {
+            setToast(getString(R.string.content_favorite_removed))
+        }
     }
 
-    override fun showFavoriteStateToast(state: Boolean) {
+    override fun showDBExceptionChapterToast(error: String) {
+        setToast(getString(R.string.database_exception) + error)
+    }
+
+    override fun saveCurrentFavoriteChapterItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
+        editor.putBoolean(keyFavoriteChapter, stateFavoriteChapter).apply()
+    }
+
+    override fun addRemoveSupplication(state: Boolean, chapterContentId: Int) {
+        favoriteSupplicationPresenterImpl.addRemoveFavoriteSupplication(state, chapterContentId)
+    }
+
+    override fun showFavoriteSupplicationStateToast(state: Boolean) {
         if (state) {
             setToast(getString(R.string.favorite_add))
         } else {
@@ -105,11 +154,11 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.AddRe
         }
     }
 
-    override fun showDBExceptionToast(error: String) {
+    override fun showDBExceptionSupplicationToast(error: String) {
         setToast(getString(R.string.database_exception) + error)
     }
 
-    override fun saveCurrentFavoriteItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
+    override fun saveCurrentFavoriteSupplicationItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
         editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
     }
 

@@ -73,9 +73,9 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
     private val btnItemCopy: Button = itemView.findViewById(R.id.btnChapterContentCopy)
     val tbChapterContentNumber: ToggleButton = itemView.findViewById(R.id.tbChapterContentNumber)
 
-    fun findAddRemoveFavorite(addRemoveFavorite: AdapterChapterContents.AddRemoveFavorite, supplicationId: Int) {
+    fun findAddRemoveFavorite(addRemoveFavoriteSupplication: AdapterChapterContents.AddRemoveFavoriteSupplication, supplicationId: Int) {
         tbChapterContentNumber.setOnCheckedChangeListener { _, isChecked ->
-            addRemoveFavorite.addRemove(isChecked, supplicationId)
+            addRemoveFavoriteSupplication.addRemoveSupplication(isChecked, supplicationId)
         }
     }
 
