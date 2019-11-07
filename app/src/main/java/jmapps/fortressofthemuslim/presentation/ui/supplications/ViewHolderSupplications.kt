@@ -123,7 +123,7 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
         when(true) {
             one -> {
                 tvSupplicationTranscription.typeface = TypeFace()[itemView.context, "fonts/gilroy_light.ttf"]
-                tvSupplicationTranslation.typeface = TypeFace()[itemView.context, "fonts/girloy_heavy.ttf"]
+                tvSupplicationTranslation.typeface = TypeFace()[itemView.context, "fonts/gilroy_extra.ttf"]
                 tvSupplicationSource.typeface = TypeFace()[itemView.context, "fonts/gilroy_light.ttf"]
             }
             two -> {
