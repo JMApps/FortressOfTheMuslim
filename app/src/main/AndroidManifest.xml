@@ -39,7 +39,6 @@
         <activity
             android:name=".presentation.ui.contentChapters.ContentChapterActivity"
             android:label="@string/title_activity_content_chapter"
-            android:parentActivityName=".presentation.ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
