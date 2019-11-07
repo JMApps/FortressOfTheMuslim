@@ -3,6 +3,7 @@ package jmapps.fortressofthemuslim.presentation.ui.favoriteChapters
 import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -19,6 +20,7 @@ import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
+import jmapps.fortressofthemuslim.presentation.ui.contentChapters.ContentChapterActivity
 import kotlinx.android.synthetic.main.fragment_favorite_chapters.view.*
 
 class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick,
@@ -115,7 +117,9 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
     }
 
     override fun onItemClick(favoriteChapterId: Int) {
-        setToast("Click = $favoriteChapterId")
+        val toContentChapterActivity = Intent(context, ContentChapterActivity::class.java)
+        toContentChapterActivity.putExtra("key_chapter_id", favoriteChapterId)
+        context?.startActivity(toContentChapterActivity)
     }
 
     private fun setToast(message: String) {
