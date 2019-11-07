@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="jmapps.fortressofthemuslim.presentation.ui.SplashActivity"
+            android:name=".presentation.ui.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,10 +32,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="jmapps.fortressofthemuslim.presentation.ui.MainActivity"
+            android:name=".presentation.ui.MainActivity"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".presentation.ui.contentChapters.ContentChapterActivity"
+            android:label="@string/title_activity_content_chapter"
+            android:parentActivityName=".presentation.ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jmapps.fortressofthemuslim.presentation.ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
