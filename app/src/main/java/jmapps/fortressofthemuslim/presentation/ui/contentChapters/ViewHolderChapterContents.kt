@@ -32,6 +32,7 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
     val tvChapterContentTranslation: TextView = itemView.findViewById(R.id.tvChapterContentTranslation)
     val tvChapterContentSource: TextView = itemView.findViewById(R.id.tvChapterContentSource)
 
+    val btnItemPlay: Button = itemView.findViewById(R.id.btnItemPlay)
     private val btnItemShare: Button = itemView.findViewById(R.id.btnChapterContentShare)
     private val btnItemCopy: Button = itemView.findViewById(R.id.btnChapterContentCopy)
     val tbChapterContentNumber: ToggleButton = itemView.findViewById(R.id.tbChapterContentNumber)
@@ -71,6 +72,12 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         textTranslationColor()
         showTranscription()
         showTranslation()
+    }
+
+    fun findPlayItemClick(playItemClick: AdapterChapterContents.PlayItemClick, supplicationId: Int) {
+        itemView.setOnClickListener {
+            playItemClick.playItem(supplicationId)
+        }
     }
 
     fun findAddRemoveFavorite(addRemoveFavoriteSupplication: AdapterChapterContents.AddRemoveFavoriteSupplication, supplicationId: Int) {

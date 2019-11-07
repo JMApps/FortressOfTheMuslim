@@ -1,19 +1,31 @@
 package jmapps.fortressofthemuslim.presentation.ui.contentChapters
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.*
+import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.provider.Settings
 import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.CompoundButton
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseContents
 import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
+import jmapps.fortressofthemuslim.data.files.DownloadManager
+import jmapps.fortressofthemuslim.data.files.ManagerPermissions
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.ContractFavoriteSupplications
@@ -27,7 +39,9 @@ import kotlinx.android.synthetic.main.content_chapter.*
 class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemShare,
     AdapterChapterContents.ItemCopy, ContractFavoriteSupplications.ViewFavoriteSupplications,
     AdapterChapterContents.AddRemoveFavoriteSupplication,
-    ContractFavoriteChapters.ViewFavoriteChapters, MainContract.MainView {
+    ContractFavoriteChapters.ViewFavoriteChapters, MainContract.MainView,
+    AdapterChapterContents.PlayItemClick, View.OnClickListener,
+    CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
     private var chapterId: Int? = null
 
@@ -44,10 +58,20 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
     private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
     private lateinit var favoriteSupplicationPresenterImpl: FavoriteSupplicationPresenterImpl
 
+    private val permissionsRequestCode = 123
+    private lateinit var managerPermissions: ManagerPermissions
+
+    private lateinit var downloadManager: DownloadManager
+
     private var clipboard: ClipboardManager? = null
     private var clip: ClipData? = null
 
     private lateinit var contentNumber: MenuItem
+
+    private var player: MediaPlayer? = null
+    private lateinit var runnable: Runnable
+    private var handler: Handler = Handler()
+    private var trackIndex: Int = 0
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,12 +97,43 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
 
         chapterContentList = DatabaseContents(this).getChapterContentList(chapterId)
         adapterChapterContents = AdapterChapterContents(
-            chapterContentList, this, preferences, this, this)
+            chapterContentList, this, this, preferences, this, this)
         rvChapterContent.adapter = adapterChapterContents
 
         mainPresenterImpl = MainPresenterImpl(this, this)
         favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
         favoriteSupplicationPresenterImpl = FavoriteSupplicationPresenterImpl(this, database)
+
+        downloadManager = DownloadManager(this)
+        managerPermissions = ManagerPermissions(this, permissionsRequestCode)
+
+        btnPrevious.setOnClickListener(this)
+        tbPlayPause.setOnCheckedChangeListener(this)
+        btnNext.setOnClickListener(this)
+        sbAudioProgress.setOnSeekBarChangeListener(this)
+        tbSequent.setOnCheckedChangeListener(this)
+        tbLoop.setOnCheckedChangeListener(this)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        for (perms: String in permissions) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                mainPresenterImpl.setToastMessage(getString(R.string.permissions_failure))
+            } else {
+                if (ActivityCompat.checkSelfPermission(
+                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    downloadManager.downloadAllAudios()
+                } else {
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    val uri = Uri.fromParts("package", packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -165,4 +220,58 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
     override fun saveCurrentFavoriteSupplicationItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
         editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
     }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        when (buttonView?.id) {
+
+            R.id.tbPlayPause -> {
+                if (isChecked) {
+                    mainPresenterImpl.setToastMessage("Play")
+                } else {
+                    mainPresenterImpl.setToastMessage("Pause")
+                }
+            }
+
+            R.id.tbLoop -> {
+                if (isChecked) {
+                    mainPresenterImpl.setToastMessage("Loop on")
+                } else {
+                    mainPresenterImpl.setToastMessage("Loop off")
+                }
+            }
+
+            R.id.tbSequent -> {
+                if (isChecked) {
+                    mainPresenterImpl.setToastMessage("Sequent on")
+                } else {
+                    mainPresenterImpl.setToastMessage("Sequent off")
+                }
+            }
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+
+            R.id.btnPrevious -> {
+                mainPresenterImpl.setToastMessage("Previous track")
+            }
+
+            R.id.btnNext -> {
+                mainPresenterImpl.setToastMessage("Next track")
+            }
+        }
+    }
+
+    override fun playItem(supplicationId: Int) {
+        mainPresenterImpl.setToastMessage("Play item = $supplicationId")
+    }
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        mainPresenterImpl.setToastMessage("Progress = $progress")
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 }

@@ -1,6 +1,7 @@
 package jmapps.fortressofthemuslim.data.files
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
@@ -12,7 +13,7 @@ import jmapps.fortressofthemuslim.presentation.ui.MainActivity
 private lateinit var list: List<String>
 
 class ManagerPermissions(
-    private val activity: MainActivity,
+    private val activity: Activity,
     private val permissionsRequestCode: Int) {
 
     init {
