@@ -2,6 +2,7 @@ package jmapps.fortressofthemuslim.presentation.ui.settings
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,13 @@ import android.widget.*
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import jmapps.fortressofthemuslim.R
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import kotlinx.android.synthetic.main.bottom_sheet_settings.view.*
 import java.util.*
-import android.graphics.drawable.GradientDrawable
 
 class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedChangeListener,
-    SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
+    SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, MainContract.MainView {
 
     private lateinit var rootSettings: View
 
@@ -26,6 +28,8 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
     private var textColorNames: ArrayList<String> = ArrayList()
     private var textColorValues: ArrayList<Int> = ArrayList()
     private var textColorBackgrounds: ArrayList<Int> = ArrayList()
+
+    private lateinit var mainPresenterImpl: MainPresenterImpl
 
     private val keyArabicFont = "key_arabic_font_"
     private val keyOtherFont = "key_other_font_"
@@ -82,7 +86,8 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
     }
 
     @SuppressLint("CommitPrefEdits")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         rootSettings = inflater.inflate(R.layout.bottom_sheet_settings, container, false)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -90,7 +95,8 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
 
         rootSettings.rbFontArabicOne.isChecked = preferences.getBoolean("$keyArabicFont${0}", true)
         rootSettings.rbFontArabicTwo.isChecked = preferences.getBoolean("$keyArabicFont${1}", false)
-        rootSettings.rbFontArabicThree.isChecked = preferences.getBoolean("$keyArabicFont${2}", false)
+        rootSettings.rbFontArabicThree.isChecked =
+            preferences.getBoolean("$keyArabicFont${2}", false)
 
         rootSettings.rbFontOtherOne.isChecked = preferences.getBoolean("$keyOtherFont${0}", true)
         rootSettings.rbFontOtherTwo.isChecked = preferences.getBoolean("$keyOtherFont${1}", false)
@@ -117,6 +123,8 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
         rootSettings.swShowTextTranscription.setOnCheckedChangeListener(this)
         rootSettings.swShowTextTranslation.setOnCheckedChangeListener(this)
 
+        mainPresenterImpl = MainPresenterImpl(this, context)
+
         return rootSettings
     }
 
@@ -124,15 +132,21 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
         when (group?.id) {
 
             R.id.rgArabicFonts -> {
-                editor.putBoolean("$keyArabicFont${0}", rootSettings.rbFontArabicOne.isChecked).apply()
-                editor.putBoolean("$keyArabicFont${1}", rootSettings.rbFontArabicTwo.isChecked).apply()
-                editor.putBoolean("$keyArabicFont${2}", rootSettings.rbFontArabicThree.isChecked).apply()
+                editor.putBoolean("$keyArabicFont${0}", rootSettings.rbFontArabicOne.isChecked)
+                    .apply()
+                editor.putBoolean("$keyArabicFont${1}", rootSettings.rbFontArabicTwo.isChecked)
+                    .apply()
+                editor.putBoolean("$keyArabicFont${2}", rootSettings.rbFontArabicThree.isChecked)
+                    .apply()
             }
 
             R.id.rgOtherFonts -> {
-                editor.putBoolean("$keyOtherFont${0}", rootSettings.rbFontOtherOne.isChecked).apply()
-                editor.putBoolean("$keyOtherFont${1}", rootSettings.rbFontOtherTwo.isChecked).apply()
-                editor.putBoolean("$keyOtherFont${2}", rootSettings.rbFontOtherThree.isChecked).apply()
+                editor.putBoolean("$keyOtherFont${0}", rootSettings.rbFontOtherOne.isChecked)
+                    .apply()
+                editor.putBoolean("$keyOtherFont${1}", rootSettings.rbFontOtherTwo.isChecked)
+                    .apply()
+                editor.putBoolean("$keyOtherFont${2}", rootSettings.rbFontOtherThree.isChecked)
+                    .apply()
             }
         }
     }
@@ -142,30 +156,39 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
 
             R.id.sbArabicTextSize -> {
                 editor.putInt(keyArabicTextSize, progress).apply()
-                setToast("${textSizeValues[progress]}")
+                mainPresenterImpl.setToastMessage("${textSizeValues[progress]}")
             }
 
             R.id.sbOtherTextSize -> {
                 editor.putInt(keyOtherTextSize, progress).apply()
-                setToast("${textSizeValues[progress]}")
+                mainPresenterImpl.setToastMessage("${textSizeValues[progress]}")
             }
 
             R.id.sbArabicTextColor -> {
                 editor.putInt(keyArabicTextColor, progress).apply()
                 setToastWithColor(
-                    textColorNames[progress], textColorValues[progress], textColorBackgrounds[progress])
+                    textColorNames[progress],
+                    textColorValues[progress],
+                    textColorBackgrounds[progress]
+                )
             }
 
             R.id.sbTranscriptionTextColor -> {
                 editor.putInt(keyTranscriptionTextColor, progress).apply()
                 setToastWithColor(
-                    textColorNames[progress], textColorValues[progress], textColorBackgrounds[progress])
+                    textColorNames[progress],
+                    textColorValues[progress],
+                    textColorBackgrounds[progress]
+                )
             }
 
             R.id.sbTranslationTextColor -> {
                 editor.putInt(keyTranslationTextColor, progress).apply()
                 setToastWithColor(
-                    textColorNames[progress], textColorValues[progress], textColorBackgrounds[progress])
+                    textColorNames[progress],
+                    textColorValues[progress],
+                    textColorBackgrounds[progress]
+                )
             }
         }
     }
@@ -180,31 +203,21 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
             R.id.swShowTextTranscription -> {
                 editor.putBoolean(keyTranscriptionState, isChecked).apply()
                 if (isChecked) {
-                    setToast(getString(R.string.action_show_state_transcription_off))
+                    mainPresenterImpl.setToastMessage(getString(R.string.action_show_state_transcription_off))
                 } else {
-                    setToast(getString(R.string.action_show_state_transcription_on))
+                    mainPresenterImpl.setToastMessage(getString(R.string.action_show_state_transcription_on))
                 }
             }
 
             R.id.swShowTextTranslation -> {
                 editor.putBoolean(keyTranslationState, isChecked).apply()
                 if (isChecked) {
-                    setToast(getString(R.string.action_show_state_translation_off))
+                    mainPresenterImpl.setToastMessage(getString(R.string.action_show_state_translation_off))
                 } else {
-                    setToast(getString(R.string.action_show_state_translation_on))
+                    mainPresenterImpl.setToastMessage(getString(R.string.action_show_state_translation_on))
                 }
             }
         }
-    }
-
-    private fun setToast(message: String) {
-        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.circle_toast_background)
-        val text = view.findViewById(android.R.id.message) as TextView
-        text.setPadding(32, 16, 32, 16)
-        text.setTextColor(resources.getColor(R.color.white))
-        toast.show()
     }
 
     private fun setToastWithColor(message: String, textColor: Int, backgroundColor: Int) {
@@ -212,7 +225,7 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
         val view: View = toast.view
         val text = view.findViewById(android.R.id.message) as TextView
         val gd = GradientDrawable()
-        gd.cornerRadius = 25F
+        gd.cornerRadius = 50F
         gd.setColor(resources.getColor(backgroundColor))
         view.background = gd
         text.setPadding(120, 16, 120, 16)

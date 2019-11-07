@@ -233,12 +233,14 @@
             android:id="@+id/swShowTextTranslation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:text="@string/action_show_state_translation"
             android:textColor="@color/settings_switch_button_text_colors"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/swShowTextTranscription"
             app:layout_constraintTop_toBottomOf="@+id/tvShowingTextsDescription" />
 
