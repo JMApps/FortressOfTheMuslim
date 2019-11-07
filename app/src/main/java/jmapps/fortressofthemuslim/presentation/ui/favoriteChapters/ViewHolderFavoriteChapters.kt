@@ -12,9 +12,9 @@ class ViewHolderFavoriteChapters(itemView: View) : RecyclerView.ViewHolder(itemV
     val tbFavoriteChapterNumber: ToggleButton = itemView.findViewById(R.id.tbFavoriteChapterNumber)
     val tvFavoriteChapterTitle: TextView = itemView.findViewById(R.id.tvFavoriteChapterTitle)
 
-    fun findAddRemoveFavorite(addRemoveFavoriteChapter: AdapterFavoriteChapters.AddRemoveFavoriteChapter, idFavoriteChapter: Int) {
+    fun findAddRemoveFavorite(addRemoveFavoriteChapter: AdapterFavoriteChapters.AddRemoveFavoriteChapter, favoriteChapterId: Int) {
         tbFavoriteChapterNumber.setOnCheckedChangeListener { _, isChecked ->
-            addRemoveFavoriteChapter.addRemoveChapter(isChecked, idFavoriteChapter)
+            addRemoveFavoriteChapter.addRemoveChapter(isChecked, favoriteChapterId)
         }
     }
 

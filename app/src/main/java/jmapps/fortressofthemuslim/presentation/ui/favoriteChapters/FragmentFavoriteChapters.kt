@@ -20,12 +20,14 @@ import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.contentChapters.ContentChapterActivity
 import kotlinx.android.synthetic.main.fragment_favorite_chapters.view.*
 
 class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick,
     SearchView.OnQueryTextListener, AdapterFavoriteChapters.AddRemoveFavoriteChapter,
-    ContractFavoriteChapters.ViewFavoriteChapters {
+    ContractFavoriteChapters.ViewFavoriteChapters, MainContract.MainView {
 
     private lateinit var rootFavoriteChapters: View
 
@@ -36,14 +38,15 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
     private lateinit var favoriteChapterList: MutableList<ModelFavoriteChapters>
     private lateinit var adapterFavoriteChapters: AdapterFavoriteChapters
 
+    private lateinit var mainPresenterImpl: MainPresenterImpl
     private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
 
     private var searchByFavoriteChapter: SearchView? = null
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        rootFavoriteChapters = inflater.inflate(R.layout.fragment_favorite_chapters, container,false)
+        savedInstanceState: Bundle?): View? {
+        rootFavoriteChapters = inflater.inflate(R.layout.fragment_favorite_chapters, container, false)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context)
         editor = preferences.edit()
@@ -51,7 +54,7 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         database = DatabaseOpenHelper(context).readableDatabase
         favoriteChapterList = DatabaseLists(context).getFavoriteChapterList
 
-        val verticalLayout = LinearLayoutManager(context)
+        val verticalLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rootFavoriteChapters.rvFavoriteChapters.layoutManager = verticalLayout
 
         adapterFavoriteChapters = AdapterFavoriteChapters(
@@ -68,6 +71,7 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
             setHasOptionsMenu(true)
         }
 
+        mainPresenterImpl = MainPresenterImpl(this, context)
         favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
 
         return rootFavoriteChapters
@@ -102,14 +106,14 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
 
     override fun showFavoriteChapterStateToast(state: Boolean) {
         if (state) {
-            setToast(getString(R.string.favorite_add))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_chapter_add))
         } else {
-            setToast(getString(R.string.favorite_removed))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_chapter_removed))
         }
     }
 
     override fun showDBExceptionChapterToast(error: String) {
-        setToast(getString(R.string.database_exception) + error)
+        mainPresenterImpl.setToastMessage(getString(R.string.database_exception) + error)
     }
 
     override fun saveCurrentFavoriteChapterItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
@@ -120,15 +124,5 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         val toContentChapterActivity = Intent(context, ContentChapterActivity::class.java)
         toContentChapterActivity.putExtra("key_chapter_id", favoriteChapterId)
         context?.startActivity(toContentChapterActivity)
-    }
-
-    private fun setToast(message: String) {
-        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.circle_toast_background)
-        val text = view.findViewById(android.R.id.message) as TextView
-        text.setPadding(32, 16, 32, 16)
-        text.setTextColor(resources.getColor(R.color.white))
-        toast.show()
     }
 }

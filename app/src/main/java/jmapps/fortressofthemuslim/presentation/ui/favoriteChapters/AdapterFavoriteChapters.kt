@@ -32,11 +32,8 @@ class AdapterFavoriteChapters(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFavoriteChapters {
-        return ViewHolderFavoriteChapters(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_favorite_chapter, parent, false
-            )
-        )
+        return ViewHolderFavoriteChapters(LayoutInflater.from(parent.context).inflate(
+                R.layout.item_favorite_chapter, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -50,8 +47,7 @@ class AdapterFavoriteChapters(
 
         holder.tbFavoriteChapterNumber.setOnCheckedChangeListener(null)
         holder.tbFavoriteChapterNumber.isChecked = preferences.getBoolean(
-            "key_chapter_bookmark_$favoriteChapterId", false
-        )
+            "key_chapter_bookmark_$favoriteChapterId", false)
         holder.tbFavoriteChapterNumber.text = favoriteChapterId.toString()
         holder.tbFavoriteChapterNumber.textOn = favoriteChapterId.toString()
         holder.tbFavoriteChapterNumber.textOff = favoriteChapterId.toString()
