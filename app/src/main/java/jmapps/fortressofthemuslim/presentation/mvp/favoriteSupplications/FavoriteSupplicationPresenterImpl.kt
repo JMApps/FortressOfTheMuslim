@@ -7,7 +7,7 @@ class FavoriteSupplicationPresenterImpl(
     private val viewFavoriteSupplications: ContractFavoriteSupplications.ViewFavoriteSupplications?,
     private val database: SQLiteDatabase?) : ContractFavoriteSupplications.PresenterFavoriteSupplications {
 
-    override fun addRemoveFavorite(state: Boolean, supplicationId: Int) {
+    override fun addRemoveFavoriteSupplication(state: Boolean, supplicationId: Int) {
         try {
             val favoriteChapter = ContentValues()
             favoriteChapter.put("item_favorite", state)
@@ -19,12 +19,12 @@ class FavoriteSupplicationPresenterImpl(
                 arrayOf(supplicationId.toString())
             )
 
-            viewFavoriteSupplications?.showFavoriteStateToast(state)
-            viewFavoriteSupplications?.saveCurrentFavoriteItem(
+            viewFavoriteSupplications?.showFavoriteSupplicationStateToast(state)
+            viewFavoriteSupplications?.saveCurrentFavoriteSupplicationItem(
                 "key_item_bookmark_$supplicationId", state)
 
         } catch (e: Exception) {
-            viewFavoriteSupplications?.showDBExceptionToast(e.toString())
+            viewFavoriteSupplications?.showDBExceptionSupplicationToast(e.toString())
         }
     }
 

@@ -11,14 +11,14 @@ import jmapps.fortressofthemuslim.presentation.ui.supplications.AdapterSupplicat
 
 data class AdapterFavoriteSupplications(
     private val favoriteSupplicationList: MutableList<ModelFavoriteSupplications>,
-    private val addRemoveFavorite: AddRemoveFavorite,
+    private val addRemoveFavoriteSupplication: AddRemoveFavoriteSupplication,
     private val preferences: SharedPreferences,
     private val itemCopy: ItemCopy,
     private val itemShare: ItemShare) :
     RecyclerView.Adapter<ViewHolderFavoriteSupplications>() {
 
-    interface AddRemoveFavorite {
-        fun addRemove(state: Boolean, favoriteSupplicationId: Int)
+    interface AddRemoveFavoriteSupplication {
+        fun addRemoveSupplication(state: Boolean, favoriteSupplicationId: Int)
     }
 
     interface ItemCopy {
@@ -91,7 +91,7 @@ data class AdapterFavoriteSupplications(
             "${strFavoriteSupplicationArabic.orEmpty()}<p/>${strFavoriteSupplicationTranscription.orEmpty()}<p/>" +
                     "${strFavoriteSupplicationTranslation.orEmpty()}<p/>${strFavoriteSupplicationSource.orEmpty()}"
 
-        holder.findAddRemove(addRemoveFavorite, favoriteSupplicationId!!)
+        holder.findAddRemove(addRemoveFavoriteSupplication, favoriteSupplicationId!!)
         holder.findCopy(itemCopy, content!!)
         holder.findShare(itemShare, content)
     }

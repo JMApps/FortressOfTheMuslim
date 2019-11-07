@@ -26,7 +26,7 @@ import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.Favorit
 import kotlinx.android.synthetic.main.fragment_supplications.view.*
 
 class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavoriteSupplications,
-    AdapterSupplications.AddRemoveFavorite, AdapterSupplications.ItemShare,
+    AdapterSupplications.AddRemoveFavoriteSupplication, AdapterSupplications.ItemShare,
     AdapterSupplications.ItemCopy {
 
     private lateinit var rootSupplications: View
@@ -66,11 +66,11 @@ class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavor
         return rootSupplications
     }
 
-    override fun addRemove(state: Boolean, supplicationId: Int) {
-        favoriteSupplicationPresenterImpl.addRemoveFavorite(state, supplicationId)
+    override fun addRemoveSupplication(state: Boolean, supplicationId: Int) {
+        favoriteSupplicationPresenterImpl.addRemoveFavoriteSupplication(state, supplicationId)
     }
 
-    override fun showFavoriteStateToast(state: Boolean) {
+    override fun showFavoriteSupplicationStateToast(state: Boolean) {
         if (state) {
             setToast(getString(R.string.favorite_add))
         } else {
@@ -78,11 +78,11 @@ class FragmentSupplications: Fragment(), ContractFavoriteSupplications.ViewFavor
         }
     }
 
-    override fun showDBExceptionToast(error: String) {
+    override fun showDBExceptionSupplicationToast(error: String) {
         setToast(getString(R.string.database_exception) + error)
     }
 
-    override fun saveCurrentFavoriteItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
+    override fun saveCurrentFavoriteSupplicationItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
         editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
     }
 

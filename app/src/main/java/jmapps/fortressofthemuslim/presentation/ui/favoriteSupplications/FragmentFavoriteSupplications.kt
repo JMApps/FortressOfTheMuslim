@@ -20,7 +20,7 @@ import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.Contrac
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.FavoriteSupplicationPresenterImpl
 import kotlinx.android.synthetic.main.fragment_favorite_supplications.view.*
 
-class FragmentFavoriteSupplications: Fragment(), AdapterFavoriteSupplications.AddRemoveFavorite,
+class FragmentFavoriteSupplications: Fragment(), AdapterFavoriteSupplications.AddRemoveFavoriteSupplication,
     ContractFavoriteSupplications.ViewFavoriteSupplications,
     AdapterFavoriteSupplications.ItemShare, AdapterFavoriteSupplications.ItemCopy {
 
@@ -69,11 +69,11 @@ class FragmentFavoriteSupplications: Fragment(), AdapterFavoriteSupplications.Ad
         return rootFavoriteSupplications
     }
 
-    override fun addRemove(state: Boolean, favoriteSupplicationId: Int) {
-        favoriteSupplicationPresenterImpl.addRemoveFavorite(state, favoriteSupplicationId)
+    override fun addRemoveSupplication(state: Boolean, favoriteSupplicationId: Int) {
+        favoriteSupplicationPresenterImpl.addRemoveFavoriteSupplication(state, favoriteSupplicationId)
     }
 
-    override fun showFavoriteStateToast(state: Boolean) {
+    override fun showFavoriteSupplicationStateToast(state: Boolean) {
         if (state) {
             setToast(getString(R.string.favorite_add))
         } else {
@@ -81,11 +81,11 @@ class FragmentFavoriteSupplications: Fragment(), AdapterFavoriteSupplications.Ad
         }
     }
 
-    override fun showDBExceptionToast(error: String) {
+    override fun showDBExceptionSupplicationToast(error: String) {
         setToast(getString(R.string.database_exception) + error)
     }
 
-    override fun saveCurrentFavoriteItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
+    override fun saveCurrentFavoriteSupplicationItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean) {
         editor.putBoolean(keyFavoriteSupplication, stateFavoriteSupplication).apply()
     }
 

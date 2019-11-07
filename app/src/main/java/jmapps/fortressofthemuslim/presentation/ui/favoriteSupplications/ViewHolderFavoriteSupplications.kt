@@ -72,9 +72,9 @@ class ViewHolderFavoriteSupplications(itemView: View): RecyclerView.ViewHolder(i
         showTranslation()
     }
 
-    fun findAddRemove(addRemoveFavorite: AdapterFavoriteSupplications.AddRemoveFavorite, favoriteSupplicationId: Int) {
+    fun findAddRemove(addRemoveFavoriteSupplication: AdapterFavoriteSupplications.AddRemoveFavoriteSupplication, favoriteSupplicationId: Int) {
         tbFavoriteSupplicationNumber.setOnCheckedChangeListener { _, isChecked ->
-            addRemoveFavorite.addRemove(isChecked, favoriteSupplicationId)
+            addRemoveFavoriteSupplication.addRemoveSupplication(isChecked, favoriteSupplicationId)
         }
     }
 

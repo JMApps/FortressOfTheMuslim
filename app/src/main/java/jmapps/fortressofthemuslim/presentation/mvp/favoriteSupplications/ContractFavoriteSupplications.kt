@@ -4,15 +4,15 @@ interface ContractFavoriteSupplications {
 
     interface ViewFavoriteSupplications {
 
-        fun showFavoriteStateToast(state: Boolean)
+        fun showFavoriteSupplicationStateToast(state: Boolean)
 
-        fun showDBExceptionToast(error: String)
+        fun showDBExceptionSupplicationToast(error: String)
 
-        fun saveCurrentFavoriteItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean)
+        fun saveCurrentFavoriteSupplicationItem(keyFavoriteSupplication: String, stateFavoriteSupplication: Boolean)
     }
 
     interface PresenterFavoriteSupplications {
 
-        fun addRemoveFavorite(state: Boolean, supplicationId: Int)
+        fun addRemoveFavoriteSupplication(state: Boolean, supplicationId: Int)
     }
 }
