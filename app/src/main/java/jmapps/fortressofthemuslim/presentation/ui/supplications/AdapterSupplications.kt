@@ -30,10 +30,8 @@ class AdapterSupplications(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSupplications {
-        return ViewHolderSupplications(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_supplication, parent, false)
-        )
+        return ViewHolderSupplications(LayoutInflater.from(parent.context).inflate(
+                R.layout.item_supplication, parent, false))
     }
 
     override fun getItemCount(): Int {

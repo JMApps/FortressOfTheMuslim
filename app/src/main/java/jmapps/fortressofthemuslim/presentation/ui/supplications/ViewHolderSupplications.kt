@@ -32,6 +32,10 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
     val tvSupplicationTranslation: TextView = itemView.findViewById(R.id.tvSupplicationTranslation)
     val tvSupplicationSource: TextView = itemView.findViewById(R.id.tvSupplicationSource)
 
+    private val btnItemShare: Button = itemView.findViewById(R.id.btnSupplicationShare)
+    private val btnItemCopy: Button = itemView.findViewById(R.id.btnSupplicationCopy)
+    val tbSupplicationNumber: ToggleButton = itemView.findViewById(R.id.tbSupplicationNumber)
+
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(itemView.context)
     private val textSizes = ArrayList<Float>()
     private var textColorBackgrounds: java.util.ArrayList<Int> = java.util.ArrayList()
@@ -68,10 +72,6 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
         showTranscription()
         showTranslation()
     }
-
-    private val btnItemShare: Button = itemView.findViewById(R.id.btnSupplicationShare)
-    private val btnItemCopy: Button = itemView.findViewById(R.id.btnSupplicationCopy)
-    val tbSupplicationNumber: ToggleButton = itemView.findViewById(R.id.tbSupplicationNumber)
 
     fun findAddRemoveFavorite(addRemoveFavoriteSupplication: AdapterSupplications.AddRemoveFavoriteSupplication, supplicationId: Int) {
         tbSupplicationNumber.setOnCheckedChangeListener { _, isChecked ->
