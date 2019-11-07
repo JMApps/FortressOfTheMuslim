@@ -95,9 +95,9 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
 
     override fun showFavoriteChapterStateToast(state: Boolean) {
         if (state) {
-            mainPresenterImpl.setToastMessage(getString(R.string.favorite_add))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_chapter_add))
         } else {
-            mainPresenterImpl.setToastMessage(getString(R.string.favorite_removed))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_chapter_removed))
         }
     }
 
