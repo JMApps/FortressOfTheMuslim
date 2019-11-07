@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
 class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
-                      private val addRemoveFavorite: AddRemoveFavorite,
+                      private val addRemoveFavoriteChapter: AddRemoveFavoriteChapter,
                       private val preferences: SharedPreferences,
                       private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<ViewHolderChapters>(), Filterable {
@@ -22,8 +22,8 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
         mainChapterList = chapterList
     }
 
-    interface AddRemoveFavorite {
-        fun addRemove(state: Boolean, chapterId: Int)
+    interface AddRemoveFavoriteChapter {
+        fun addRemoveChapter(state: Boolean, chapterId: Int)
     }
 
     interface OnItemClick {
@@ -51,7 +51,7 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
         holder.tbChapterNumber.textOff = chapterId.toString()
         holder.tvChapterTitle.text = Html.fromHtml(strChapterTitle)
 
-        holder.findAddRemoveFavorite(addRemoveFavorite, chapterId!!)
+        holder.findAddRemoveFavorite(addRemoveFavoriteChapter, chapterId!!)
         holder.findOnItemClick(onItemClick, chapterId)
     }
 

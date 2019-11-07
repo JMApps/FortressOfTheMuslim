@@ -9,7 +9,7 @@ class FavoriteChapterPresenterImpl(
     private val database: SQLiteDatabase?) :
     ContractFavoriteChapters.PresenterFavoriteChapters {
 
-    override fun addRemoveFavorite(state: Boolean, chapterId: Int) {
+    override fun addRemoveFavoriteChapter(state: Boolean, chapterId: Int) {
         try {
             val favoriteChapter = ContentValues()
             favoriteChapter.put("chapter_favorite", state)
@@ -19,10 +19,10 @@ class FavoriteChapterPresenterImpl(
                 "_id = ?",
                 arrayOf(chapterId.toString()))
 
-            viewFavoriteChapters?.showFavoriteStateToast(state)
-            viewFavoriteChapters?.saveCurrentFavoriteItem("key_chapter_bookmark_$chapterId", state)
+            viewFavoriteChapters?.showFavoriteChapterStateToast(state)
+            viewFavoriteChapters?.saveCurrentFavoriteChapterItem("key_chapter_bookmark_$chapterId", state)
         } catch (e: Exception) {
-            viewFavoriteChapters?.showDBExceptionToast(e.toString())
+            viewFavoriteChapters?.showDBExceptionChapterToast(e.toString())
         }
     }
 }

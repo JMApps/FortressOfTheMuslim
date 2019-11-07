@@ -24,7 +24,7 @@ import jmapps.fortressofthemuslim.presentation.ui.contentChapters.ContentChapter
 import kotlinx.android.synthetic.main.fragment_favorite_chapters.view.*
 
 class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick,
-    SearchView.OnQueryTextListener, AdapterFavoriteChapters.AddRemoveFavorite,
+    SearchView.OnQueryTextListener, AdapterFavoriteChapters.AddRemoveFavoriteChapter,
     ContractFavoriteChapters.ViewFavoriteChapters {
 
     private lateinit var rootFavoriteChapters: View
@@ -96,11 +96,11 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         return true
     }
 
-    override fun addRemove(state: Boolean, favoriteChapterId: Int) {
-        favoriteChapterPresenterImpl.addRemoveFavorite(state, favoriteChapterId)
+    override fun addRemoveChapter(state: Boolean, favoriteChapterId: Int) {
+        favoriteChapterPresenterImpl.addRemoveFavoriteChapter(state, favoriteChapterId)
     }
 
-    override fun showFavoriteStateToast(state: Boolean) {
+    override fun showFavoriteChapterStateToast(state: Boolean) {
         if (state) {
             setToast(getString(R.string.favorite_add))
         } else {
@@ -108,11 +108,11 @@ class FragmentFavoriteChapters : Fragment(), AdapterFavoriteChapters.OnItemClick
         }
     }
 
-    override fun showDBExceptionToast(error: String) {
+    override fun showDBExceptionChapterToast(error: String) {
         setToast(getString(R.string.database_exception) + error)
     }
 
-    override fun saveCurrentFavoriteItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
+    override fun saveCurrentFavoriteChapterItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
         editor.putBoolean(keyFavoriteChapter, stateFavoriteChapter).apply()
     }
 

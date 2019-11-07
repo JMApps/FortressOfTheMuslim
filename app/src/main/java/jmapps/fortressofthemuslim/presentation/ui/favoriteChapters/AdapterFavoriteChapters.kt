@@ -10,10 +10,11 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
-class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<ModelFavoriteChapters>,
-                              private val addRemoveFavorite: AddRemoveFavorite,
-                              private val preferences: SharedPreferences,
-                              private val onItemClick: OnItemClick) :
+class AdapterFavoriteChapters(
+    private var favoriteChapterList: MutableList<ModelFavoriteChapters>,
+    private val addRemoveFavoriteChapter: AddRemoveFavoriteChapter,
+    private val preferences: SharedPreferences,
+    private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<ViewHolderFavoriteChapters>(), Filterable {
 
     private var mainFavoriteChapterList: MutableList<ModelFavoriteChapters>? = null
@@ -22,8 +23,8 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
         mainFavoriteChapterList = favoriteChapterList
     }
 
-    interface AddRemoveFavorite {
-        fun addRemove(state: Boolean, favoriteChapterId: Int)
+    interface AddRemoveFavoriteChapter {
+        fun addRemoveChapter(state: Boolean, favoriteChapterId: Int)
     }
 
     interface OnItemClick {
@@ -31,8 +32,11 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFavoriteChapters {
-        return ViewHolderFavoriteChapters(LayoutInflater.from(parent.context).inflate(
-            R.layout.item_favorite_chapter, parent, false))
+        return ViewHolderFavoriteChapters(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_favorite_chapter, parent, false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -46,13 +50,14 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
 
         holder.tbFavoriteChapterNumber.setOnCheckedChangeListener(null)
         holder.tbFavoriteChapterNumber.isChecked = preferences.getBoolean(
-            "key_chapter_bookmark_$favoriteChapterId", false)
+            "key_chapter_bookmark_$favoriteChapterId", false
+        )
         holder.tbFavoriteChapterNumber.text = favoriteChapterId.toString()
         holder.tbFavoriteChapterNumber.textOn = favoriteChapterId.toString()
         holder.tbFavoriteChapterNumber.textOff = favoriteChapterId.toString()
         holder.tvFavoriteChapterTitle.text = Html.fromHtml(strFavoriteChapterTitle)
 
-        holder.findAddRemoveFavorite(addRemoveFavorite, favoriteChapterId!!)
+        holder.findAddRemoveFavorite(addRemoveFavoriteChapter, favoriteChapterId!!)
         holder.findOnItemClick(onItemClick, favoriteChapterId)
     }
 
@@ -67,7 +72,8 @@ class AdapterFavoriteChapters(private var favoriteChapterList: MutableList<Model
                     val filteredList = ArrayList<ModelFavoriteChapters>()
                     for (row in mainFavoriteChapterList!!) {
                         if (row.strFavoriteChapterTitle?.toLowerCase()!!.contains(charString.toLowerCase()) ||
-                            row.favoriteChapterId.toString().contains(charSequence)) {
+                            row.favoriteChapterId.toString().contains(charSequence)
+                        ) {
                             filteredList.add(row)
                         }
                     }

@@ -4,15 +4,15 @@ interface ContractFavoriteChapters {
 
     interface ViewFavoriteChapters {
 
-        fun showFavoriteStateToast(state: Boolean)
+        fun showFavoriteChapterStateToast(state: Boolean)
 
-        fun showDBExceptionToast(error: String)
+        fun showDBExceptionChapterToast(error: String)
 
-        fun saveCurrentFavoriteItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean)
+        fun saveCurrentFavoriteChapterItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean)
     }
 
     interface PresenterFavoriteChapters {
 
-        fun addRemoveFavorite(state: Boolean, chapterId: Int)
+        fun addRemoveFavoriteChapter(state: Boolean, chapterId: Int)
     }
 }
