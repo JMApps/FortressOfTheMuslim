@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -20,11 +18,14 @@ import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.contentChapters.ContentChapterActivity
 import kotlinx.android.synthetic.main.fragment_chapters.view.*
 
 class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChapters.OnItemClick,
-    AdapterChapters.AddRemoveFavoriteChapter, ContractFavoriteChapters.ViewFavoriteChapters {
+    AdapterChapters.AddRemoveFavoriteChapter, ContractFavoriteChapters.ViewFavoriteChapters,
+    MainContract.MainView {
 
     private lateinit var rootChapters: View
 
@@ -35,6 +36,7 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
     private lateinit var chapterList: MutableList<ModelChapters>
     private lateinit var adapterChapters: AdapterChapters
 
+    private lateinit var mainPresenterImpl: MainPresenterImpl
     private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
 
     private var searchView: SearchView? = null
@@ -52,12 +54,13 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
         database = DatabaseOpenHelper(context).readableDatabase
         chapterList = DatabaseLists(context).getChapterList
 
-        val verticalLayout = LinearLayoutManager(context)
+        val verticalLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rootChapters.rvMainChapters.layoutManager = verticalLayout
 
         adapterChapters = AdapterChapters(chapterList, this, preferences,this)
         rootChapters.rvMainChapters.adapter = adapterChapters
 
+        mainPresenterImpl = MainPresenterImpl(this, context)
         favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
 
         return rootChapters
@@ -92,14 +95,14 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
 
     override fun showFavoriteChapterStateToast(state: Boolean) {
         if (state) {
-            setToast(getString(R.string.favorite_add))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_add))
         } else {
-            setToast(getString(R.string.favorite_removed))
+            mainPresenterImpl.setToastMessage(getString(R.string.favorite_removed))
         }
     }
 
     override fun showDBExceptionChapterToast(error: String) {
-        setToast(getString(R.string.database_exception) + error)
+        mainPresenterImpl.setToastMessage(getString(R.string.database_exception) + error)
     }
 
     override fun saveCurrentFavoriteChapterItem(keyFavoriteChapter: String, stateFavoriteChapter: Boolean) {
@@ -110,15 +113,5 @@ class FragmentChapters : Fragment(), SearchView.OnQueryTextListener, AdapterChap
         val toContentChapterActivity = Intent(context, ContentChapterActivity::class.java)
         toContentChapterActivity.putExtra("key_chapter_id", chapterId)
         context?.startActivity(toContentChapterActivity)
-    }
-
-    private fun setToast(message: String) {
-        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.circle_toast_background)
-        val text = view.findViewById(android.R.id.message) as TextView
-        text.setPadding(32, 16, 32, 16)
-        text.setTextColor(resources.getColor(R.color.white))
-        toast.show()
     }
 }

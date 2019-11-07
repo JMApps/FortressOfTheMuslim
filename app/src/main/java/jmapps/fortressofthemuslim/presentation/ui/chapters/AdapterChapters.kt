@@ -10,10 +10,11 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
-class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
-                      private val addRemoveFavoriteChapter: AddRemoveFavoriteChapter,
-                      private val preferences: SharedPreferences,
-                      private val onItemClick: OnItemClick) :
+class AdapterChapters(
+    private var chapterList: MutableList<ModelChapters>,
+    private val addRemoveFavoriteChapter: AddRemoveFavoriteChapter,
+    private val preferences: SharedPreferences,
+    private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<ViewHolderChapters>(), Filterable {
 
     private var mainChapterList: MutableList<ModelChapters>? = null
@@ -66,7 +67,8 @@ class AdapterChapters(private var chapterList: MutableList<ModelChapters>,
                     val filteredList = ArrayList<ModelChapters>()
                     for (row in mainChapterList!!) {
                         if (row.strChapterTitle?.toLowerCase()!!.contains(charString.toLowerCase()) ||
-                            row.chapterId.toString().contains(charSequence)) {
+                            row.chapterId.toString().contains(charSequence)
+                        ) {
                             filteredList.add(row)
                         }
                     }
