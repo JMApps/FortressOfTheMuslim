@@ -104,9 +104,9 @@ class BottomSheetSettings : BottomSheetDialogFragment(), RadioGroup.OnCheckedCha
 
         rootSettings.sbArabicTextSize.progress = preferences.getInt(keyArabicTextSize, 1)
         rootSettings.sbOtherTextSize.progress = preferences.getInt(keyOtherTextSize, 1)
-        rootSettings.sbArabicTextColor.progress = preferences.getInt(keyArabicTextColor, 2)
-        rootSettings.sbTranscriptionTextColor.progress = preferences.getInt(keyTranscriptionTextColor, 2)
-        rootSettings.sbTranslationTextColor.progress = preferences.getInt(keyTranslationTextColor, 2)
+        rootSettings.sbArabicTextColor.progress = preferences.getInt(keyArabicTextColor, 1)
+        rootSettings.sbTranscriptionTextColor.progress = preferences.getInt(keyTranscriptionTextColor, 1)
+        rootSettings.sbTranslationTextColor.progress = preferences.getInt(keyTranslationTextColor, 1)
 
         rootSettings.swShowTextTranscription.isChecked = preferences.getBoolean(keyTranscriptionState, true)
         rootSettings.swShowTextTranslation.isChecked = preferences.getBoolean(keyTranslationState, true)

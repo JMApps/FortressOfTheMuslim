@@ -150,19 +150,19 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
 
     private fun textArabicColor() {
         tvSupplicationArabic.setTextColor(itemView.resources.getColor(
-            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 2)]))
+            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 1)]))
     }
 
     private fun textTranscriptionColor() {
         tvSupplicationTranscription.setTextColor(
-            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 1)]))
         tvSupplicationSource.setTextColor(
-            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 1)]))
     }
 
     private fun textTranslationColor() {
         tvSupplicationTranslation.setTextColor(itemView.resources.getColor(
-                textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 2)]))
+                textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 1)]))
     }
 
     private fun showTranscription() {

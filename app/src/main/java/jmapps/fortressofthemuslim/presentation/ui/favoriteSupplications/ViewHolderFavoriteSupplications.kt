@@ -149,19 +149,19 @@ class ViewHolderFavoriteSupplications(itemView: View): RecyclerView.ViewHolder(i
 
     private fun textArabicColor() {
         tvFavoriteSupplicationArabic.setTextColor(itemView.resources.getColor(
-            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 2)]))
+            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 1)]))
     }
 
     private fun textTranscriptionColor() {
         tvFavoriteSupplicationTranscription.setTextColor(
-            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 1)]))
         tvFavoriteSupplicationSource.setTextColor(
-            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 1)]))
     }
 
     private fun textTranslationColor() {
         tvFavoriteSupplicationTranslation.setTextColor(itemView.resources.getColor(
-            textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 2)]))
+            textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 1)]))
     }
 
     private fun showTranscription() {
