@@ -9,5 +9,8 @@ interface MainContract {
     interface MainPresenter {
 
         fun setToastMessage(message: String)
+
+
+        fun setAlertDialog()
     }
 }
