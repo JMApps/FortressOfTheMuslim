@@ -70,8 +70,7 @@
                 android:id="@+id/btnItemPlay"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_play"
-                android:clickable="false" />
+                android:background="@drawable/ic_play" />
 
             <View
                 android:layout_width="0dp"
