@@ -2,6 +2,7 @@ package jmapps.fortressofthemuslim.presentation.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -28,6 +29,7 @@ import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
 import jmapps.fortressofthemuslim.presentation.ui.chapters.FragmentChapters
+import jmapps.fortressofthemuslim.presentation.ui.downloads.DownloadAudiosDialogFragment
 import jmapps.fortressofthemuslim.presentation.ui.favoriteChapters.FragmentFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications.FragmentFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.ui.settings.BottomSheetSettings
@@ -51,8 +53,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val permissionsRequestCode = 123
     private lateinit var managerPermissions: ManagerPermissions
-
-    private lateinit var downloadManager: DownloadManager
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,17 +90,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         swNightMode.isChecked = valNightMode
 
         managerPermissions = ManagerPermissions(this, permissionsRequestCode)
-        downloadManager = DownloadManager(this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             mainPresenterImpl.setAlertDialog()
         } else {
-            if (ActivityCompat.checkSelfPermission(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                downloadManager.downloadAllAudios()
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                DownloadAudiosDialogFragment().show(supportFragmentManager, "download_audio")
             } else {
                 mainPresenterImpl.setAlertDialog()
             }
@@ -120,7 +117,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_settings -> otherPresenterImpl.setSettings()
 
-            R.id.nav_download_all -> if (managerPermissions.checkPermissions()) {otherPresenterImpl.setDownloadAll() }
+            R.id.nav_download_all -> if (managerPermissions.checkPermissions()) {
+                DownloadAudiosDialogFragment().show(supportFragmentManager, "download_audio")
+            }
 
             R.id.nav_night_mode -> otherPresenterImpl.setNightMode(!swNightMode.isChecked)
 
@@ -146,10 +145,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val settings = BottomSheetSettings()
         settings.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
         settings.show(supportFragmentManager, "settings")
-    }
-
-    override fun getDownloadAll() {
-        downloadManager.downloadAllAudios()
     }
 
     override fun getNightMode(state: Boolean) {
