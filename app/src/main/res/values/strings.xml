@@ -6,10 +6,11 @@
     <string name="database_exception">Ошибка:</string>
 
     <!--    Permissions-->
+    <string name="permissions_add_permission">Предоставьте доступ к хранилищу</string>
     <string name="permissions_failure">Вы не предоставили доступ</string>
     <string name="permissions_waring">ВНИМАНИЕ</string>
-    <string name="permissions_text">Для того, что бы скачать аудио на телефон, Вы должны предоставить доступ к хранилищу</string>
-    <string name="permissions_ok">Предоставить</string>
+    <string name="permissions_text">Для того, что бы скачать аудио на телефон и прослушивать, Вы должны предоставить доступ к хранилищу</string>
+    <string name="permissions_ok">Настройки</string>
     <string name="permissions_cancel">Отмена</string>
 
     <!--    Search tint text's-->
@@ -90,4 +91,11 @@
     <!--    Content chapter-->
     <string name="title_activity_content_chapter">Глава</string>
     <string name="content_favorite">Избранное</string>
+
+    <!--    Media player-->
+    <string name="player_is_track_null">Файл удалён или не загружен</string>
+    <string name="player_loop_on">Повтор включён</string>
+    <string name="player_loop_off">Повтор отключён</string>
+    <string name="player_sequent_play_on">Последовательное воспроизведение вкл.</string>
+    <string name="player_sequent_play_off">Последовательное воспроизведение откл.</string>
 </resources>
