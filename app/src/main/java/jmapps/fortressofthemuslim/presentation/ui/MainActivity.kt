@@ -2,12 +2,9 @@ package jmapps.fortressofthemuslim.presentation.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.Uri.fromParts
 import android.os.Bundle
-import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.MenuItem
 import android.widget.Switch
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -97,25 +94,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        for (perms: String in permissions) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
-                mainPresenterImpl.setToastMessage(getString(R.string.permissions_failure))
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            mainPresenterImpl.setAlertDialog()
+        } else {
+            if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                downloadManager.downloadAllAudios()
             } else {
-                if (ActivityCompat.checkSelfPermission(
-                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    otherPresenterImpl.setDownloadAll()
-                } else {
-                    val intent = Intent()
-                    intent.action = ACTION_APPLICATION_DETAILS_SETTINGS
-                    val uri = fromParts("package", packageName, null)
-                    intent.data = uri
-                    startActivity(intent)
-                }
+                mainPresenterImpl.setAlertDialog()
             }
         }
     }
