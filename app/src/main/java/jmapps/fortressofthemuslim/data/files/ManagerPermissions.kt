@@ -23,7 +23,7 @@ class ManagerPermissions(
     fun checkPermissions(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return if (isPermissionsGranted() != PackageManager.PERMISSION_GRANTED) {
-                showAlert()
+                requestPermissions()
                 false
             } else {
                 true
@@ -34,17 +34,6 @@ class ManagerPermissions(
 
     private fun isPermissionsGranted(): Int {
         return ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    }
-
-    private fun showAlert() {
-        val builder = AlertDialog.Builder(activity)
-        builder.setIcon(R.drawable.ic_warning_accent)
-        builder.setTitle(R.string.permissions_waring)
-        builder.setMessage(R.string.permissions_text)
-        builder.setPositiveButton(R.string.permissions_ok) { _, _ -> requestPermissions() }
-        builder.setNeutralButton(R.string.permissions_cancel, null)
-        val dialog = builder.create()
-        dialog.show()
     }
 
     private fun requestPermissions() {
