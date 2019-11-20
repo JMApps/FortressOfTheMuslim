@@ -8,8 +8,6 @@ interface OtherContract {
 
         fun getSettings()
 
-        fun getDownloadAll()
-
         fun getNightMode(state: Boolean)
 
         fun isNightMode(state: Boolean)
@@ -22,8 +20,6 @@ interface OtherContract {
     interface OtherPresenter {
 
         fun setSettings()
-
-        fun setDownloadAll()
 
         fun setNightMode(state: Boolean)
 

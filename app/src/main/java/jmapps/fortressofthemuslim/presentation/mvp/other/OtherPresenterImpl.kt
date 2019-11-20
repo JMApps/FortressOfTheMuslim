@@ -18,10 +18,6 @@ class OtherPresenterImpl(
         otherView?.getSettings()
     }
 
-    override fun setDownloadAll() {
-        otherView?.getDownloadAll()
-    }
-
     override fun setNightMode(state: Boolean) {
         otherView?.getNightMode(state)
         otherView?.isNightMode(state)
