@@ -4,6 +4,13 @@
     tools:context="jmapps.fortressofthemuslim.presentation.ui.contentChapters.ContentChapterActivity">
 
     <item
+        android:id="@+id/action_content_download"
+        android:icon="@drawable/ic_download_white"
+        android:orderInCategory="1"
+        android:title="@string/download"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_content_number"
         android:checkable="true"
         android:icon="@drawable/ic_item_content_favorite_false"
