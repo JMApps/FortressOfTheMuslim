@@ -23,7 +23,7 @@
     <string name="navigation_drawer_open">Открыть навигационный ящик</string>
     <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
     <string name="nav_settings">Настройки</string>
-    <string name="nav_download_all">Скачать все дуа</string>
+    <string name="nav_download_all">Скачать аудио</string>
     <string name="nav_night_mode">Ночной режим</string>
     <string name="nav_additionally">Дополнительно</string>
     <string name="nav_about_us">О нас</string>
