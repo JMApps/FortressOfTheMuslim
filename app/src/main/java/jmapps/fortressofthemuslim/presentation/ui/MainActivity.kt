@@ -2,7 +2,6 @@ package jmapps.fortressofthemuslim.presentation.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager
@@ -21,7 +21,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import jmapps.fortressofthemuslim.R
-import jmapps.fortressofthemuslim.data.files.DownloadManager
 import jmapps.fortressofthemuslim.data.files.ManagerPermissions
 import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
 import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
@@ -29,7 +28,7 @@ import jmapps.fortressofthemuslim.presentation.mvp.other.OtherContract
 import jmapps.fortressofthemuslim.presentation.mvp.other.OtherPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.about.BottomSheetAboutUs
 import jmapps.fortressofthemuslim.presentation.ui.chapters.FragmentChapters
-import jmapps.fortressofthemuslim.presentation.ui.downloads.DownloadAudiosDialogFragment
+import jmapps.fortressofthemuslim.presentation.ui.downloads.DownloadAudiosBottomSheet
 import jmapps.fortressofthemuslim.presentation.ui.favoriteChapters.FragmentFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.ui.favoriteSupplications.FragmentFavoriteSupplications
 import jmapps.fortressofthemuslim.presentation.ui.settings.BottomSheetSettings
@@ -97,7 +96,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mainPresenterImpl.setAlertDialog()
         } else {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                DownloadAudiosDialogFragment().show(supportFragmentManager, "download_audio")
+                val downloadAudiosBottomSheet = DownloadAudiosBottomSheet()
+                downloadAudiosBottomSheet.setStyle(STYLE_NORMAL, R.style.BottomSheetStyleFull)
+                downloadAudiosBottomSheet.show(supportFragmentManager, "download_audio")
             } else {
                 mainPresenterImpl.setAlertDialog()
             }
@@ -118,7 +119,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_settings -> otherPresenterImpl.setSettings()
 
             R.id.nav_download_all -> if (managerPermissions.checkPermissions()) {
-                DownloadAudiosDialogFragment().show(supportFragmentManager, "download_audio")
+                val downloadAudiosBottomSheet = DownloadAudiosBottomSheet()
+                downloadAudiosBottomSheet.setStyle(STYLE_NORMAL, R.style.BottomSheetStyleFull)
+                downloadAudiosBottomSheet.show(supportFragmentManager, "download_audio")
             }
 
             R.id.nav_night_mode -> otherPresenterImpl.setNightMode(!swNightMode.isChecked)
