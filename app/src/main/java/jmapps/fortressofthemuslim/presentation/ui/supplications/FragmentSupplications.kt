@@ -45,8 +45,7 @@ class FragmentSupplications : Fragment(), ContractFavoriteSupplications.ViewFavo
     private var clip: ClipData? = null
 
     @SuppressLint("CommitPrefEdits")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootSupplications = inflater.inflate(R.layout.fragment_supplications, container, false)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context)

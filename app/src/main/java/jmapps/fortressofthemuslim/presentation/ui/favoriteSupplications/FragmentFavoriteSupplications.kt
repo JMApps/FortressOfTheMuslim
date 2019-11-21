@@ -22,11 +22,9 @@ import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
 import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import kotlinx.android.synthetic.main.fragment_favorite_supplications.view.*
 
-class FragmentFavoriteSupplications : Fragment(),
-    AdapterFavoriteSupplications.AddRemoveFavoriteSupplication,
-    ContractFavoriteSupplications.ViewFavoriteSupplications,
-    AdapterFavoriteSupplications.ItemShare, AdapterFavoriteSupplications.ItemCopy,
-    MainContract.MainView {
+class FragmentFavoriteSupplications : Fragment(), AdapterFavoriteSupplications.AddRemoveFavoriteSupplication,
+    ContractFavoriteSupplications.ViewFavoriteSupplications, AdapterFavoriteSupplications.ItemShare,
+    AdapterFavoriteSupplications.ItemCopy, MainContract.MainView {
 
     private lateinit var rootFavoriteSupplications: View
 
@@ -45,8 +43,7 @@ class FragmentFavoriteSupplications : Fragment(),
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootFavoriteSupplications =
-            inflater.inflate(R.layout.fragment_favorite_supplications, container, false)
+        rootFavoriteSupplications = inflater.inflate(R.layout.fragment_favorite_supplications, container, false)
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context)
         editor = preferences.edit()

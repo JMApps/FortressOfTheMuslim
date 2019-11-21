@@ -5,6 +5,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jmapps.fortressofthemuslim.R
 
@@ -44,21 +45,21 @@ data class AdapterFavoriteSupplications(
         val strFavoriteSupplicationTranslation = favoriteSupplicationList[position].strFavoriteSupplicationTranslation
         val strFavoriteSupplicationSource = favoriteSupplicationList[position].strFavoriteSupplicationSource
 
-        if (!strFavoriteSupplicationArabic.isNullOrEmpty()) {
+        if (!strFavoriteSupplicationArabic.isNullOrEmpty() && holder.tvFavoriteSupplicationArabic.isVisible) {
             holder.tvFavoriteSupplicationArabic.visibility = View.VISIBLE
             holder.tvFavoriteSupplicationArabic.text = Html.fromHtml(strFavoriteSupplicationArabic)
         } else {
             holder.tvFavoriteSupplicationArabic.visibility = View.GONE
         }
 
-        if (!strFavoriteSupplicationTranscription.isNullOrEmpty()) {
+        if (!strFavoriteSupplicationTranscription.isNullOrEmpty() && holder.tvFavoriteSupplicationTranscription.isVisible) {
             holder.tvFavoriteSupplicationTranscription.visibility = View.VISIBLE
             holder.tvFavoriteSupplicationTranscription.text = strFavoriteSupplicationTranscription
         } else {
             holder.tvFavoriteSupplicationTranscription.visibility = View.GONE
         }
 
-        if (!strFavoriteSupplicationTranslation.isNullOrEmpty()) {
+        if (!strFavoriteSupplicationTranslation.isNullOrEmpty() && holder.tvFavoriteSupplicationTranslation.isVisible) {
             holder.tvFavoriteSupplicationTranslation.visibility = View.VISIBLE
             holder.tvFavoriteSupplicationTranslation.text =
                 Html.fromHtml(strFavoriteSupplicationTranslation)
@@ -66,7 +67,7 @@ data class AdapterFavoriteSupplications(
             holder.tvFavoriteSupplicationTranslation.visibility = View.GONE
         }
 
-        if (!strFavoriteSupplicationSource.isNullOrEmpty()) {
+        if (!strFavoriteSupplicationSource.isNullOrEmpty() && holder.tvFavoriteSupplicationSource.isVisible) {
             holder.tvFavoriteSupplicationSource.visibility = View.VISIBLE
             holder.tvFavoriteSupplicationSource.text = strFavoriteSupplicationSource
         } else {
