@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import jmapps.fortressofthemuslim.presentation.ui.chapters.ModelChapters
+import jmapps.fortressofthemuslim.presentation.ui.downloads.ModelDownloadSelectively
 import jmapps.fortressofthemuslim.presentation.ui.favoriteChapters.ModelFavoriteChapters
 
 class DatabaseLists(private val context: Context?) {
@@ -104,5 +105,36 @@ class DatabaseLists(private val context: Context?) {
                 }
             }
             return chapterList
+        }
+
+    val getChapterNameSelectively: MutableList<ModelDownloadSelectively>
+        @SuppressLint("Recycle")
+        get() {
+            database = DatabaseOpenHelper(context).readableDatabase
+
+            val cursor: Cursor = database.query(
+                "Table_of_downloads",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null)
+
+            val chapterDownloadList = ArrayList<ModelDownloadSelectively>()
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast) {
+                    val chapters = ModelDownloadSelectively(
+                        cursor.getInt(cursor.getColumnIndex("_id")),
+                        cursor.getString(cursor.getColumnIndex("chapter_name")))
+                    chapterDownloadList.add(chapters)
+                    cursor.moveToNext()
+                    if (cursor.isClosed) {
+                        cursor.close()
+                    }
+                }
+            }
+            return chapterDownloadList
         }
 }
