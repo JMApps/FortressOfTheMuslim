@@ -22,22 +22,6 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/etSearchSelectivelyChapter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/search_view_corners"
-            android:drawableStart="@drawable/ic_search_primary"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical"
-            android:hint="@string/action_search_by_chapters"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:padding="8dp" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDownloadSelectively"
             android:layout_width="match_parent"

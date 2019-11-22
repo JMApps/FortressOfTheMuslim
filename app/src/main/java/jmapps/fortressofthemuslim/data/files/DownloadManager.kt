@@ -15,7 +15,7 @@ import com.liulishuo.filedownloader.FileDownloadQueueSet
 import com.liulishuo.filedownloader.FileDownloader
 import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseLinkLists
-import jmapps.fortressofthemuslim.presentation.ui.contentChapters.ViewHolderChapterContents
+import jmapps.fortressofthemuslim.presentation.ui.chapters.ViewHolderChapters
 import java.io.File
 
 class DownloadManager(private val context: Context?) {
@@ -105,7 +105,7 @@ class DownloadManager(private val context: Context?) {
         }
     }
 
-    fun downloadSelectivelyAudios(groupId: Int, adapter: RecyclerView.Adapter<ViewHolderChapterContents>?) {
+    fun downloadSelectivelyAudios(groupId: Int, adapter: RecyclerView.Adapter<ViewHolderChapters>?) {
 
         linkList = DatabaseLinkLists(context).getSupplicationSelectiveList(groupId)
 
@@ -149,7 +149,7 @@ class DownloadManager(private val context: Context?) {
         }
     }
 
-    private fun selectivelyListener(adapter: RecyclerView.Adapter<ViewHolderChapterContents>?): FileDownloadListener {
+    private fun selectivelyListener(adapter: RecyclerView.Adapter<ViewHolderChapters>?): FileDownloadListener {
         return object : FileDownloadListener() {
 
             override fun pending(task: BaseDownloadTask, soFarBytes: Int, totalBytes: Int) {

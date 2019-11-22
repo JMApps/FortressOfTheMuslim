@@ -93,6 +93,7 @@
     <string name="download_waiting">Пожалуйста, дождидесь пока завершится скачивание… Вы можете свернуть приложение.</string>
     <string name="download_complete">Скачивание завершено</string>
     <string name="download_checking_connect">Проверьте подключение к интернету</string>
+    <string name="download_finalized">Дорабатывается</string>
 
     <!--    Content chapter-->
     <string name="title_activity_content_chapter">Глава</string>

@@ -14,7 +14,7 @@ import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
 import kotlinx.android.synthetic.main.fragment_download_selectively.view.*
 
-class DownloadSelectivelyBottomSheet : BottomSheetDialogFragment(), TextWatcher,
+class DownloadSelectivelyBottomSheet : BottomSheetDialogFragment(),
     AdapterDownloadSelectively.SelectChapter {
 
     private lateinit var rootSelectively: View
@@ -35,17 +35,7 @@ class DownloadSelectivelyBottomSheet : BottomSheetDialogFragment(), TextWatcher,
         adapterDownloadSelectively = AdapterDownloadSelectively(downloadSelectivelyList, this)
         rootSelectively.rvDownloadSelectively.adapter = adapterDownloadSelectively
 
-        rootSelectively.etSearchSelectivelyChapter.addTextChangedListener(this)
-
         return rootSelectively
-    }
-
-    override fun afterTextChanged(s: Editable?) {}
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        adapterDownloadSelectively.filter.filter(s)
     }
 
     override fun select(chapterId: Int, isChecked: Boolean) {

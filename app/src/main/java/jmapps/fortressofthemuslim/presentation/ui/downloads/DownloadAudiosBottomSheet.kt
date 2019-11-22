@@ -9,9 +9,12 @@ import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.files.DownloadManager
 import jmapps.fortressofthemuslim.data.files.ManagerPermissions
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
+import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import kotlinx.android.synthetic.main.fragment_download_audios.view.*
 
-class DownloadAudiosBottomSheet : BottomSheetDialogFragment(), View.OnClickListener {
+class DownloadAudiosBottomSheet : BottomSheetDialogFragment(), View.OnClickListener,
+    MainContract.MainView {
 
     private lateinit var rootDownloads: View
 
@@ -19,6 +22,7 @@ class DownloadAudiosBottomSheet : BottomSheetDialogFragment(), View.OnClickListe
     private lateinit var managerPermissions: ManagerPermissions
 
     private lateinit var downloadManager: DownloadManager
+    private lateinit var mainPresenterImpl: MainPresenterImpl
 
     private lateinit var downloadSelectivelyList: MutableList<ModelDownloadSelectively>
 
@@ -30,6 +34,7 @@ class DownloadAudiosBottomSheet : BottomSheetDialogFragment(), View.OnClickListe
         rootDownloads = inflater.inflate(R.layout.fragment_download_audios, container, false)
 
         managerPermissions = ManagerPermissions(activity!!, permissionsRequestCode)
+        mainPresenterImpl = MainPresenterImpl(this, context)
         downloadManager = DownloadManager(context)
 
         rootDownloads.btnDownloadAll.setOnClickListener(this)
@@ -48,9 +53,10 @@ class DownloadAudiosBottomSheet : BottomSheetDialogFragment(), View.OnClickListe
             }
 
             R.id.btnDownloadSelectively -> {
-                val downloadSelectivelyBottomSheet = DownloadSelectivelyBottomSheet()
-                downloadSelectivelyBottomSheet.setStyle(STYLE_NORMAL, R.style.BottomSheetStyleFull)
-                downloadSelectivelyBottomSheet.show(activity!!.supportFragmentManager, "download_selectively")
+                mainPresenterImpl.setToastMessage(getString(R.string.download_finalized))
+//                val downloadSelectivelyBottomSheet = DownloadSelectivelyBottomSheet()
+//                downloadSelectivelyBottomSheet.setStyle(STYLE_NORMAL, R.style.BottomSheetStyleFull)
+//                downloadSelectivelyBottomSheet.show(activity!!.supportFragmentManager, "download_selectively")
             }
         }
     }
