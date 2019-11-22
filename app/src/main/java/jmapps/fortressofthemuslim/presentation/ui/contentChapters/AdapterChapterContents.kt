@@ -23,7 +23,7 @@ class AdapterChapterContents(
     private var currentIndex = -1
 
     interface PlayItemClick {
-        fun playItem(supplicationId: Int)
+        fun playItem(supplicationId: Int, position: Int)
     }
 
     interface AddRemoveFavoriteSupplication {
@@ -82,12 +82,16 @@ class AdapterChapterContents(
             holder.tvChapterContentSource.visibility = View.GONE
         }
 
-        val downloadItem = File(
-            Environment.getExternalStorageDirectory(),
-            File.separator + "FortressOfTheMuslim_audio" + File.separator + "dua" + chapterContentId + ".mp3").run {exists()}
+        val downloadItem = File(Environment.getExternalStorageDirectory(),
+            "/FortressOfTheMuslim_audio/dua$chapterContentId.mp3").exists()
 
         if (downloadItem) {
             holder.btnItemPlay.visibility = View.VISIBLE
+            if (currentIndex == position) {
+                holder.btnItemPlay.setBackgroundResource(R.drawable.ic_play_accent)
+            } else {
+                holder.btnItemPlay.setBackgroundResource(R.drawable.ic_play)
+            }
         } else {
             holder.btnItemPlay.visibility = View.GONE
         }
@@ -103,7 +107,7 @@ class AdapterChapterContents(
             "${strChapterContentArabic.orEmpty()}<p/>${strChapterContentTranscription.orEmpty()}<p/>" +
                     "${strChapterContentTranslation.orEmpty()}<p/>${strChapterContentSource.orEmpty()}"
 
-        holder.findPlayItemClick(playItemClick, chapterContentId!!)
+        holder.findPlayItemClick(playItemClick, chapterContentId!!, position)
         holder.findAddRemoveFavorite(addRemoveFavoriteSupplication, chapterContentId)
         holder.findCopy(itemCopy, content!!)
         holder.findShare(itemShare, content)

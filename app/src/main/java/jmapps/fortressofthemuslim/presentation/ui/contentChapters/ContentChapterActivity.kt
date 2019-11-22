@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
-import android.provider.Settings
 import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
@@ -35,18 +35,23 @@ import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.chapters.ModelChapters
 import kotlinx.android.synthetic.main.activity_content_chapter.*
 import kotlinx.android.synthetic.main.content_chapter.*
+import java.io.File
 
 class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemShare,
     AdapterChapterContents.ItemCopy, ContractFavoriteSupplications.ViewFavoriteSupplications,
     AdapterChapterContents.AddRemoveFavoriteSupplication,
     ContractFavoriteChapters.ViewFavoriteChapters, MainContract.MainView,
     AdapterChapterContents.PlayItemClick, View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+    CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
+    MediaPlayer.OnCompletionListener {
 
     private var chapterId: Int? = null
 
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+
+    private val permissionsRequestCode = 123
+    private lateinit var managerPermissions: ManagerPermissions
 
     private lateinit var chapterListName: MutableList<ModelChapters>
 
@@ -58,11 +63,6 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
     private lateinit var favoriteChapterPresenterImpl: FavoriteChapterPresenterImpl
     private lateinit var favoriteSupplicationPresenterImpl: FavoriteSupplicationPresenterImpl
 
-    private val permissionsRequestCode = 123
-    private lateinit var managerPermissions: ManagerPermissions
-
-    private lateinit var downloadManager: DownloadManager
-
     private var clipboard: ClipboardManager? = null
     private var clip: ClipData? = null
 
@@ -71,7 +71,11 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
     private var player: MediaPlayer? = null
     private lateinit var runnable: Runnable
     private var handler: Handler = Handler()
-    private var trackIndex: Int = 0
+
+    private var previousIndex: Int = 1
+    private var nextIndex: Int = 1
+    private var trackIndex: Int = 1
+    private var trackPosition: Int = 0
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +90,8 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
         editor = preferences.edit()
+
+        managerPermissions = ManagerPermissions(this, permissionsRequestCode)
 
         chapterId = intent.getIntExtra("key_chapter_id", 1)
         chapterListName = DatabaseLists(this).getChapterName
@@ -104,36 +110,24 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
         favoriteChapterPresenterImpl = FavoriteChapterPresenterImpl(this, database)
         favoriteSupplicationPresenterImpl = FavoriteSupplicationPresenterImpl(this, database)
 
-        downloadManager = DownloadManager(this)
-        managerPermissions = ManagerPermissions(this, permissionsRequestCode)
-
         btnPrevious.setOnClickListener(this)
         tbPlayPause.setOnCheckedChangeListener(this)
         btnNext.setOnClickListener(this)
         sbAudioProgress.setOnSeekBarChangeListener(this)
         tbSequent.setOnCheckedChangeListener(this)
         tbLoop.setOnCheckedChangeListener(this)
-    }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        for (perms: String in permissions) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                mainPresenterImpl.setToastMessage(getString(R.string.permissions_failure))
-            } else {
-                if (ActivityCompat.checkSelfPermission(
-                        this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    downloadManager.downloadAllAudios()
-                } else {
-                    val intent = Intent()
-                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                    val uri = Uri.fromParts("package", packageName, null)
-                    intent.data = uri
-                    startActivity(intent)
-                }
-            }
+        for (i in 0 until chapterContentList.size) {
+            previousIndex = chapterContentList[i].chapterContentId!!
+            trackIndex = chapterContentList[i].chapterContentId!!
+            break
         }
+
+        for (i in 0 until chapterContentList.size) {
+            nextIndex = chapterContentList[i].chapterContentId!!
+        }
+
+        tbSequent.isClickable = chapterContentList.size > 1
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -146,12 +140,12 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
             contentNumber.setIcon(R.drawable.ic_item_content_favorite_false)
         }
         contentNumber.isChecked = favoriteState
+        isShowDownload()
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
             R.id.action_content_number -> {
                 if (!item.isChecked) {
                     contentNumber.isChecked = true
@@ -161,14 +155,21 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
                     contentNumber.setIcon(R.drawable.ic_item_content_favorite_false)
                 }
                 favoriteChapterPresenterImpl.addRemoveFavoriteChapter(
-                    contentNumber.isChecked,
-                    chapterId!!
+                    contentNumber.isChecked, chapterId!!
                 )
             }
 
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (player != null) {
+            handler.removeCallbacks(runnable)
+        }
+        clear()
     }
 
     override fun copy(content: String) {
@@ -226,25 +227,40 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
 
             R.id.tbPlayPause -> {
                 if (isChecked) {
-                    mainPresenterImpl.setToastMessage("Play")
+                    if (player == null) {
+                        initPlayer(trackIndex)
+                        player?.start()
+                    } else {
+                        adapterChapterContents.onItemSelected(trackPosition)
+                        currentAudioProgress()
+                        player?.start()
+                    }
                 } else {
-                    mainPresenterImpl.setToastMessage("Pause")
+                    adapterChapterContents.onItemSelected(-1)
+                    player?.pause()
                 }
             }
 
             R.id.tbLoop -> {
                 if (isChecked) {
-                    mainPresenterImpl.setToastMessage("Loop on")
+                    if (tbSequent.isChecked) {
+                        tbSequent.isChecked = false
+                    }
+                    mainPresenterImpl.setToastMessage(getString(R.string.player_loop_on))
                 } else {
-                    mainPresenterImpl.setToastMessage("Loop off")
+                    mainPresenterImpl.setToastMessage(getString(R.string.player_loop_off))
                 }
+                player?.isLooping = isChecked
             }
 
             R.id.tbSequent -> {
                 if (isChecked) {
-                    mainPresenterImpl.setToastMessage("Sequent on")
+                    if (tbLoop.isChecked) {
+                        tbLoop.isChecked = false
+                    }
+                    mainPresenterImpl.setToastMessage(getString(R.string.player_sequent_play_on))
                 } else {
-                    mainPresenterImpl.setToastMessage("Sequent off")
+                    mainPresenterImpl.setToastMessage(getString(R.string.player_sequent_play_off))
                 }
             }
         }
@@ -254,24 +270,147 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
         when (v?.id) {
 
             R.id.btnPrevious -> {
-                mainPresenterImpl.setToastMessage("Previous track")
+                if (trackIndex > previousIndex) {
+                    trackIndex--
+                    trackPosition--
+                    initPlayer(trackIndex)
+                    player?.start()
+                    tbPlayPause.isChecked = true
+                }
             }
 
             R.id.btnNext -> {
-                mainPresenterImpl.setToastMessage("Next track")
+                if (trackIndex < nextIndex) {
+                    trackIndex++
+                    trackPosition++
+                    initPlayer(trackIndex)
+                    player?.start()
+                    tbPlayPause.isChecked = true
+                }
             }
         }
     }
 
-    override fun playItem(supplicationId: Int) {
-        mainPresenterImpl.setToastMessage("Play item = $supplicationId")
+    override fun playItem(supplicationId: Int, position: Int) {
+        trackIndex = supplicationId
+        trackPosition = position
+        tbPlayPause.isChecked = supplicationId != -1
+        if (supplicationId != -1) {
+            initPlayer(trackIndex)
+            player?.start()
+        } else {
+            clear()
+            handler.removeCallbacks(runnable)
+            sbAudioProgress?.progress = 0
+        }
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        mainPresenterImpl.setToastMessage("Progress = $progress")
+        if (fromUser) {
+            player?.seekTo(progress * 1000)
+        }
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        if (tbLoop.isChecked) {
+            player?.isLooping = true
+        } else {
+            player?.isLooping = false
+            if (tbSequent.isChecked) {
+                if (trackPosition < chapterContentList.size - 1) {
+                    trackIndex++
+                    trackPosition++
+                    initPlayer(trackIndex)
+                    player?.start()
+                } else {
+                    for (i in 0 until chapterContentList.size) {
+                        trackIndex = chapterContentList[i].chapterContentId!!
+                        break
+                    }
+                    trackPosition = 0
+                    rvChapterContent.smoothScrollToPosition(0)
+                    adapterChapterContents.onItemSelected(- 1)
+                    tbPlayPause.isChecked = false
+                    tbSequent.isChecked = false
+                    handler.removeCallbacks(runnable)
+                    sbAudioProgress?.progress = 0
+                    player = null
+                }
+            } else {
+                tbPlayPause.isChecked = false
+                adapterChapterContents.onItemSelected(- 1)
+                handler.removeCallbacks(runnable)
+                sbAudioProgress?.progress = 0
+            }
+        }
+    }
+
+    private fun initPlayer(index: Int) {
+        clear()
+        val downloadItem = File(Environment.getExternalStorageDirectory(),
+            "/FortressOfTheMuslim_audio/dua$index.mp3").exists()
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (downloadItem) {
+                val audioFile = File(Environment.getExternalStorageDirectory(), "/FortressOfTheMuslim_audio/dua$index.mp3")
+                player = MediaPlayer.create(this, Uri.parse(audioFile.toString()))
+                currentAudioProgress()
+                rvChapterContent.smoothScrollToPosition(trackPosition)
+                adapterChapterContents.onItemSelected(trackPosition)
+                player?.setOnCompletionListener(this)
+            } else {
+                handler.removeCallbacks(runnable)
+                clear()
+                mainPresenterImpl.setToastMessage(getString(R.string.player_is_track_null))
+            }
+        } else {
+            managerPermissions.checkPermissions()
+        }
+    }
+
+    private fun currentAudioProgress() {
+        sbAudioProgress?.max = player?.seconds!!
+        runnable = Runnable {
+            sbAudioProgress?.progress = player?.currentSeconds!!
+            handler.postDelayed(runnable, 1000)
+        }
+        handler.postDelayed(runnable, 1000)
+    }
+
+    private fun clear() {
+        player?.stop()
+        player?.release()
+        player = null
+    }
+
+    private val MediaPlayer.seconds: Int?
+        get() {
+            return this.duration / 1000
+        }
+
+    private val MediaPlayer.currentSeconds: Int?
+        get() {
+            return this.currentPosition / 1000
+        }
+
+    private fun isShowDownload() {
+        for (i in 0 until chapterContentList.size) {
+            val downloadItem: String? = chapterContentList[i].strChapterContentArabic
+            if (downloadItem.isNullOrEmpty()) {
+                bottomPlayerBar.visibility = View.GONE
+            } else {
+                val isDownloadItem = File(Environment.getExternalStorageDirectory(),
+                    "/FortressOfTheMuslim_audio/dua${chapterContentList[i].chapterContentId}.mp3").exists()
+                if (isDownloadItem) {
+                    bottomPlayerBar.visibility = View.VISIBLE
+                } else {
+                    bottomPlayerBar.visibility = View.GONE
+                }
+            }
+            break
+        }
+    }
 }

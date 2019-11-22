@@ -74,9 +74,9 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         showTranslation()
     }
 
-    fun findPlayItemClick(playItemClick: AdapterChapterContents.PlayItemClick, supplicationId: Int) {
-        itemView.setOnClickListener {
-            playItemClick.playItem(supplicationId)
+    fun findPlayItemClick(playItemClick: AdapterChapterContents.PlayItemClick, supplicationId: Int, position: Int) {
+        btnItemPlay.setOnClickListener {
+            playItemClick.playItem(supplicationId, position)
         }
     }
 
@@ -157,19 +157,19 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
 
     private fun textArabicColor() {
         tvChapterContentArabic.setTextColor(itemView.resources.getColor(
-            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 2)]))
+            textColorBackgrounds[preferences.getInt(keyArabicTextColor, 1)]))
     }
 
     private fun textTranscriptionColor() {
         tvChapterContentTranscription.setTextColor(
-            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 1)]))
         tvChapterContentSource.setTextColor(
-            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 2)]))
+            itemView.resources.getColor(textColorBackgrounds[preferences.getInt(keyTranscriptionTextColor, 1)]))
     }
 
     private fun textTranslationColor() {
         tvChapterContentTranslation.setTextColor(itemView.resources.getColor(
-                textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 2)]))
+                textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 1)]))
     }
 
     private fun showTranscription() {
