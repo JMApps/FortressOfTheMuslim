@@ -45,29 +45,28 @@ data class AdapterFavoriteSupplications(
         val strFavoriteSupplicationTranslation = favoriteSupplicationList[position].strFavoriteSupplicationTranslation
         val strFavoriteSupplicationSource = favoriteSupplicationList[position].strFavoriteSupplicationSource
 
-        if (!strFavoriteSupplicationArabic.isNullOrEmpty() && holder.tvFavoriteSupplicationArabic.isVisible) {
+        if (strFavoriteSupplicationArabic.isNullOrEmpty()) {
+            holder.tvFavoriteSupplicationArabic.visibility = View.GONE
+        } else {
             holder.tvFavoriteSupplicationArabic.visibility = View.VISIBLE
             holder.tvFavoriteSupplicationArabic.text = Html.fromHtml(strFavoriteSupplicationArabic)
-        } else {
-            holder.tvFavoriteSupplicationArabic.visibility = View.GONE
         }
 
-        if (!strFavoriteSupplicationTranscription.isNullOrEmpty() && holder.tvFavoriteSupplicationTranscription.isVisible) {
+        if (!strFavoriteSupplicationTranscription.isNullOrEmpty() && preferences.getBoolean("key_transcription_state", true)) {
             holder.tvFavoriteSupplicationTranscription.visibility = View.VISIBLE
-            holder.tvFavoriteSupplicationTranscription.text = strFavoriteSupplicationTranscription
+            holder.tvFavoriteSupplicationTranscription.text = Html.fromHtml(strFavoriteSupplicationTranscription)
         } else {
             holder.tvFavoriteSupplicationTranscription.visibility = View.GONE
         }
 
-        if (!strFavoriteSupplicationTranslation.isNullOrEmpty() && holder.tvFavoriteSupplicationTranslation.isVisible) {
+        if (!strFavoriteSupplicationTranslation.isNullOrEmpty() && preferences.getBoolean("key_translation_state", true)) {
             holder.tvFavoriteSupplicationTranslation.visibility = View.VISIBLE
-            holder.tvFavoriteSupplicationTranslation.text =
-                Html.fromHtml(strFavoriteSupplicationTranslation)
+            holder.tvFavoriteSupplicationTranslation.text = Html.fromHtml(strFavoriteSupplicationTranslation)
         } else {
             holder.tvFavoriteSupplicationTranslation.visibility = View.GONE
         }
 
-        if (!strFavoriteSupplicationSource.isNullOrEmpty() && holder.tvFavoriteSupplicationSource.isVisible) {
+        if (!strFavoriteSupplicationSource.isNullOrEmpty()) {
             holder.tvFavoriteSupplicationSource.visibility = View.VISIBLE
             holder.tvFavoriteSupplicationSource.text = strFavoriteSupplicationSource
         } else {

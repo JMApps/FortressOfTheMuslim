@@ -45,28 +45,28 @@ class AdapterSupplications(
         val strSupplicationTranslation = supplicationList[position].strSupplicationTranslation
         val strSupplicationSource = supplicationList[position].strSupplicationSource
 
-        if (!strSupplicationArabic.isNullOrEmpty() && holder.tvSupplicationArabic.isVisible) {
+        if (strSupplicationArabic.isNullOrEmpty()) {
+            holder.tvSupplicationArabic.visibility = View.GONE
+        } else {
             holder.tvSupplicationArabic.visibility = View.VISIBLE
             holder.tvSupplicationArabic.text = Html.fromHtml(strSupplicationArabic)
-        } else {
-            holder.tvSupplicationArabic.visibility = View.GONE
         }
 
-        if (!strSupplicationTranscription.isNullOrEmpty() && holder.tvSupplicationTranscription.isVisible) {
+        if (!strSupplicationTranscription.isNullOrEmpty() && preferences.getBoolean("key_transcription_state", true)) {
             holder.tvSupplicationTranscription.visibility = View.VISIBLE
-            holder.tvSupplicationTranscription.text = strSupplicationTranscription
+            holder.tvSupplicationTranscription.text = Html.fromHtml(strSupplicationTranscription)
         } else {
             holder.tvSupplicationTranscription.visibility = View.GONE
         }
 
-        if (!strSupplicationTranslation.isNullOrEmpty() && holder.tvSupplicationTranslation.isVisible) {
+        if (!strSupplicationTranslation.isNullOrEmpty() && preferences.getBoolean("key_translation_state", true)) {
             holder.tvSupplicationTranslation.visibility = View.VISIBLE
             holder.tvSupplicationTranslation.text = Html.fromHtml(strSupplicationTranslation)
         } else {
             holder.tvSupplicationTranslation.visibility = View.GONE
         }
 
-        if (!strSupplicationSource.isNullOrEmpty() && holder.tvSupplicationSource.isVisible) {
+        if (!strSupplicationSource.isNullOrEmpty()) {
             holder.tvSupplicationSource.visibility = View.VISIBLE
             holder.tvSupplicationSource.text = strSupplicationSource
         } else {

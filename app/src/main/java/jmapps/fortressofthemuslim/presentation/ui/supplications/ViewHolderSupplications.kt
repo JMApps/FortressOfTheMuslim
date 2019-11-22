@@ -69,8 +69,8 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
         textArabicColor()
         textTranscriptionColor()
         textTranslationColor()
-        showTranscription()
-        showTranslation()
+//        showTranscription()
+//        showTranslation()
     }
 
     fun findAddRemoveFavorite(addRemoveFavoriteSupplication: AdapterSupplications.AddRemoveFavoriteSupplication, supplicationId: Int) {
@@ -99,8 +99,8 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
         textArabicColor()
         textTranscriptionColor()
         textTranslationColor()
-        showTranscription()
-        showTranslation()
+//        showTranscription()
+//        showTranslation()
     }
 
     private fun fontArabic() {
@@ -165,19 +165,19 @@ class ViewHolderSupplications(itemView: View): RecyclerView.ViewHolder(itemView)
                 textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 1)]))
     }
 
-    private fun showTranscription() {
-        if (preferences.getBoolean(keyTranscriptionState, true)) {
-            tvSupplicationTranscription.visibility = View.VISIBLE
-        } else {
-            tvSupplicationTranscription.visibility = View.GONE
-        }
-    }
-
-    private fun showTranslation() {
-        if (preferences.getBoolean(keyTranslationState, true)) {
-            tvSupplicationTranslation.visibility = View.VISIBLE
-        } else {
-            tvSupplicationTranslation.visibility = View.GONE
-        }
-    }
+//    private fun showTranscription() {
+//        if (preferences.getBoolean(keyTranscriptionState, true)) {
+//            tvSupplicationTranscription.visibility = View.VISIBLE
+//        } else {
+//            tvSupplicationTranscription.visibility = View.GONE
+//        }
+//    }
+//
+//    private fun showTranslation() {
+//        if (preferences.getBoolean(keyTranslationState, true)) {
+//            tvSupplicationTranslation.visibility = View.VISIBLE
+//        } else {
+//            tvSupplicationTranslation.visibility = View.GONE
+//        }
+//    }
 }

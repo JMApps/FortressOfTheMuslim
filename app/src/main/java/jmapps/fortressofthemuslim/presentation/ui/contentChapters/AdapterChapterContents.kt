@@ -54,32 +54,32 @@ class AdapterChapterContents(
         val strChapterContentTranslation = chapterContent[position].strChapterContentTranslation
         val strChapterContentSource = chapterContent[position].strChapterContentSource
 
-        if (!strChapterContentArabic.isNullOrEmpty() && holder.tvChapterContentArabic.isVisible) {
+        if (strChapterContentArabic.isNullOrEmpty()) {
+            holder.tvChapterContentArabic.visibility = View.GONE
+        } else {
             holder.tvChapterContentArabic.visibility = View.VISIBLE
             holder.tvChapterContentArabic.text = Html.fromHtml(strChapterContentArabic)
-        } else {
-            holder.tvChapterContentArabic.visibility = View.GONE
         }
 
-        if (!strChapterContentTranscription.isNullOrEmpty() && holder.tvChapterContentTranscription.isVisible) {
+        if (!strChapterContentTranscription.isNullOrEmpty() && preferences.getBoolean("key_transcription_state", true)) {
             holder.tvChapterContentTranscription.visibility = View.VISIBLE
-            holder.tvChapterContentTranscription.text = strChapterContentTranscription
+            holder.tvChapterContentTranscription.text = Html.fromHtml(strChapterContentTranscription)
         } else {
             holder.tvChapterContentTranscription.visibility = View.GONE
         }
 
-        if (!strChapterContentTranslation.isNullOrEmpty() && holder.tvChapterContentTranslation.isVisible) {
+        if (!strChapterContentTranslation.isNullOrEmpty() && preferences.getBoolean("key_translation_state", true)) {
             holder.tvChapterContentTranslation.visibility = View.VISIBLE
             holder.tvChapterContentTranslation.text = Html.fromHtml(strChapterContentTranslation)
         } else {
             holder.tvChapterContentTranslation.visibility = View.GONE
         }
 
-        if (!strChapterContentSource.isNullOrEmpty() && holder.tvChapterContentSource.isVisible) {
+        if (strChapterContentSource.isNullOrEmpty()) {
+            holder.tvChapterContentSource.visibility = View.GONE
+        } else {
             holder.tvChapterContentSource.visibility = View.VISIBLE
             holder.tvChapterContentSource.text = strChapterContentSource
-        } else {
-            holder.tvChapterContentSource.visibility = View.GONE
         }
 
         val downloadItem = File(Environment.getExternalStorageDirectory(),

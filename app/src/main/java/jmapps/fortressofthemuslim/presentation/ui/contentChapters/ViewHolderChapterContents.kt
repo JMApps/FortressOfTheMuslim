@@ -70,8 +70,8 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         textArabicColor()
         textTranscriptionColor()
         textTranslationColor()
-        showTranscription()
-        showTranslation()
+//        showTranscription()
+//        showTranslation()
     }
 
     fun findPlayItemClick(playItemClick: AdapterChapterContents.PlayItemClick, supplicationId: Int, position: Int) {
@@ -106,8 +106,8 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         textArabicColor()
         textTranscriptionColor()
         textTranslationColor()
-        showTranscription()
-        showTranslation()
+//        showTranscription()
+//        showTranslation()
     }
 
     private fun fontArabic() {
@@ -171,20 +171,20 @@ class ViewHolderChapterContents(itemView: View): RecyclerView.ViewHolder(itemVie
         tvChapterContentTranslation.setTextColor(itemView.resources.getColor(
                 textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 1)]))
     }
-
-    private fun showTranscription() {
-        if (preferences.getBoolean(keyTranscriptionState, true)) {
-            tvChapterContentTranscription.visibility = View.VISIBLE
-        } else {
-            tvChapterContentTranscription.visibility = View.GONE
-        }
-    }
-
-    private fun showTranslation() {
-        if (preferences.getBoolean(keyTranslationState, true)) {
-            tvChapterContentTranslation.visibility = View.VISIBLE
-        } else {
-            tvChapterContentTranslation.visibility = View.GONE
-        }
-    }
+//
+//    private fun showTranscription() {
+//        if (preferences.getBoolean(keyTranscriptionState, true)) {
+//            tvChapterContentTranscription.visibility = View.VISIBLE
+//        } else {
+//            tvChapterContentTranscription.visibility = View.GONE
+//        }
+//    }
+//
+//    private fun showTranslation() {
+//        if (preferences.getBoolean(keyTranslationState, true)) {
+//            tvChapterContentTranslation.visibility = View.VISIBLE
+//        } else {
+//            tvChapterContentTranslation.visibility = View.GONE
+//        }
+//    }
 }

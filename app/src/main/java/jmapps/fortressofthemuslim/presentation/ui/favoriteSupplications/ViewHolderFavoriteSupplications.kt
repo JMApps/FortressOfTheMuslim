@@ -68,8 +68,8 @@ class ViewHolderFavoriteSupplications(itemView: View): RecyclerView.ViewHolder(i
         textArabicColor()
         textTranscriptionColor()
         textTranslationColor()
-        showTranscription()
-        showTranslation()
+//        showTranscription()
+//        showTranslation()
     }
 
     fun findAddRemove(addRemoveFavoriteSupplication: AdapterFavoriteSupplications.AddRemoveFavoriteSupplication, favoriteSupplicationId: Int) {
@@ -98,8 +98,8 @@ class ViewHolderFavoriteSupplications(itemView: View): RecyclerView.ViewHolder(i
         textArabicColor()
         textTranscriptionColor()
         textTranslationColor()
-        showTranscription()
-        showTranslation()
+//        showTranscription()
+//        showTranslation()
     }
 
     private fun fontArabic() {
@@ -164,19 +164,19 @@ class ViewHolderFavoriteSupplications(itemView: View): RecyclerView.ViewHolder(i
             textColorBackgrounds[preferences.getInt(keyTranslationTextColor, 1)]))
     }
 
-    private fun showTranscription() {
-        if (preferences.getBoolean(keyTranscriptionState, true)) {
-            tvFavoriteSupplicationTranscription.visibility = View.VISIBLE
-        } else {
-            tvFavoriteSupplicationTranscription.visibility = View.GONE
-        }
-    }
-
-    private fun showTranslation() {
-        if (preferences.getBoolean(keyTranslationState, true)) {
-            tvFavoriteSupplicationTranslation.visibility = View.VISIBLE
-        } else {
-            tvFavoriteSupplicationTranslation.visibility = View.GONE
-        }
-    }
+//    private fun showTranscription() {
+//        if (preferences.getBoolean(keyTranscriptionState, true)) {
+//            tvFavoriteSupplicationTranscription.visibility = View.VISIBLE
+//        } else {
+//            tvFavoriteSupplicationTranscription.visibility = View.GONE
+//        }
+//    }
+//
+//    private fun showTranslation() {
+//        if (preferences.getBoolean(keyTranslationState, true)) {
+//            tvFavoriteSupplicationTranslation.visibility = View.VISIBLE
+//        } else {
+//            tvFavoriteSupplicationTranslation.visibility = View.GONE
+//        }
+//    }
 }
