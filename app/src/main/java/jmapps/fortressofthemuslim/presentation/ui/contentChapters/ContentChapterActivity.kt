@@ -18,13 +18,13 @@ import android.widget.CompoundButton
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import jmapps.fortressofthemuslim.R
 import jmapps.fortressofthemuslim.data.database.DatabaseContents
 import jmapps.fortressofthemuslim.data.database.DatabaseLists
 import jmapps.fortressofthemuslim.data.database.DatabaseOpenHelper
-import jmapps.fortressofthemuslim.data.files.DownloadManager
 import jmapps.fortressofthemuslim.data.files.ManagerPermissions
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.ContractFavoriteChapters
 import jmapps.fortressofthemuslim.presentation.mvp.favoriteChapters.FavoriteChapterPresenterImpl
@@ -33,6 +33,7 @@ import jmapps.fortressofthemuslim.presentation.mvp.favoriteSupplications.Favorit
 import jmapps.fortressofthemuslim.presentation.mvp.main.MainContract
 import jmapps.fortressofthemuslim.presentation.mvp.main.MainPresenterImpl
 import jmapps.fortressofthemuslim.presentation.ui.chapters.ModelChapters
+import jmapps.fortressofthemuslim.presentation.ui.downloads.DownloadAudiosBottomSheet
 import kotlinx.android.synthetic.main.activity_content_chapter.*
 import kotlinx.android.synthetic.main.content_chapter.*
 import java.io.File
@@ -157,6 +158,12 @@ class ContentChapterActivity : AppCompatActivity(), AdapterChapterContents.ItemS
                 favoriteChapterPresenterImpl.addRemoveFavoriteChapter(
                     contentNumber.isChecked, chapterId!!
                 )
+            }
+
+            R.id.action_content_download -> {
+                val downloadAudiosBottomSheet = DownloadAudiosBottomSheet()
+                downloadAudiosBottomSheet.setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetStyleFull)
+                downloadAudiosBottomSheet.show(supportFragmentManager, "download_audio")
             }
 
             android.R.id.home -> finish()
