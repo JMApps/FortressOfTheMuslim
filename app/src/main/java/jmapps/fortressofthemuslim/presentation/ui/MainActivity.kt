@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     OtherContract.OtherView, BottomNavigationView.OnNavigationItemSelectedListener,
     MainContract.MainView {
 
+    private val permissionsRequestCode = 123
+    private lateinit var managerPermissions: ManagerPermissions
+
     private val keyArabicTextColor = "key_arabic_text_color"
     private val keyTranscriptionTextColor = "key_transcription_text_color"
     private val keyTranslationTextColor = "key_translation_text_color"
@@ -53,9 +56,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var swNightMode: Switch
     private var valNightMode: Boolean = false
-
-    private val permissionsRequestCode = 123
-    private lateinit var managerPermissions: ManagerPermissions
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
