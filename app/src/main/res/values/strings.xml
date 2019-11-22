@@ -2,7 +2,7 @@
     <string name="app_name">Крепость мусульманина</string>
 
     <!--    Database-->
-    <string name="database_name">DatabaseContent_ru</string>
+    <string name="database_name">database_ru</string>
     <string name="database_exception">Ошибка:</string>
 
     <!--    Permissions-->
