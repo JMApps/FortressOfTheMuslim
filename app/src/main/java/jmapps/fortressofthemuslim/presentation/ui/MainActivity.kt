@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     OtherContract.OtherView, BottomNavigationView.OnNavigationItemSelectedListener,
     MainContract.MainView {
 
+    private val keyArabicTextColor = "key_arabic_text_color"
+    private val keyTranscriptionTextColor = "key_transcription_text_color"
+    private val keyTranslationTextColor = "key_translation_text_color"
+
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
@@ -160,8 +164,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun isNightMode(state: Boolean) {
         if (state) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            editor.putInt(keyArabicTextColor, 0)
+            editor.putInt(keyTranscriptionTextColor, 0)
+            editor.putInt(keyTranslationTextColor, 0)
+            editor.apply()
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            editor.putInt(keyArabicTextColor, 1)
+            editor.putInt(keyTranscriptionTextColor, 1)
+            editor.putInt(keyTranslationTextColor, 1)
+            editor.apply()
         }
     }
 
