@@ -97,7 +97,7 @@ class FragmentSupplications : Fragment(), ContractFavoriteSupplications.ViewFavo
     override fun share(content: String) {
         val shareLink = Intent(Intent.ACTION_SEND)
         shareLink.type = "text/plain"
-        shareLink.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(content))
+        shareLink.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(content).toString())
         context?.startActivity(shareLink)
     }
 }
