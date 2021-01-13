@@ -5,25 +5,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/gilroy_medium</item>
-        <item name="android:windowBackground">@color/windowBackground</item>
-    </style>
-
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/splash_background</item>
-    </style>
-
-    <style name="CardViewStyle" parent="CardView">
-        <item name="cardBackgroundColor">@color/cardViewBackground</item>
-    </style>
-
-    <style name="BottomSheetStyleFull" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
-        <item name="android:colorBackground">@color/windowBackground</item>
-    </style>
-
-    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="behavior_peekHeight">1000dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

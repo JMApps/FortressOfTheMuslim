@@ -3,19 +3,4 @@
     <color name="colorPrimary">#37474F</color>
     <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent">#0091EA</color>
-    <color name="windowBackground">#263238</color>
-
-    <color name="main">#FFFFFF</color>
-    <color name="lightMain">#A0A0A0</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#747474</color>
-    <color name="brown">#795548</color>
-    <color name="yellow">#FFEB3B</color>
-    <color name="green">#009688</color>
-    <color name="blue">#1976D2</color>
-    <color name="red">#F44336</color>
-    <color name="purple">#9C27B0</color>
-    <color name="colorBottomNavigation">#37474F</color>
-    <color name="cardViewBackground">#2D3A42</color>
 </resources>
